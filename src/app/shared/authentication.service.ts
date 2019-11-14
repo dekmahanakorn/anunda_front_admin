@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable } from 'rxjs';
 
+import { Router } from "@angular/router";
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,7 +11,7 @@ import { Observable } from 'rxjs';
 export class AuthenticationService {
   userData: Observable<firebase.User>;
 
-  constructor(private angularFireAuth: AngularFireAuth) {
+  constructor(private angularFireAuth: AngularFireAuth,private router: Router) {
     this.userData = angularFireAuth.authState;
   }
 
@@ -33,6 +35,7 @@ export class AuthenticationService {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         console.log('Successfully signed in!');
+        this.router.navigate(["/dashboard"]);
       })
       .catch(err => {
         console.log('Something is wrong:',err.message);
