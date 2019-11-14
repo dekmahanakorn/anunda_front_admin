@@ -35,7 +35,7 @@ export class AuthenticationService {
       .signInWithEmailAndPassword(email, password)
       .then(res => {
         console.log('Successfully signed in!');
-        this.router.navigate(["/dashboard"]);
+       /* this.router.navigate(["/dashboard"]);*/
       })
       .catch(err => {
         console.log('Something is wrong:',err.message);
