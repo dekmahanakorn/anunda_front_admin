@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthenticationService } from 'src/app/shared/authentication.service';
 
+import { Router } from "@angular/router";
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -13,7 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
 
-  constructor(public authenticationService: AuthenticationService) { }
+  constructor(public authenticationService: AuthenticationService, private router: Router) { }
 
   signUp() {
     this.authenticationService.SignUp(this.email, this.password);
@@ -25,6 +28,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.authenticationService.SignIn(this.email, this.password);
     this.email = '';
     this.password = '';
+  }
+  signed() {
+    this.router.navigate(["/dashboard"]);
   }
 
   signOut() {
