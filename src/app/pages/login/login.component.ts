@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { AuthenticationService } from 'src/app/shared/authentication.service';
 
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -30,15 +30,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.password = '';
   }
   signed() {
-    this.router.navigate(["/dashboard"]);
+    this.router.navigate(['/dashboard']);
   }
 
   signOut() {
     this.authenticationService.SignOut();
   }
-
-
-
 
   ngOnInit() {
   }
