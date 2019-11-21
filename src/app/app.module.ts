@@ -20,6 +20,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 /* Firebase Auth service :  Run command for create file --> "ng g s shared/Authentication --spec=false" */
 import { AuthenticationService } from './shared/authentication.service';
+import { AboutComponent } from './pages/about/about.component';
 
 
 const firebaseConfig = {
@@ -50,6 +51,7 @@ const firebaseConfig = {
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    AboutComponent,
 
   ],
   providers: [AuthenticationService],
