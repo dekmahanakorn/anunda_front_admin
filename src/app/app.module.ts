@@ -15,7 +15,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppRoutingModule } from './app.routing';
 import { ComponentsModule } from './components/components.module';
 
-
 /* Firebase services */
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule} from '@angular/fire/firestore';
@@ -23,8 +22,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 
 /* Firebase Auth service :  Run command for create file --> "ng g s shared/Authentication --spec=false" */
 import { AuthenticationService } from './shared/authentication.service';
+
 import { CreateService } from './shared/create.service';
-import { from } from 'rxjs';
+import { AboutComponent } from './pages/about/about.component';
 
 
 
@@ -47,6 +47,7 @@ import { from } from 'rxjs';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    AboutComponent,
 
   ],
   providers: [AuthenticationService,CreateService],
