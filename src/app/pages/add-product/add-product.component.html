@@ -5,7 +5,6 @@
       <!-- Page content -->
       <div class="container-fluid mt--7">
         <!-- Table -->
-        <div class="row">
           <div class="col">
             <div class="card shadow">
               <div class="card-header bg-transparent">
@@ -13,7 +12,13 @@
               </div>
               <div class="card-body">
 
-                <p></p>
+                <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+                  <div class="form-group">
+                    
+                  </div>
+
+                </form>
+
               </div>
             </div>
           </div>
