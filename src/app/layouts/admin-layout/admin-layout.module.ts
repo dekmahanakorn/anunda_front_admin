@@ -14,6 +14,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddProductComponent } from 'src/app/pages/add-product/add-product.component';
 import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.component';
+import { AboutComponent } from 'src/app/pages/about/about.component';
 
 
 // import { ToastrModule } from 'ngx-toastr';
@@ -34,7 +35,8 @@ import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.co
     IconsComponent,
     MapsComponent,
     AddProductComponent,
-    EditProductComponent
+    EditProductComponent,
+    AboutComponent,
   ]
 })
 
