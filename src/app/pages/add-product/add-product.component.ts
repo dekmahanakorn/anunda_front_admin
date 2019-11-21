@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { CreateService } from 'src/app/shared/create.service';
 import { Create } from 'src/app/shared/create.model';
 import { NgForm } from '@angular/forms';
+
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -13,9 +15,12 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddProductComponent implements OnInit {
 
+
   list: Create[];
+
   constructor(private service: CreateService,
     private firestore: AngularFirestore,
+    private storage: AngularFireStorage,
     private toastr: ToastrService) { }
 
   ngOnInit() {
