@@ -1,21 +1,52 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <br><br><br><br><br>
-      <!-- Page content -->
-      <div class="container-fluid mt--7">
-        <!-- Table -->
-        <div class="col">
-          <div class="card shadow">
-            <div class="card-header bg-transparent">
-              <h3 class="mb-0">About</h3>
-            </div>
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-6 col-lg-6">
+          <div class="card card-stats mb-4 mb-xl-0">
             <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <!-- Begin form -->
+                  <form >
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                            </div>
+                            <input class="form-control" placeholder="Title" type="text">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 
-                <button type="submit"  class="btn btn-outline-info"
-                (click)="test();">Add</button>
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <div class="input-group mb-2">
+                            <div class="input-group">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-align-left-2"></i></span>
+                              </div>
+                              <textarea class="form-control"  placeholder="Description"  rows="5" cols="50"></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-outline-danger">Submit</button>
+                  </form>
+                  <!-- End Form -->
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
+</div>

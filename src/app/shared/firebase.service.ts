@@ -13,7 +13,10 @@ export class FirebaseService {
     private firestore: AngularFirestore) { }
 
     createDB(data: any){
-
-      this.firestore.collection('creates').add(data);
+      this.firestore.collection('Aboute').add(data);
     }
+    // updateDB(data: any, fromID: any){
+    //   data= {};
+    //   this.firestore.doc('Aboute' + fromID).valueChanges(data);
+    // }
 }
