@@ -24,7 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthenticationService } from './shared/authentication.service';
 
 import { CreateService } from './shared/create.service';
-import { AboutComponent } from './pages/about/about.component';
+// import { AboutComponent } from './pages/about/about.component';
 
 
 
@@ -47,7 +47,7 @@ import { AboutComponent } from './pages/about/about.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
-    AboutComponent,
+    // AboutComponent,
 
   ],
   providers: [AuthenticationService,CreateService],
