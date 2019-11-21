@@ -18,6 +18,7 @@ import { ComponentsModule } from './components/components.module';
 /* Firebase services */
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 
 /* Firebase Auth service :  Run command for create file --> "ng g s shared/Authentication --spec=false" */
@@ -25,6 +26,7 @@ import { AuthenticationService } from './shared/authentication.service';
 
 import { CreateService } from './shared/create.service';
 // import { AboutComponent } from './pages/about/about.component';
+
 
 
 
@@ -41,6 +43,7 @@ import { CreateService } from './shared/create.service';
 
     AngularFireAuthModule,
     AngularFirestoreModule,
+    AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
   ],
   declarations: [
