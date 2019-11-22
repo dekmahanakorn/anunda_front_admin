@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="header-body">
       <br><br><br><br><br>
-      
+
       <!-- Page content -->
       <div class="container-fluid mt--7">
             <!-- Table -->
@@ -13,6 +13,8 @@
                 </div>
                 <div class="card-body">
                   <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+                      <app-uploader></app-uploader>
+
                     <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
                     <div class="form-group">
                       <input name="Name" #Name="ngModel" [(ngModel)]="service.formData.Name" class="form-control"

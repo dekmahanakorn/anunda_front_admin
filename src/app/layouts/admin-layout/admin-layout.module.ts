@@ -15,6 +15,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddProductComponent } from 'src/app/pages/add-product/add-product.component';
 import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.component';
 import { AboutComponent } from 'src/app/pages/about/about.component';
+import { UploaderComponent } from 'src/app/pages/uploader/uploader.component';
+import { UploadTaskComponent } from 'src/app/pages/upload-task/upload-task.component';
 
 
 // import { ToastrModule } from 'ngx-toastr';
@@ -37,6 +39,8 @@ import { AboutComponent } from 'src/app/pages/about/about.component';
     AddProductComponent,
     EditProductComponent,
     AboutComponent,
+    UploaderComponent,
+    UploadTaskComponent
   ]
 })
 

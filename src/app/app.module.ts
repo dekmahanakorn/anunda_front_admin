@@ -25,6 +25,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AuthenticationService } from './shared/authentication.service';
 
 import { CreateService } from './shared/create.service';
+import { UploaderComponent } from './pages/uploader/uploader.component';
+import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
 // import { AboutComponent } from './pages/about/about.component';
 
 
@@ -50,6 +52,8 @@ import { CreateService } from './shared/create.service';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    // UploaderComponent,
+    // UploadTaskComponent,
     // AboutComponent,
 
   ],
