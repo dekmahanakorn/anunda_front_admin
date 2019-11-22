@@ -15,6 +15,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AddProductComponent } from 'src/app/pages/add-product/add-product.component';
 import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.component';
 import { AboutComponent } from 'src/app/pages/about/about.component';
+import { ContactComponent } from 'src/app/pages/contact/contact.component';
 
 
 // import { ToastrModule } from 'ngx-toastr';
@@ -37,6 +38,7 @@ import { AboutComponent } from 'src/app/pages/about/about.component';
     AddProductComponent,
     EditProductComponent,
     AboutComponent,
+    ContactComponent,
   ]
 })
 

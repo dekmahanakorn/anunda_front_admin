@@ -8,6 +8,7 @@ import { TablesComponent } from '../../pages/tables/tables.component';
 import { AddProductComponent } from 'src/app/pages/add-product/add-product.component';
 import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.component';
 import { AboutComponent } from 'src/app/pages/about/about.component';
+import { ContactComponent } from 'src/app/pages/contact/contact.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard',      component: DashboardComponent },
@@ -18,5 +19,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'add-Product',    component: AddProductComponent },
     { path: 'edit-Product',   component: EditProductComponent },
     { path: 'About',          component: AboutComponent },
+    { path: 'Contact',        component: ContactComponent },
 
 ];
