@@ -13,7 +13,7 @@
                 </div>
                 <div class="card-body">
                   <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
-                      <app-uploader></app-uploader>
+                      <app-uploader></app-uploader> <br>
 
                     <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
                     <div class="form-group">

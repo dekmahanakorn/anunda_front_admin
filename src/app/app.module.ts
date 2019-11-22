@@ -27,6 +27,7 @@ import { AuthenticationService } from './shared/authentication.service';
 import { CreateService } from './shared/create.service';
 import { UploaderComponent } from './pages/uploader/uploader.component';
 import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
+import { DropzoneDirective } from './dropzone.directive';
 // import { AboutComponent } from './pages/about/about.component';
 
 
@@ -52,6 +53,7 @@ import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
+    DropzoneDirective,
     // UploaderComponent,
     // UploadTaskComponent,
     // AboutComponent,
