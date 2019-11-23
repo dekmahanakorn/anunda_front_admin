@@ -28,6 +28,9 @@ import { CreateService } from './shared/create.service';
 import { UploaderComponent } from './pages/uploader/uploader.component';
 import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
 import { DropzoneDirective } from './dropzone.directive';
+import { AddProductCategoryComponent } from './pages/add-product-category/add-product-category.component';
+import { PartnerComponent } from './pages/partner/partner.component';
+import { AddProductSolutionComponent } from './pages/add-product-solution/add-product-solution.component';
 // import { AboutComponent } from './pages/about/about.component';
 
 
@@ -54,6 +57,9 @@ import { DropzoneDirective } from './dropzone.directive';
     AdminLayoutComponent,
     AuthLayoutComponent,
     DropzoneDirective,
+    //AddProductSolutionComponent,
+    //PartnerComponent,
+    //AddProductCategoryComponent,
     // UploaderComponent,
     // UploadTaskComponent,
     // AboutComponent,

@@ -34,7 +34,6 @@ export class AddProductComponent implements OnInit {
         } as Create;
       })
     });
-
   }
 
   resetForm(form?: NgForm) {
@@ -70,6 +69,4 @@ export class AddProductComponent implements OnInit {
       this.toastr.warning('Deleted successfully', 'Delete is done');
     }
   }
-
-
 }

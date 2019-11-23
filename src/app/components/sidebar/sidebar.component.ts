@@ -16,9 +16,10 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
     { path: '/add-Product', title: 'AddProduct',  icon:'ni-circle-08 text-pink', class: '' },
-    { path: '/edit-Product', title: 'EditProduct',  icon:'ni-circle-08 text-pink', class: '' },
     { path: '/About', title: 'About',  icon:'ni-circle-08 text-pink', class: '' },
-
+    { path: '/product-category', title: 'Add Product category',  icon:'ni-circle-08 text-pink', class: '' },
+    { path: '/partner', title: 'Add your Partner',  icon:'ni-circle-08 text-pink', class: '' },
+    { path: '/add-product-solution', title: 'Add product solution',  icon:'ni-circle-08 text-pink', class: '' },
 ];
 
 @Component({

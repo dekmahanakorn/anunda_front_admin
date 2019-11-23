@@ -27,6 +27,8 @@ export class UploadTaskComponent implements OnInit {
 
   startUpload() {
 
+    console.log("start upload");
+
     // The storage path
     const path = `test/${Date.now()}_${this.file.name}`;
 
