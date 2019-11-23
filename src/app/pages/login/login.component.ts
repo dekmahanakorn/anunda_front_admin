@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   password: string;
 
   constructor(public authenticationService: AuthenticationService, private router: Router) {
-    // this.signed();
+    this.signed();
    }
 
   signUp() {
