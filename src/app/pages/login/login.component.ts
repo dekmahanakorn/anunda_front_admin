@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  // constructor() {}
 
   email: string;
   password: string;

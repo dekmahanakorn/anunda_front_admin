@@ -15,14 +15,16 @@ export class AboutComponent implements OnInit {
   // private data: InterfaceAbout;
 
   ngOnInit() {
+
   }
+  
   test(data: InterfaceAbout): void {
     data = {};
     data.descripttion = 'To connect firebase';
     data.name = 'I,m sirmerfang';
 
     console.log('AboutComponent', data);
-
+ 
     this.firebaseService.createDB(data);
   }
 }

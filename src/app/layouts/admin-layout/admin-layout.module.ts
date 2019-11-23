@@ -16,6 +16,8 @@ import { AddProductComponent } from 'src/app/pages/add-product/add-product.compo
 import { EditProductComponent } from 'src/app/pages/edit-product/edit-product.component';
 import { AboutComponent } from 'src/app/pages/about/about.component';
 import { ContactComponent } from 'src/app/pages/contact/contact.component';
+import { UploaderComponent } from 'src/app/pages/uploader/uploader.component';
+import { UploadTaskComponent } from 'src/app/pages/upload-task/upload-task.component';
 
 
 // import { ToastrModule } from 'ngx-toastr';
@@ -39,6 +41,8 @@ import { ContactComponent } from 'src/app/pages/contact/contact.component';
     EditProductComponent,
     AboutComponent,
     ContactComponent,
+    UploaderComponent,
+    UploadTaskComponent
   ]
 })
 
