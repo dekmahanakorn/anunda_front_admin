@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable } from 'rxjs';
+import { User } from 'firebase';
 
 import { Router } from "@angular/router";
 
@@ -10,9 +11,11 @@ import { Router } from "@angular/router";
 
 export class AuthenticationService {
   userData: Observable<firebase.User>;
+  user:  User;
 
-  constructor(private angularFireAuth: AngularFireAuth,private router: Router) {
+  constructor(public angularFireAuth: AngularFireAuth,private router: Router) {
     this.userData = angularFireAuth.authState;
+
   }
 
   /* Sign up */
@@ -25,28 +28,51 @@ export class AuthenticationService {
       })
       .catch(error => {
         console.log('Something is wrong:', error.message);
-      });    
-  }
-
-  /* Sign in */
-  SignIn(email: string, password: string) {
-    this.angularFireAuth
-      .auth
-      .signInWithEmailAndPassword(email, password)
-      .then(res => {
-        console.log('Successfully signed in!');
-       /* this.router.navigate(["/dashboard"]);*/
-      })
-      .catch(err => {
-        console.log('Something is wrong:',err.message);
       });
   }
 
+  /* Sign in */
+  async SignIn(email: string, password: string) {
+
+    this.angularFireAuth.authState.subscribe(user => {
+      if (user){
+        this.user = user;
+        localStorage.setItem('user', JSON.stringify(this.user));
+      } else {
+        localStorage.setItem('user', null);
+      }
+    });
+    console.log('cerrent', this.user);
+
+
+    this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
+        .then(res => {
+          console.log('Successfully signed in!');
+          this.router.navigate(['/dashboard']);
+        }).catch(err => {
+            console.log('Something is wrong:', err.message);
+        });
+    }
+
   /* Sign out */
-  SignOut() {
-    this.angularFireAuth
-      .auth
-      .signOut();
-  }  
+  async SignOut() {
+    await this.angularFireAuth.auth.signOut().then(() => {
+      localStorage.setItem('user', null);
+      this.router.navigate(['/login']);
+      this.user = null;
+      console.log('signout Success'); });
+  }
+
+  CheckAuthan(){
+    if(this.user){
+      this.router.navigate(['/Dashboard']);
+    }else{
+      this.router.navigate(['/login']);
+    }
+  }
+
+
+
 
 }
+

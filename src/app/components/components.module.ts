@@ -5,6 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AuthenticationService } from '../shared/authentication.service';
 
 @NgModule({
   imports: [
@@ -23,4 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     SidebarComponent
   ]
 })
-export class ComponentsModule { }
+export class ComponentsModule {
+
+ }

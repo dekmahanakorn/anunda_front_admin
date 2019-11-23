@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/shared/authentication.service';
 
 
 declare interface RouteInfo {
@@ -15,7 +16,7 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/maps', title: 'Maps',  icon:'ni-pin-3 text-orange', class: '' },
     // { path: '/user-profile', title: 'User profile',  icon:'ni-single-02 text-yellow', class: '' },
     // { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
-    // { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
+    { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
     { path: '/add-Product', title: 'AddProduct',  icon: 'fas fa-plus-circle text-red', class: '' },
     { path: '/edit-Product', title: 'EditProduct',  icon: 'far fa-edit text-red', class: '' },
@@ -34,7 +35,10 @@ export class SidebarComponent implements OnInit {
   public menuItems: any[];
   public isCollapsed = true;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, authenticationService: AuthenticationService) {
+      // authenticationService.CheckAuthan();
+
+   }
 
   ngOnInit() {
     this.menuItems = ROUTES.filter(menuItem => menuItem);

@@ -4,7 +4,6 @@ import { AuthenticationService } from 'src/app/shared/authentication.service';
 
 import { Router } from '@angular/router';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +15,9 @@ export class LoginComponent implements OnInit, OnDestroy {
   email: string;
   password: string;
 
-  constructor(public authenticationService: AuthenticationService, private router: Router) { }
+  constructor(public authenticationService: AuthenticationService, private router: Router) {
+    // this.signed();
+   }
 
   signUp() {
     this.authenticationService.SignUp(this.email, this.password);
