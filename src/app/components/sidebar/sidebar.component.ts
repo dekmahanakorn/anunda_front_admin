@@ -18,11 +18,11 @@ export const ROUTES: RouteInfo[] = [
     // { path: '/tables', title: 'Tables',  icon:'ni-bullet-list-67 text-red', class: '' },
     { path: '/login', title: 'Login',  icon:'ni-key-25 text-info', class: '' },
     // { path: '/register', title: 'Register',  icon:'ni-circle-08 text-pink', class: '' },
-    { path: '/add-Product', title: 'AddProduct',  icon: 'fas fa-plus-circle text-red', class: '' },
-    { path: '/edit-Product', title: 'EditProduct',  icon: 'far fa-edit text-red', class: '' },
-    { path: '/About', title: 'About',  icon: 'far fa-address-card text-red', class: '' },
-    { path: '/Contact', title: 'Contact',  icon: 'ni ni-collection text-red', class: '' },
-
+    { path: '/add-Product', title: 'AddProduct',  icon:'ni-circle-08 text-pink', class: '' },
+    { path: '/About', title: 'About',  icon:'ni-bullet-list-67 text-red', class: '' },
+    { path: '/product-category', title: 'Add Product category',  icon:'ni-key-25 text-info', class: '' },
+    { path: '/partner', title: 'Add your Partner',  icon:'ni-single-02 text-yellow', class: '' },
+    { path: '/add-product-solution', title: 'Add product solution',  icon:'ni-bullet-list-67 text-red', class: '' },
 ];
 
 @Component({

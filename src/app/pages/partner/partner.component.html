@@ -1,0 +1,88 @@
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <br><br><br><br><br>
+
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <!-- Table -->
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <h3 class="mb-0">Creates</h3>
+            </div>
+            <div class="card-body">
+              <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+                [class.hovering]="isHovering">
+
+                <h3>Fire Drop Zone</h3>
+                <p class="fa fa-cloud-upload"></p>
+                <div class="file">
+                  <label class="file-label">
+                    <form #form="ngForm" (submit)="onSubmitUploadImage(form)">
+                      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
+                      <input class="file-input" type="file" (change)="onDrop($event.target.files)">
+
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fa fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          or choose a file…
+                        </span>
+                      </span>
+                      <button type="submit" class="btn btn-outline-success">
+                        upload
+                      </button>
+                      <div class="validation-error" *ngIf="isSubmitted">
+                        This field is required.
+                      </div>
+                    </form>
+                  </label>
+                </div>
+              </div>
+
+              <div *ngIf="percentage | async as pct">
+
+                <progress class="progress is-info" [value]="pct" max="100">
+                </progress>
+
+                {{ pct | number }}%
+
+              </div>
+
+              <div *ngIf="(snapshot | async) as snap">
+                size {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-body">
+              <table>
+                <thead>
+                  <th class="h">Partner image</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of list">
+                    <img style="height: 200px;width: 250px;border:solid" [src]="data.image_url">
+                    <br><br>
+                    <td><a class="btn text-danger" (click)="onDelete(data.id)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
