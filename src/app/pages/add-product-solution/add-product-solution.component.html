@@ -17,51 +17,74 @@
                 <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
                   [class.hovering]="isHovering">
 
-                  <h3>Fire Drop Zone</h3>
+                  <h3>Upload image</h3>
                   <p class="fa fa-cloud-upload"></p>
                   <div class="file">
                     <label class="file-label">
-                      <form #form="ngForm" (submit)="onSubmitUploadImage(form)">
-                        <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
-                        <input class="file-input" type="file" (change)="onDrop($event.target.files)">
+                      <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
+                      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
+                      <input class="file-input" type="file" (change)="onDrop($event.target.files)">
 
-                        <span class="file-cta">
-                          <span class="file-icon">
-                            <i class="fa fa-upload"></i>
-                          </span>
-                          <span class="file-label">
-                            or choose a file…
-                          </span>
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fa fa-upload"></i>
                         </span>
-                        <button type="submit" class="btn btn-outline-success">
+                        <span class="file-label">
+                          or choose a file…
+                        </span>
+                      </span>
+                      <!-- <button type="submit" class="btn btn-outline-success">
                           upload
-                        </button>
-                        <div class="validation-error" *ngIf="isSubmitted">
-                          This field is required.
-                        </div>
-                      </form>
+                        </button> -->
+                      <div class="validation-error" *ngIf="isSubmitted">
+                        This field is required.
+                      </div>
+                      <!-- </form> -->
                     </label>
                   </div>
                 </div>
 
+                <div *ngIf="percentage | async as pct">
+
+                  <progress class="progress is-info" [value]="pct" max="100">
+                  </progress>
+
+                  {{ pct | number }}%
+
+                </div>
+
+                <div *ngIf="(snapshot | async) as snap">
+                  size {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
+                </div>
+
                 <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
-                <div class="form-group">
-                  <input name="Name" #Name="ngModel" [(ngModel)]="service.formData.Name" class="form-control"
-                    placeholder="Name" required>
-                  <div *ngIf="Name.invalid && Name.touched" class="validation-error">This field is required.</div>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <input name="name" #Name="ngModel" [(ngModel)]="service.formData.name" class="form-control"
+                      placeholder="Name" required>
+                    <div *ngIf="Name.invalid && Name.touched" class="validation-error">This field is required.</div>
+                  </div>
+                  <div class="form-group col-md-6">
+                    <select class="form-control" name="category_id" #category_id="ngModel"
+                      [(ngModel)]="service.formData.category_id">
+                      <option *ngFor="let data of listCate" [value]="data.id">
+                        {{data.Name}}
+                      </option>
+                    </select>
+                  </div>
                 </div>
                 <div class="form-row">
                   <div class="form-group col-md-6">
-                    <input name="Price" #Price="ngModel" [(ngModel)]="service.formData.Price" class="form-control"
+                    <input name="price" #Price="ngModel" [(ngModel)]="service.formData.price" class="form-control"
                       placeholder="Price">
                   </div>
                   <div class="form-group col-md-6">
-                    <input name="Size" #Size="ngModel" [(ngModel)]="service.formData.Size" class="form-control"
+                    <input name="size" #Size="ngModel" [(ngModel)]="service.formData.size" class="form-control"
                       placeholder="Size">
                   </div>
                 </div>
                 <div class="form-group">
-                  <input name="Description" #Description="ngModel" [(ngModel)]="service.formData.Description"
+                  <input name="description" #Description="ngModel" [(ngModel)]="service.formData.description"
                     class="form-control" placeholder="Description">
                 </div>
                 <div class="form-group">
@@ -83,18 +106,20 @@
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
                   <th class="h">Description</th>
+                  <th class="h">Image</th>
                   <th></th>
                 </thead>
                 <tbody>
-                  <!-- <tr *ngFor="let emp of list">
-                          <td (click)="onEdit(emp)" class="s">{{emp.Name}}</td>
-                          <td (click)="onEdit(emp)" class="s">{{emp.Price}} THB. - {{emp.Size}}</td>
-                          <td (click)="onEdit(emp)" class="s">{{emp.Description}}</td>
-                          <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
-                          <td><a class="btn text-danger" (click)="onDelete(emp.id)"><i
-                                class="fa fa-trash-o fa-lg"></i></a>
-                          </td>
-                        </tr> -->
+                  <tr *ngFor="let data of list">
+                    <td (click)="onEdit(data)" class="s">{{data.name}}</td>
+                    <td (click)="onEdit(data)" class="s">{{data.price}} THB. - {{data.size}}</td>
+                    <td (click)="onEdit(data)" class="s">{{data.description}}</td>
+                    <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
+                    <img class="rounded-circle" style="height: 80px;width: 80px;" [src]="data.image_url">
+                    <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
+                    </td>
+                    <br><br>
+                  </tr>
                 </tbody>
               </table>
             </div>

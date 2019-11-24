@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { finalize, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -43,7 +43,6 @@ export class PartnerComponent implements OnInit {
       image_url: '',
     }
     this.selectedImage = null;
-    this.isSubmitted = false;
   }
 
   getData() {
@@ -60,9 +59,9 @@ export class PartnerComponent implements OnInit {
   onSubmitUploadImage(form: NgForm) {
     this.isSubmitted = true;
     if (this.selectedImage != null) {
+      this.isSubmitted = false;
       this.selectedImage = this.files[0];
       this.startUpload(this.files, form);
-      this.resetForm(form);
     }
   }
 
@@ -76,7 +75,6 @@ export class PartnerComponent implements OnInit {
   }
 
   onDelete(id: string) {
-    console.log("id: " + id);
     if (confirm("Are you sure to delete this record?")) {
       this.db.doc('partner/' + id).delete();
       this.toastr.warning('Deleted successfully', 'Delete is done');
@@ -114,7 +112,7 @@ export class PartnerComponent implements OnInit {
         else {
           this.db.doc('partner/' + form.value.id).update(data);
         }
-
+        this.resetForm(form);
         this.toastr.success('Submitted successfully', 'Add new partner is done');
       }),
     );
