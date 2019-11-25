@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
-import { InterfaceAbout } from 'src/app/interface/interfaceAbout';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-
+import { InterfaceAbout, ErrorMsg } from 'src/app/interface';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-about',
@@ -11,20 +10,14 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit {
-  aboutPage: FormGroup;
+  public aboutPage: FormGroup;
   constructor(private firebaseService: FirebaseService, private formBuilder: FormBuilder) { }
 
-  // aboutPage = new FormGroup({
-  //   title: new FormControl(''),
-  //   description: new FormControl(''),
-  // });
-  // private data: InterfaceAbout;
-
   ngOnInit() {
-      this.aboutPage = this.formBuilder.group({
-        title: new FormControl(),
-        description: new FormControl()
-      });
+    this.aboutPage = this.formBuilder.group({
+      title: new FormControl(null , [Validators.required]),
+      description: new FormControl(null , [Validators.required])
+    });
   }
 
   test(data: InterfaceAbout): void {
@@ -35,5 +28,13 @@ export class AboutComponent implements OnInit {
     console.log('AboutComponent', data);
 
     this.firebaseService.createDB(data);
+  }
+
+  validatorAbout(){
+    if(this.aboutPage.controls.title.invalid){
+      return true;
+    }else{
+      return false;
+    }
   }
 }

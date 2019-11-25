@@ -29,7 +29,9 @@ import { UploadTaskComponent } from 'src/app/pages/upload-task/upload-task.compo
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    ReactiveFormsModule
+
   ],
   declarations: [
     DashboardComponent,
