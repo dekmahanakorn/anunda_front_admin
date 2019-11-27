@@ -67,7 +67,7 @@
                   <div class="form-group col-md-6">
                     <select class="form-control" name="category_id" #category_id="ngModel"
                       [(ngModel)]="service.formData.category_id">
-                      <option *ngFor="let data of listCate" [value]="data.id">
+                      <option *ngFor="let data of listCate;" [value]="data.id">
                         {{data.Name}}
                       </option>
                     </select>
@@ -114,7 +114,7 @@
                     <td (click)="onEdit(data)" class="s">{{data.name}}</td>
                     <td (click)="onEdit(data)" class="s">{{data.price}} THB. - {{data.size}}</td>
                     <td (click)="onEdit(data)" class="s">{{data.description}}</td>
-                    <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
+                    <td><a class="btn text-success" (click)="onAddVideo(data.id)"><i class="fa fa-play"></i></a></td>
                     <img class="rounded-circle" style="height: 80px;width: 80px;" [src]="data.image_url">
                     <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
                     </td>
@@ -125,6 +125,74 @@
             </div>
           </div>
         </div>
+
+        <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
+        <ng-template #content1 let-modal>
+          <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Content of Main About</h4>
+              <button type="button" class="close" aria-label="Close"
+                  (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <form (ngSubmit)="onSubmitAbout(form)" #form="ngForm">
+                  <table class='table'>
+                      <thead>
+                          <tr>
+                              <td>Image</td>
+                              <td>Content</td>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>
+                                  <form [formGroup]="formTemplate"
+                                      (submit)="onSubmitAboutUploadImage(formTemplate.value)">
+                                      <img class="card-img-top img-responsive" style="width: 100%"
+                                          [src]="imgSrc" (click)="fileUploader.click()"><br><br>
+
+                                      <input type="file" accept="image/*" class="form-control"
+                                          #fileUploader formControlName="imageUrl"
+                                          (change)="showPreview($event)"><br>
+                                      <div class="text-danger"
+                                          *ngIf="isSubmitted && formControls.imageUrl.errors?.required">
+                                          This field is required.
+                                      </div>
+                                      <div class="modal-footer">
+                                          <button type="submit" class="btn btn-outline-success">
+                                              upload
+                                          </button>
+                                      </div>
+                                  </form>
+                              </td>
+                              <td>
+                                  <input type="text" class="form-control" placeholder="company"
+                                      name="company" ngModel>
+                                  <br><br>
+                                  <input type="text" class="form-control" placeholder="address"
+                                      name="address" ngModel>
+                                  <br><br>
+                                  <input type="text" class="form-control" placeholder="address 2"
+                                      name="address2" ngModel>
+                                  <br><br>
+                                  <input type="text" class="form-control" placeholder="tel" name="tel"
+                                      ngModel>
+                              </td>
+                          </tr>
+
+                      </tbody>
+                  </table>
+                  <div class="modal-footer">
+                      <button type="submit" class="btn btn-outline-success"> save
+                      </button>
+                  </div>
+              </form>
+          </div>
+
+      </ng-template>
+      <button class="btn btn-lg btn-outline-primary" (click)="open1(content1)">update</button>
+      <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
 
       </div>
     </div>

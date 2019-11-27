@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm } from '@angular/forms';
+import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductSolution } from 'src/app/shared/product-solution.model';
 import { ProductSolutionService } from 'src/app/shared/product-solution.service';
 import { Category } from 'src/app/shared/category.model';
+import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-add-product-solution',
@@ -28,14 +29,24 @@ export class AddProductSolutionComponent implements OnInit {
   isSubmitted: boolean;
   files: File;
   selectedImage: any = null;
+  closeResult: string;
 
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore, private service: ProductSolutionService,
+  formTemplate = new FormGroup({
+    category : new FormControl(''),
+    imageUrl: new FormControl('', Validators.required)
+  })
+
+  constructor(private modalService: NgbModal, private storage: AngularFireStorage, private db: AngularFirestore, private service: ProductSolutionService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
     this.getData();
     this.getCategory();
+  }
+
+  get formControls() {
+    return this.formTemplate['controls'];
   }
 
   resetForm(form?: NgForm) {
@@ -94,7 +105,6 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onEdit(data: ProductSolution) {
-    console.log("data---> " + data.name);
     this.service.formData = Object.assign({}, data);
   }
 
@@ -140,5 +150,22 @@ export class AddProductSolutionComponent implements OnInit {
         this.toastr.success('Submitted successfully', 'Add new product solution is done');
       }),
     );
+  }
+  open1(content1) {
+    this.modalService.open(content1, { size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.resetForm();
+    });
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
