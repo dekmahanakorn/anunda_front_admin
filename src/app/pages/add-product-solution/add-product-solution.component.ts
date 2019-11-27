@@ -9,6 +9,8 @@ import { ProductSolution } from 'src/app/shared/product-solution.model';
 import { ProductSolutionService } from 'src/app/shared/product-solution.service';
 import { Category } from 'src/app/shared/category.model';
 import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import getYouTubeID from 'get-youtube-id';
+import { Youtube } from 'src/app/shared/youtube.model';
 
 @Component({
   selector: 'app-add-product-solution',
@@ -16,7 +18,7 @@ import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-
   styleUrls: ['./add-product-solution.component.scss']
 })
 export class AddProductSolutionComponent implements OnInit {
-  
+
   task: AngularFireUploadTask;
   percentage: Observable<number>;
   snapshot: Observable<any>;
@@ -24,6 +26,7 @@ export class AddProductSolutionComponent implements OnInit {
 
   list: ProductSolution[];
   listCate: Category[];
+  listYoutube: Youtube[];
 
   isHovering: boolean;
   isSubmitted: boolean;
@@ -31,9 +34,11 @@ export class AddProductSolutionComponent implements OnInit {
   selectedImage: any = null;
   closeResult: string;
 
+  player: YT.Player;
+  private id: string = "";
+
   formTemplate = new FormGroup({
-    category : new FormControl(''),
-    imageUrl: new FormControl('', Validators.required)
+    url: new FormControl('', Validators.required)
   })
 
   constructor(private modalService: NgbModal, private storage: AngularFireStorage, private db: AngularFirestore, private service: ProductSolutionService,
@@ -43,6 +48,7 @@ export class AddProductSolutionComponent implements OnInit {
     this.resetForm();
     this.getData();
     this.getCategory();
+    this.getYoutubeList();
   }
 
   get formControls() {
@@ -75,8 +81,8 @@ export class AddProductSolutionComponent implements OnInit {
     });
   }
 
-  getCategory(){
-    this.service.getCategory().subscribe(actionArray =>{
+  getCategory() {
+    this.service.getCategory().subscribe(actionArray => {
       this.listCate = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
@@ -151,7 +157,8 @@ export class AddProductSolutionComponent implements OnInit {
       }),
     );
   }
-  open1(content1) {
+  
+  open1(content1, id: string) {
     this.modalService.open(content1, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
@@ -159,6 +166,7 @@ export class AddProductSolutionComponent implements OnInit {
       this.resetForm();
     });
   }
+
   private getDismissReason(reason: any): string {
     if (reason === ModalDismissReasons.ESC) {
       return 'by pressing ESC';
@@ -167,5 +175,37 @@ export class AddProductSolutionComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  savePlayer(player) {
+    this.player = player;
+    //console.log('Video url: ', player.getVideoUrl());
+  }
+
+  onStateChange(event) {
+    //console.log('player state', event.data);
+  }
+
+  onSubmitYoutube(form: NgForm) {
+    let data = Object.assign({}, form.value);
+    console.log("url " + data.url);
+    delete data.id;
+    if (form.value.id == null)
+      this.db.collection('product-solution-video').add(data);
+    else
+      this.db.doc('product-solution-video/' + form.value.id).update(data);
+    //this.resetForm(form);
+    this.toastr.success('Submitted successfully', 'Create is done');
+  }
+
+  getYoutubeList() {
+    this.service.getProductSolutionVideo().subscribe(actionArray => {
+      this.listYoutube = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Youtube;
+      })
+    })
   }
 }

@@ -20,7 +20,7 @@ import { UploadTaskComponent } from 'src/app/pages/upload-task/upload-task.compo
 import { AddProductCategoryComponent } from 'src/app/pages/add-product-category/add-product-category.component';
 import { PartnerComponent } from 'src/app/pages/partner/partner.component';
 import { AddProductSolutionComponent } from 'src/app/pages/add-product-solution/add-product-solution.component';
-
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -31,7 +31,8 @@ import { AddProductSolutionComponent } from 'src/app/pages/add-product-solution/
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule
+    ClipboardModule,
+    NgxYoutubePlayerModule.forRoot(),
   ],
   declarations: [
     DashboardComponent,
