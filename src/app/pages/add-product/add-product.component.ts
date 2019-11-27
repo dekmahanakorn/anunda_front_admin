@@ -6,6 +6,9 @@ import { NgForm } from '@angular/forms';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
+import { Observable } from 'rxjs';
+import { finalize, tap } from 'rxjs/operators';
+import { Category } from 'src/app/shared/category.model';
 
 
 @Component({
@@ -15,8 +18,17 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AddProductComponent implements OnInit {
 
+  task: AngularFireUploadTask;
+  percentage: Observable<number>;
+  snapshot: Observable<any>;
+  downloadURL;
 
   list: Create[];
+
+  isHovering: boolean;
+  isSubmitted: boolean;
+  files: File;
+  selectedImage: any = null;
 
   constructor(private service: CreateService,
     private firestore: AngularFirestore,
@@ -44,19 +56,18 @@ export class AddProductComponent implements OnInit {
       Name: '',
       Price: '',
       Size: '',
+      image_url: '',
       Description: '',
     }
   }
 
   onSubmit(form: NgForm) {
-    let data = Object.assign({}, form.value);
-    delete data.id;
-    if (form.value.id == null)
-      this.firestore.collection('creates').add(data);
-    else
-      this.firestore.doc('creates/' + form.value.id).update(data);
-    this.resetForm(form);
-    this.toastr.success('Submitted successfully', 'Create is done');
+    this.isSubmitted = true;
+    if (this.selectedImage != null) {
+      this.isSubmitted = false;
+      this.selectedImage = this.files[0];
+      this.startUpload(this.files, form);
+    }
   }
 
   onEdit(emp: Create) {
@@ -65,8 +76,54 @@ export class AddProductComponent implements OnInit {
 
   onDelete(id: string) {
     if (confirm("Are you sure to delete this record?")) {
-      this.firestore.doc('creates/' + id).delete();
+      this.firestore.doc('product/' + id).delete();
       this.toastr.warning('Deleted successfully', 'Delete is done');
     }
+  }
+
+  toggleHover(event: boolean) {
+    this.isHovering = event;
+  }
+
+  onDrop(file: File) {
+    this.files = file[0];
+    this.selectedImage = this.files.name;
+  }
+
+  startUpload(file: File, form: NgForm) {
+
+    // The storage path
+    const path = `product/${Date.now()}_${file.name}`;
+
+    // Reference to storage bucket
+    const ref = this.storage.ref(path);
+
+    // The main task
+    this.task = this.storage.upload(path, file);
+
+    // Progress monitoring
+    this.percentage = this.task.percentageChanges();
+
+    this.snapshot = this.task.snapshotChanges().pipe(
+      tap(console.log),
+      // The file's download URL
+      finalize(async () => {
+        this.downloadURL = await ref.getDownloadURL().toPromise();
+
+        // this.firestore.collection('files').add({ downloadURL: this.downloadURL, path });
+
+        form.value.image_url = this.downloadURL;
+        let data = Object.assign({}, form.value);
+        delete data.id;
+        if (form.value.id == null) {
+          this.firestore.collection('product').add(data);
+        }
+        else {
+          this.firestore.doc('product/' + form.value.id).update(data);
+        }
+        this.resetForm(form);
+        this.toastr.success('Submitted successfully', 'Add new product is done');
+      }),
+    );
   }
 }
