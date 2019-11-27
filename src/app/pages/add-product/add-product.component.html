@@ -13,7 +13,51 @@
                 </div>
                 <div class="card-body">
                   <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
-                      <app-uploader></app-uploader> <br>
+
+                      <!-- <app-uploader></app-uploader> <br> -->
+                      <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+                  [class.hovering]="isHovering">
+
+                  <h3>Upload image</h3>
+                  <p class="fa fa-cloud-upload"></p>
+                  <div class="file">
+                    <label class="file-label">
+                      <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
+                      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
+                      <input class="file-input" type="file" (change)="onDrop($event.target.files)">
+
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fa fa-upload"></i>
+                        </span>
+                        <span class="file-label">
+                          or choose a file…
+                        </span>
+                      </span>
+                      <!-- <button type="submit" class="btn btn-outline-success">
+                          upload
+                        </button> -->
+                      <div class="validation-error" *ngIf="isSubmitted">
+                        This field is required.
+                      </div>
+                      <!-- </form> -->
+                    </label>
+                  </div>
+                </div>
+
+                <div *ngIf="percentage | async as pct">
+
+                  <progress class="progress is-info" [value]="pct" max="100">
+                  </progress>
+
+                  {{ pct | number }}%
+
+                </div>
+
+                <div *ngIf="(snapshot | async) as snap">
+                  size {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
+                </div>
+
 
                     <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
                     <div class="form-group">
