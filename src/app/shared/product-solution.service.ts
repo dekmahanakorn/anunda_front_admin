@@ -1,12 +1,14 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { ProductSolution } from './product-solution.model';
+import { Youtube } from './youtube.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProductSolutionService {
   formData: ProductSolution;
+  formDataYoutube: Youtube;
 
   constructor(private firestore: AngularFirestore) { }
 

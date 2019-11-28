@@ -33,6 +33,7 @@ export class AddProductSolutionComponent implements OnInit {
   files: File;
   selectedImage: any = null;
   closeResult: string;
+  productId: string;
 
   player: YT.Player;
   private id: string = "";
@@ -46,6 +47,7 @@ export class AddProductSolutionComponent implements OnInit {
 
   ngOnInit() {
     this.resetForm();
+    this.resetFormModal();
     this.getData();
     this.getCategory();
     this.getYoutubeList();
@@ -68,6 +70,18 @@ export class AddProductSolutionComponent implements OnInit {
       description: '',
     }
     this.selectedImage = null;
+  }
+
+  resetFormModal(form?: NgForm) {
+    if (form != null)
+      form.resetForm();
+    this.service.formDataYoutube = {
+      id: null,
+      product_id: null,
+      url: '',
+    }
+    this.selectedImage = null;
+    this.modalService.dismissAll;
   }
 
   getData() {
@@ -124,7 +138,7 @@ export class AddProductSolutionComponent implements OnInit {
   startUpload(file: File, form: NgForm) {
 
     // The storage path
-    const path = `test/${Date.now()}_${file.name}`;
+    const path = `product-solution/${Date.now()}_${file.name}`;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -157,13 +171,14 @@ export class AddProductSolutionComponent implements OnInit {
       }),
     );
   }
-  
+
   open1(content1, id: string) {
+    this.productId = id;
     this.modalService.open(content1, { size: 'lg' }).result.then((result) => {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.resetForm();
+      this.resetFormModal();
     });
   }
 
@@ -187,15 +202,18 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onSubmitYoutube(form: NgForm) {
-    let data = Object.assign({}, form.value);
-    console.log("url " + data.url);
-    delete data.id;
-    if (form.value.id == null)
-      this.db.collection('product-solution-video').add(data);
-    else
-      this.db.doc('product-solution-video/' + form.value.id).update(data);
-    //this.resetForm(form);
-    this.toastr.success('Submitted successfully', 'Create is done');
+    if (this.productId != null) {
+      form.value.product_id = this.productId;
+      let data = Object.assign({}, form.value);
+      console.log("url " + data.url);
+      delete data.id;
+      if (form.value.id == null)
+        this.db.collection('product-solution-video').add(data);
+      else
+        this.db.doc('product-solution-video/' + form.value.id).update(data);
+      this.resetFormModal(form);
+      this.toastr.success('Submitted successfully', 'Create is done');
+    }
   }
 
   getYoutubeList() {

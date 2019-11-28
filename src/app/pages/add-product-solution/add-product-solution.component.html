@@ -143,8 +143,11 @@
                 <tr>
                   <td>
                     <form (submit)="onSubmitYoutube(form)" #form="ngForm" autocomplete="off">
-                  
-                      <input type="text" placeholder="youtube video url" name="url" class="form-control col-md-6">
+                      <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formDataYoutube.id">
+                      <input type="hidden" name="product_id" #product_id="ngModel"
+                        [(ngModel)]="service.formDataYoutube.product_id">
+                      <input type="text" placeholder="youtube video url" name="url" #url="ngModel"
+                        [(ngModel)]="service.formDataYoutube.url" class="form-control col-md-6">
                       <!-- <div class="text-danger" *ngIf="isSubmitted && formControls.url.errors?.required">
                         This field is required.
                       </div> -->
