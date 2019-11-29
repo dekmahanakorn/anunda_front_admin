@@ -5,8 +5,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AuthenticationService } from '../shared/authentication.service';
-import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
+import { FormsModule,  } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -14,7 +13,7 @@ import { FormsModule,  ReactiveFormsModule } from '@angular/forms';
     RouterModule,
     NgbModule,
     FormsModule,
-    ReactiveFormsModule
+
   ],
   declarations: [
     FooterComponent,

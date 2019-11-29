@@ -1,52 +1,108 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
-    <div class="container-fluid">
-      <div class="header-body">
-        <!-- Card stats -->
-        <div class="row">
-          <div class="col-xl-6 col-lg-6">
-            <div class="card card-stats mb-4 mb-xl-0">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col">
-                    <!-- Begin form -->
-                    <form >
+  <div class="container-fluid">
+    <div class="header-body">
+      <!-- Card stats -->
+      <div class="row">
+        <div class="col-xl-10 col-lg-10">
+          <div class="card card-stats mb-4 mb-xl-0">
+            <div class="card-body">
+              <div class="row">
+                <div class="col">
+                  <!-- Begin form -->
+                  <form [formGroup]="contactPage">
+
                       <div class="row">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <span class="red">*</span>
+                              <div class="input-group mb-2">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                                </div>
+                                <input (focus)="validateAddress1(); this.checkAddress1 = false" (blur)="validateAddress1();"
+                                  class="form-control" placeholder="Address 1" type="text" formControlName="address1">
+                              </div>
+                              <div class="red" *ngIf="this.checkAddress1">{{error.required}}</div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Address 2 -->
+                    <div class="row">
                         <div class="col-md-12">
                           <div class="form-group">
+                            <span class="red">*</span>
                             <div class="input-group mb-2">
                               <div class="input-group-prepend">
                                 <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
                               </div>
-                              <input class="form-control" placeholder="Title" type="text">
+                              <input (focus)="validateAddress2(); this.checkAddress2 = false;" (blur)="validateAddress2()"
+                                class="form-control" placeholder="Address 2" type="text" formControlName="address2">
                             </div>
+                            <div class="red" *ngIf="this.checkAddress2">{{error.required}}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Tel -->
+                    <div class="row">
+                        <div class="col-md-12">
+                          <div class="form-group">
+                            <span class="red">*</span>
+                            <div class="input-group mb-2">
+                              <div class="input-group-prepend">
+                                <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                              </div>
+                              <input
+                              (focus)="validateTel();
+                              this.checkTel.required = false;
+                              this.checkTel.pattern = false;"
+                              (blur)="validateTel();"
+                                class="form-control" placeholder="Tel" type="text" formControlName="tel">
+                            </div>
+                            <div class="red" *ngIf="this.checkTel.required">{{error.required}}</div>
+                            <div class="red" *ngIf="this.checkTel.pattern">{{error.pattarnOnlyNumber}}</div>
                           </div>
                         </div>
                       </div>
 
                       <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <div class="input-group mb-2">
-                              <div class="input-group">
+                          <div class="col-md-12">
+                            <div class="form-group">
+                              <span class="red">*</span>
+                              <div class="input-group mb-2">
                                 <div class="input-group-prepend">
-                                  <span class="input-group-text"><i class="ni ni-align-left-2"></i></span>
+                                  <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
                                 </div>
-                                <textarea class="form-control"  placeholder="Description"  rows="5" cols="50"></textarea>
+                                <input (focus)="validateEmail();
+                                this.checkEmail.required = false;
+                                this.checkEmail.pattern = false;"
+                                 (blur)="validateEmail()" class="form-control" placeholder="Email"
+                                  type="text" formControlName="email">
                               </div>
+                              <div class="red" *ngIf="this.checkEmail.required">{{error.required}}</div>
+                              <div class="red" *ngIf="this.checkEmail.pattern">{{error.pattarn}}</div>
+
                             </div>
                           </div>
                         </div>
-                      </div>
-                      <button type="button" class="btn btn-outline-danger">Submit</button>
-                    </form>
-                    <!-- End Form -->
-                  </div>
-                </div>
 
+
+                    <div class="row">
+                      <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
+                      <button type="submit" (click)="submit();" class="btn btn-primary btn-circle ">
+                        <i class="fas fa-plus-circle"></i>
+                      </button>
+                    </div>
+                  </form>
+                  <!-- End Form -->
+                </div>
               </div>
+
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>

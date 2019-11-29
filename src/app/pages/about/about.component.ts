@@ -1,8 +1,9 @@
-import { NgModule } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
-import { InterfaceAbout, ErrorMsg } from 'src/app/interface';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { InterfaceAbout } from 'src/app/interface/interfaceAbout';
+import { ErrorMsg , AlertMsg} from 'src/app/interface/error-msg.enum';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-about',
@@ -11,7 +12,15 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 })
 export class AboutComponent implements OnInit {
   public aboutPage: FormGroup;
-  constructor(private firebaseService: FirebaseService, private formBuilder: FormBuilder) { }
+  public error = ErrorMsg;
+  public alert = AlertMsg;
+  public checkTitle: boolean;
+  public checkDescription: boolean;
+  constructor(private firebaseService: FirebaseService,
+    private formBuilder: FormBuilder,
+    private toastr: ToastrService) { }
+
+
 
   ngOnInit() {
     this.aboutPage = this.formBuilder.group({
@@ -20,21 +29,44 @@ export class AboutComponent implements OnInit {
     });
   }
 
-  test(data: InterfaceAbout): void {
+  submit(): void {
+    let data: InterfaceAbout;
     data = {};
-    data.descripttion = 'To connect firebase';
-    data.name = 'I,m sirmerfang';
+    data.id = null;
+    data.image = null;
+    data.descripttion = this.aboutPage.controls.description.value;
+    data.name = this.aboutPage.controls.title.value;
 
     console.log('AboutComponent', data);
+    if(this.aboutPage.valid){
+      this.firebaseService.createDB(data, 'About');
+      this.toastr.success(this.alert.success);
 
-    this.firebaseService.createDB(data);
+      this.aboutPage.controls.title.setValue(null);
+      this.aboutPage.controls.description.setValue(null);
+
+    }else{
+      this.toastr.error(this.alert.IncerrentTryAgain);
+    }
   }
 
-  validatorAbout(){
-    if(this.aboutPage.controls.title.invalid){
-      return true;
-    }else{
-      return false;
+  validatorAboutTitle() {
+
+    if ( this.aboutPage.controls.title.invalid) {
+      if ( this.aboutPage.controls.title.errors.required) {
+        return this.checkTitle = true;
+      } else {
+        return this.checkTitle = false; }
+    }
+  }
+
+  validatorAboutDescription() {
+
+    if ( this.aboutPage.controls.title.invalid) {
+      if ( this.aboutPage.controls.description.errors.required) {
+        return this.checkDescription = true;
+      } else {
+        return this.checkDescription = false; }
     }
   }
 }
