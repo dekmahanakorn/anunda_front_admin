@@ -19,8 +19,4 @@ export class ProductSolutionService {
   getCategory(){
     return this.firestore.collection('category').snapshotChanges();
   }
-  
-  getProductSolutionVideo() {
-    return this.firestore.collection('product-solution-video').snapshotChanges();
-  }
 }

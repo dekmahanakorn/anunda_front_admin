@@ -148,15 +148,17 @@
                         [(ngModel)]="service.formDataYoutube.product_id">
                       <input type="text" placeholder="youtube video url" name="url" #url="ngModel"
                         [(ngModel)]="service.formDataYoutube.url" class="form-control col-md-6">
-                      <!-- <div class="text-danger" *ngIf="isSubmitted && formControls.url.errors?.required">
-                        This field is required.
-                      </div> -->
                       <br><br>
                       <button type="submit" class="btn btn-outline-success col-md-6"> save </button>
-                      <br><br>
-                      <youtube-player [videoId]="id" (ready)="savePlayer($event)" (change)="onStateChange($event)">
-                      </youtube-player>
                     </form>
+                    <br><br>
+                    <button (click)="onPreview()" type="button" class="btn btn-outline-info col-md-6"> preview </button>
+                  </td>
+                  <td>
+                    <div *ngIf="isHidden">
+                      <youtube-player [videoId]="idView" (ready)="savePlayer($event)" (change)="onStateChange($event)">
+                      </youtube-player>
+                    </div>
                   </td>
                 </tr>
               </tbody>
