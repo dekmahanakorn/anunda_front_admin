@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators, } from '@angular/forms';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { ErrorMsg, AlertMsg } from 'src/app/interface/error-msg.enum';
-  import { InterfaceContact } from 'src/app/interface/interfaceContact';
+import { InterfaceContact } from 'src/app/interface/interfaceContact';
 import { ToastrService } from 'ngx-toastr';
 
 
@@ -15,6 +15,8 @@ export class ContactComponent implements OnInit {
 
   public contactPage: FormGroup;
   public interfaceContact: InterfaceContact;
+  public interfaceContactList: InterfaceContact[];
+
   public error = ErrorMsg;
   public alert = AlertMsg;
   public checkAddress1: boolean;
@@ -27,6 +29,7 @@ export class ContactComponent implements OnInit {
     private toastr: ToastrService) { }
 
   ngOnInit() {
+    this.interfaceContact = {};
     this.checkTel = { 'required': false, 'pattern': false };
     this.checkEmail = { 'required': false, 'pattern': false };
 
@@ -36,6 +39,18 @@ export class ContactComponent implements OnInit {
       tel: new FormControl(null, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
     });
+
+    this.firebaseService.getAllData('Contact').subscribe(actionArray => {
+      console.log('actionArray',actionArray);
+
+      this.interfaceContactList = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as InterfaceContact;
+      });
+    });
+
   }
 
   validateAddress1() {
@@ -99,23 +114,45 @@ export class ContactComponent implements OnInit {
   }
 
   submit() {
-    let contactPage = this.contactPage.controls;
-    this.interfaceContact = {};
-    this.interfaceContact.id = null;
-    this.interfaceContact.address1 = contactPage.address1.value;
-    this.interfaceContact.address2 = contactPage.address2.value;
-    this.interfaceContact.tel = contactPage.tel.value;
-    this.interfaceContact.email = contactPage.email.value;
 
-    if ( contactPage.valid) {
+    // this.interfaceContact.id = null;
+    this.interfaceContact.address1 = this.contactPage.controls.address1.value;
+    this.interfaceContact.address2 = this.contactPage.controls.address2.value;
+    this.interfaceContact.tel = this.contactPage.controls.tel.value;
+    this.interfaceContact.email = this.contactPage.controls.email.value;
+    console.log('submit  this.interfaceContact', this.interfaceContact);
+    console.log('submit ', this.contactPage.valid);
+    if (this.contactPage.valid) {
+      console.log('Cistmahanakorn ', this.contactPage.controls);
       this.firebaseService.createDB(this.interfaceContact, 'Contact');
       this.toastr.success(this.alert.success);
-    }else{
+
+      this.contactPage.controls.address1.setValue(null);
+      this.contactPage.controls.address2.setValue(null);
+      this.contactPage.controls.tel.setValue(null);
+      this.contactPage.controls.email.setValue(null);
+
+
+    } else {
       this.toastr.error(this.alert.IncerrentTryAgain);
     }
 
   }
 
+
+
+  onEditContact(contactList: InterfaceContact) {
+
+    console.log('onEditContact-ID', contactList.id);
+    console.log('interfaceContactList', this.interfaceContactList);
+
+    this.interfaceContact = contactList;
+    this.interfaceContact.id = contactList.id;
+    this.contactPage.controls.address1.setValue(contactList.address1);
+    this.contactPage.controls.address2.setValue(contactList.address2);
+    this.contactPage.controls.tel.setValue(contactList.tel);
+    this.contactPage.controls.email.setValue(contactList.email);
+  }
 
 
 }

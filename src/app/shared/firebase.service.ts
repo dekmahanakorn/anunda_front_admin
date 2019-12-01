@@ -19,4 +19,13 @@ export class FirebaseService {
     //   data= {};
     //   this.firestore.doc('Aboute' + fromID).valueChanges(data);
     // }
+
+    updateDB(data: any, collection: string){
+      // this.firestore.collection(collection).update(data);
+
+    }
+
+    getAllData(collection: string) {
+      return this.firestore.collection(collection).snapshotChanges();
+    }
 }

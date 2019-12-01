@@ -55,6 +55,8 @@ export class AddProductComponent implements OnInit {
     if (form.value.id == null)
       this.firestore.collection('creates').add(data);
     else
+      console.log(form.value.id);
+
       this.firestore.doc('creates/' + form.value.id).update(data);
     this.resetForm(form);
     this.toastr.success('Submitted successfully', 'Create is done');

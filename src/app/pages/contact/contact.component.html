@@ -11,81 +11,78 @@
                   <!-- Begin form -->
                   <form [formGroup]="contactPage">
 
-                      <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <span class="red">*</span>
-                              <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                                </div>
-                                <input (focus)="validateAddress1(); this.checkAddress1 = false" (blur)="validateAddress1();"
-                                  class="form-control" placeholder="Address 1" type="text" formControlName="address1">
-                              </div>
-                              <div class="red" *ngIf="this.checkAddress1">{{error.required}}</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Address 2 -->
                     <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <span class="red">*</span>
-                            <div class="input-group mb-2">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                              </div>
-                              <input (focus)="validateAddress2(); this.checkAddress2 = false;" (blur)="validateAddress2()"
-                                class="form-control" placeholder="Address 2" type="text" formControlName="address2">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <span class="red">*</span>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
                             </div>
-                            <div class="red" *ngIf="this.checkAddress2">{{error.required}}</div>
+                            <input (focus)="validateAddress1(); this.checkAddress1 = false" (blur)="validateAddress1();"
+                              class="form-control" placeholder="Address 1" type="text" formControlName="address1">
                           </div>
+                          <div class="red" *ngIf="this.checkAddress1">{{error.required}}</div>
                         </div>
                       </div>
+                    </div>
 
-                      <!-- Tel -->
+                    <!-- Address 2 -->
                     <div class="row">
-                        <div class="col-md-12">
-                          <div class="form-group">
-                            <span class="red">*</span>
-                            <div class="input-group mb-2">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                              </div>
-                              <input
-                              (focus)="validateTel();
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <span class="red">*</span>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                            </div>
+                            <input (focus)="validateAddress2(); this.checkAddress2 = false;" (blur)="validateAddress2()"
+                              class="form-control" placeholder="Address 2" type="text" formControlName="address2">
+                          </div>
+                          <div class="red" *ngIf="this.checkAddress2">{{error.required}}</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Tel -->
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <span class="red">*</span>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                            </div>
+                            <input (focus)="validateTel();
                               this.checkTel.required = false;
-                              this.checkTel.pattern = false;"
-                              (blur)="validateTel();"
-                                class="form-control" placeholder="Tel" type="text" formControlName="tel">
-                            </div>
-                            <div class="red" *ngIf="this.checkTel.required">{{error.required}}</div>
-                            <div class="red" *ngIf="this.checkTel.pattern">{{error.pattarnOnlyNumber}}</div>
+                              this.checkTel.pattern = false;" (blur)="validateTel();" class="form-control"
+                              placeholder="Tel" type="text" formControlName="tel">
                           </div>
+                          <div class="red" *ngIf="this.checkTel.required">{{error.required}}</div>
+                          <div class="red" *ngIf="this.checkTel.pattern">{{error.pattarnOnlyNumber}}</div>
                         </div>
                       </div>
+                    </div>
 
-                      <div class="row">
-                          <div class="col-md-12">
-                            <div class="form-group">
-                              <span class="red">*</span>
-                              <div class="input-group mb-2">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                                </div>
-                                <input (focus)="validateEmail();
-                                this.checkEmail.required = false;
-                                this.checkEmail.pattern = false;"
-                                 (blur)="validateEmail()" class="form-control" placeholder="Email"
-                                  type="text" formControlName="email">
-                              </div>
-                              <div class="red" *ngIf="this.checkEmail.required">{{error.required}}</div>
-                              <div class="red" *ngIf="this.checkEmail.pattern">{{error.pattarn}}</div>
-
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <span class="red">*</span>
+                          <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
                             </div>
+                            <input (focus)="validateEmail();
+                                this.checkEmail.required = false;
+                                this.checkEmail.pattern = false;" (blur)="validateEmail()" class="form-control"
+                              placeholder="Email" type="text" formControlName="email">
                           </div>
+                          <div class="red" *ngIf="this.checkEmail.required">{{error.required}}</div>
+                          <div class="red" *ngIf="this.checkEmail.pattern">{{error.pattarn}}</div>
+
                         </div>
+                      </div>
+                    </div>
 
 
                     <div class="row">
@@ -94,6 +91,38 @@
                         <i class="fas fa-plus-circle"></i>
                       </button>
                     </div>
+
+                    <!-- List -->
+                    <div class="card-body">
+                      <table class="table table-hover">
+                        <thead>
+                          <th class="">Address 1</th>
+                          <th class="">Address 2</th>
+                          <th class="">Tel</th>
+                          <th class="">Mail</th>
+                          <th></th>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let interfaceContactTemp of interfaceContactList">
+                            <td (click)="onEditContact(interfaceContactTemp)" class="s">
+                              {{interfaceContactTemp.address1}}</td>
+                            <td (click)="onEditContact(interfaceContactTemp)" class="s">
+                              {{interfaceContactTemp.address2}}</td>
+                            <td (click)="onEditContact(interfaceContactTemp)" class="s">{{interfaceContactTemp.tel}}
+                            </td>
+                            <td (click)="onEditContact(interfaceContactTemp)" class="s">{{interfaceContactTemp.email}}
+                            </td>
+
+                            <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
+                            <td>
+                              <!-- <a class="btn text-danger" (click)="onDelete(emp.id)">
+                                <i class="fa fa-trash-o fa-lg"></i></a> -->
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+
                   </form>
                   <!-- End Form -->
                 </div>
