@@ -113,11 +113,14 @@
                             <td (click)="onEditContact(interfaceContactTemp)" class="s">{{interfaceContactTemp.email}}
                             </td>
 
-                            <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
                             <td>
-                              <!-- <a class="btn text-danger" (click)="onDelete(emp.id)">
-                                <i class="fa fa-trash-o fa-lg"></i></a> -->
+                              <a class="btn text-primary " (click)="onEditContact(interfaceContactTemp)"> <i class="far fa-edit"></i> </a>
                             </td>
+
+                            <td>
+                              <a class="btn text-danger" (click)="onDeleteContact(interfaceContactTemp.id)"> <i class="far fa-trash-alt"></i> </a>
+
+                             </td>
                           </tr>
                         </tbody>
                       </table>
