@@ -31,7 +31,7 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
     NgxYoutubePlayerModule.forRoot(),
     ClipboardModule,
   ],
