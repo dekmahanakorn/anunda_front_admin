@@ -3,5 +3,6 @@ export class Create {
     Name: string;
     Price: string;
     Size: string;
+    image_url: string;
     Description: string;
 }

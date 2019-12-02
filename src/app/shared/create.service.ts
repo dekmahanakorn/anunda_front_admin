@@ -11,6 +11,6 @@ export class CreateService {
   constructor(private firestore: AngularFirestore) { }
 
   getCreates() {
-    return this.firestore.collection('creates').snapshotChanges();
+    return this.firestore.collection('product').snapshotChanges();
   }
 }
