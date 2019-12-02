@@ -51,6 +51,7 @@ import { AddProductSolutionComponent } from './pages/add-product-solution/add-pr
     AngularFirestoreModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
+
   ],
   declarations: [
     AppComponent,

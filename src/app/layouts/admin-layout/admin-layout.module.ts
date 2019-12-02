@@ -31,8 +31,9 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ClipboardModule,
+    ReactiveFormsModule
     NgxYoutubePlayerModule.forRoot(),
+    ClipboardModule,
   ],
   declarations: [
     DashboardComponent,

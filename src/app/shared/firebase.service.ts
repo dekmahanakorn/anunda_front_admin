@@ -12,11 +12,20 @@ export class FirebaseService {
     private service: CreateService,
     private firestore: AngularFirestore) { }
 
-    createDB(data: any){
-      this.firestore.collection('Aboute').add(data);
+    createDB(data: any, collection: string){
+      this.firestore.collection(collection).add(data);
     }
     // updateDB(data: any, fromID: any){
     //   data= {};
     //   this.firestore.doc('Aboute' + fromID).valueChanges(data);
     // }
+
+    updateDB(data: any, collection: string){
+      // this.firestore.collection(collection).update(data);
+
+    }
+
+    getAllData(collection: string) {
+      return this.firestore.collection(collection).snapshotChanges();
+    }
 }
