@@ -1,16 +1,15 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { finalize, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { ToastrService } from 'ngx-toastr';
-import { NgForm, FormGroup, FormControl, Validators } from '@angular/forms';
+import { NgForm } from '@angular/forms';
 import { ProductSolution } from 'src/app/shared/product-solution.model';
 import { ProductSolutionService } from 'src/app/shared/product-solution.service';
 import { Category } from 'src/app/shared/category.model';
-import { NgbModal, ModalDismissReasons, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import getYouTubeID from 'get-youtube-id';
-import { Youtube } from 'src/app/shared/youtube.model';
 
 @Component({
   selector: 'app-add-product-solution',
@@ -33,6 +32,7 @@ export class AddProductSolutionComponent implements OnInit {
   selectedImage: any = null;
   closeResult: string;
   productSolutionVideoId: string;
+  productId: string;
   idView: string;
 
   player: YT.Player;
@@ -104,11 +104,15 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onSubmit(form: NgForm) {
-    this.isSubmitted = true;
-    if (this.selectedImage != null) {
-      this.isSubmitted = false;
-      this.selectedImage = this.files[0];
-      this.startUpload(this.files, form);
+    if (form.value.category_id == null) {
+      this.toastr.error('Please select category !!!');
+    } else {
+      this.isSubmitted = true;
+      if (this.selectedImage != null) {
+        this.isSubmitted = false;
+        this.selectedImage = this.files[0];
+        this.startUpload(this.files, form);
+      }
     }
   }
 
@@ -126,14 +130,29 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onDelete(id: string) {
+    var inner = this;
+    this.db.collection("product-solution-video").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productSolutionVideoId = doc.id;
+        }
+      })
+    })
     if (confirm("Are you sure to delete this record?")) {
-      this.db.doc('product-solution/' + id).delete();
-      this.toastr.warning('Deleted successfully');
+      setTimeout(function () {
+        if (this.productSolutionVideoId == "") {
+          this.db.doc('product-solution/' + id).delete();
+          this.toastr.warning('Deleted successfully');
+        } else {
+          this.db.doc('product-solution/' + id).delete();
+          this.db.doc('product-solution-video/' + this.productSolutionVideoId).delete();
+          this.toastr.warning('Deleted successfully');
+        }
+      }.bind(this), 1000);
     }
   }
 
   startUpload(file: File, form: NgForm) {
-
     // The storage path
     const path = `product-solution/${Date.now()}_${file.name}`;
 
@@ -171,6 +190,7 @@ export class AddProductSolutionComponent implements OnInit {
 
   open1(content1, id: string) {
     var inner = this;
+    this.productId = id;
     this.db.collection("product-solution-video").get().subscribe(function (query) {
       query.forEach(function (doc) {
         if (doc.data().product_id == id) {
@@ -209,24 +229,22 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onSubmitYoutube(form: NgForm) {
-    console.log("form product_id" + form.value.product_id);
-    console.log("form id" + form.value.id);
-    console.log("form url" + form.value.url);
-    if (this.productSolutionVideoId != null) {
-      
-      let data = Object.assign({}, this.data);
-      console.log("productSolutionVideoId " + this.productSolutionVideoId);
-      console.log("url " + data.url);
-      console.log("product id==> " + data.product_id);
-      delete data.id;
-      // if (form.value.id == null)
-      //   this.db.collection('product-solution-video').add(data);
-      // else
-      //   this.db.doc('product-solution-video/' + form.value.id).update(data);
-      // this.resetFormModal(form);
-      // this.toastr.success('Submitted successfully', 'Create is done');
-    } else {
+    if (form.value.url == "") {
       this.toastr.error('This field is required');
+    } else {
+      if (this.productSolutionVideoId != "") {
+        let data = Object.assign({}, this.data);
+        data.url = form.value.url;
+        this.db.doc('product-solution-video/' + this.productSolutionVideoId).update(data);
+        this.toastr.success('Submitted successfully', 'Update is done');
+        this.modalService.dismissAll();
+      } else {
+        let data = Object.assign({}, form.value);
+        data.product_id = this.productId;
+        this.db.collection('product-solution-video').add(data);
+        this.toastr.success('Submitted successfully', 'Create is done');
+        this.modalService.dismissAll();
+      }
     }
   }
 
@@ -235,8 +253,8 @@ export class AddProductSolutionComponent implements OnInit {
       this.isHidden = true;
       setTimeout(function () {
         this.isHidden = false;
-      }.bind(this), 45000);
-    }else{
+      }.bind(this), 60000);
+    } else {
       this.toastr.error('url not found');
     }
   }

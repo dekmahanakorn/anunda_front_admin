@@ -21,7 +21,6 @@
                   <p class="fa fa-cloud-upload"></p>
                   <div class="file">
                     <label class="file-label">
-                      <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
                       <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
                       <input class="file-input" type="file" (change)="onDrop($event.target.files)">
 
@@ -33,13 +32,9 @@
                           or choose a file…
                         </span>
                       </span>
-                      <!-- <button type="submit" class="btn btn-outline-success">
-                          upload
-                        </button> -->
                       <div class="validation-error" *ngIf="isSubmitted">
                         This field is required.
                       </div>
-                      <!-- </form> -->
                     </label>
                   </div>
                 </div>
@@ -143,12 +138,9 @@
                 <tr>
                   <td>
                     <form (submit)="onSubmitYoutube(form)" #form="ngForm" autocomplete="off">
-                      <!-- <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formDataYoutube.id">
-                      <input type="hidden" name="product_id" #product_id="ngModel"
-                        [(ngModel)]="service.formDataYoutube.product_id"> -->
                       <input type="text" placeholder="youtube video url" name="url" #url="ngModel"
                         [(ngModel)]="service.formDataYoutube.url" class="form-control col-md">
-                        <br><br>
+                      <br><br>
                       <div class="form-row">
                         <div class="form-group col-md">
                           <button type="submit" class="btn btn-outline-success col-md-8"> save </button>
