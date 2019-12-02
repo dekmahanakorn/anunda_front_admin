@@ -73,6 +73,10 @@ export class AddProductSolutionComponent implements OnInit {
       product_id: null,
       url: '',
     }
+    this.isHidden = false;
+    this.data = null;
+    this.productSolutionVideoId = "";
+    this.idView = "";
     this.selectedImage = null;
     this.modalService.dismissAll;
   }
@@ -181,7 +185,6 @@ export class AddProductSolutionComponent implements OnInit {
       this.closeResult = `Closed with: ${result}`;
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-      this.isHidden = false;
       this.resetFormModal();
     });
   }
@@ -206,10 +209,13 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onSubmitYoutube(form: NgForm) {
+    console.log("form product_id" + form.value.product_id);
+    console.log("form id" + form.value.id);
+    console.log("form url" + form.value.url);
     if (this.productSolutionVideoId != null) {
-      //form.value.id = this.productSolutionVideoId;
+      
       let data = Object.assign({}, this.data);
-      console.log("id " + this.productSolutionVideoId);
+      console.log("productSolutionVideoId " + this.productSolutionVideoId);
       console.log("url " + data.url);
       console.log("product id==> " + data.product_id);
       delete data.id;
@@ -225,7 +231,7 @@ export class AddProductSolutionComponent implements OnInit {
   }
 
   onPreview() {
-    if (this.idView != null) {
+    if (this.idView != "") {
       this.isHidden = true;
       setTimeout(function () {
         this.isHidden = false;
