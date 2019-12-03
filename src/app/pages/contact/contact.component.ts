@@ -4,6 +4,7 @@ import { FirebaseService } from 'src/app/shared/firebase.service';
 import { ErrorMsg, AlertMsg } from 'src/app/interface/error-msg.enum';
 import { InterfaceContact } from 'src/app/interface/interfaceContact';
 import { ToastrService } from 'ngx-toastr';
+import { CollectionDatabase } from 'src/app/interface/collection-database';
 
 
 @Component({
@@ -41,8 +42,7 @@ export class ContactComponent implements OnInit {
     });
 
     this.firebaseService.getAllData('Contact').subscribe(actionArray => {
-      console.log('actionArray',actionArray);
-
+      console.log('actionArray', actionArray);
       this.interfaceContactList = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
@@ -122,9 +122,9 @@ export class ContactComponent implements OnInit {
     this.interfaceContact.email = this.contactPage.controls.email.value;
     console.log('submit  this.interfaceContact', this.interfaceContact);
     console.log('submit ', this.contactPage.valid);
-    if (this.contactPage.valid) {
+    if (this.contactPage.valid && !this.interfaceContact.id) {
       console.log('Cistmahanakorn ', this.contactPage.controls);
-      this.firebaseService.createDB(this.interfaceContact, 'Contact');
+      this.firebaseService.createDb(this.interfaceContact, CollectionDatabase.contact);
       this.toastr.success(this.alert.success);
 
       this.contactPage.controls.address1.setValue(null);
@@ -132,6 +132,13 @@ export class ContactComponent implements OnInit {
       this.contactPage.controls.tel.setValue(null);
       this.contactPage.controls.email.setValue(null);
 
+    } else if (this.contactPage.valid && this.interfaceContact.id) {
+      console.log('interfaceContact', this.interfaceContact);
+      this.firebaseService.updateDb(this.interfaceContact, CollectionDatabase.contact, this.interfaceContact.id);
+      this.contactPage.controls.address1.setValue(null);
+      this.contactPage.controls.address2.setValue(null);
+      this.contactPage.controls.tel.setValue(null);
+      this.contactPage.controls.email.setValue(null);
 
     } else {
       this.toastr.error(this.alert.IncerrentTryAgain);
@@ -139,19 +146,20 @@ export class ContactComponent implements OnInit {
 
   }
 
-
-
-  onEditContact(contactList: InterfaceContact) {
-
-    console.log('onEditContact-ID', contactList.id);
-    console.log('interfaceContactList', this.interfaceContactList);
+  onEditContact(contactList: any) {
 
     this.interfaceContact = contactList;
-    this.interfaceContact.id = contactList.id;
     this.contactPage.controls.address1.setValue(contactList.address1);
     this.contactPage.controls.address2.setValue(contactList.address2);
     this.contactPage.controls.tel.setValue(contactList.tel);
     this.contactPage.controls.email.setValue(contactList.email);
+  }
+
+  onDeleteContact(id: string) {
+    if (confirm('Are you sure to delete this record?')) {
+      this.firebaseService.deleteDb(CollectionDatabase.contact, id);
+    }
+
   }
 
 

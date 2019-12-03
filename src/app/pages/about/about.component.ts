@@ -2,8 +2,9 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { InterfaceAbout } from 'src/app/interface/interfaceAbout';
-import { ErrorMsg , AlertMsg} from 'src/app/interface/error-msg.enum';
+import { ErrorMsg, AlertMsg } from 'src/app/interface/error-msg.enum';
 import { ToastrService } from 'ngx-toastr';
+import { CollectionDatabase } from 'src/app/interface/collection-database';
 
 @Component({
   selector: 'app-about',
@@ -12,6 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class AboutComponent implements OnInit {
   public aboutPage: FormGroup;
+  public interfaceAbout: InterfaceAbout;
+  public interfaceAboutList: InterfaceAbout[];
   public error = ErrorMsg;
   public alert = AlertMsg;
   public checkTitle: boolean;
@@ -23,50 +26,84 @@ export class AboutComponent implements OnInit {
 
 
   ngOnInit() {
+
+    this.firebaseService.getAllData(CollectionDatabase.about).subscribe(actionArray => {
+      console.log('actionArray', actionArray);
+      this.interfaceAboutList = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as InterfaceAbout;
+      });
+    });
+
     this.aboutPage = this.formBuilder.group({
-      title: new FormControl(null , [Validators.required]),
-      description: new FormControl(null , [Validators.required])
+      title: new FormControl(null, [Validators.required]),
+      description: new FormControl(null, [Validators.required])
     });
   }
 
   submit(): void {
     let data: InterfaceAbout;
     data = {};
-    data.id = null;
-    data.image = null;
     data.descripttion = this.aboutPage.controls.description.value;
     data.name = this.aboutPage.controls.title.value;
 
-    console.log('AboutComponent', data);
-    if(this.aboutPage.valid){
-      this.firebaseService.createDB(data, 'About');
-      this.toastr.success(this.alert.success);
 
+    if (this.aboutPage.valid && !this.interfaceAbout.id) {
+      this.firebaseService.createDb(data, CollectionDatabase.about);
+      this.toastr.success(this.alert.success);
+      console.log('Crate', this.aboutPage.valid,  this.interfaceAbout.id);
       this.aboutPage.controls.title.setValue(null);
       this.aboutPage.controls.description.setValue(null);
 
-    }else{
+    } else if (this.aboutPage.valid && this.interfaceAbout.id){
+      console.log('Update', this.aboutPage.valid,  this.interfaceAbout);
+      this.interfaceAbout.name = this.aboutPage.controls.title.value;
+      this.interfaceAbout.descripttion = this.aboutPage.controls.description.value;
+      this.firebaseService.updateDb(this.interfaceAbout, CollectionDatabase.about, this.interfaceAbout.id);
+
+    } else {
       this.toastr.error(this.alert.IncerrentTryAgain);
     }
   }
 
   validatorAboutTitle() {
 
-    if ( this.aboutPage.controls.title.invalid) {
-      if ( this.aboutPage.controls.title.errors.required) {
+    if (this.aboutPage.controls.title.invalid) {
+      if (this.aboutPage.controls.title.errors.required) {
         return this.checkTitle = true;
       } else {
-        return this.checkTitle = false; }
+        return this.checkTitle = false;
+      }
     }
   }
 
   validatorAboutDescription() {
 
-    if ( this.aboutPage.controls.title.invalid) {
-      if ( this.aboutPage.controls.description.errors.required) {
+    if (this.aboutPage.controls.title.invalid) {
+      if (this.aboutPage.controls.description.errors.required) {
         return this.checkDescription = true;
       } else {
-        return this.checkDescription = false; }
+        return this.checkDescription = false;
+      }
+    }
+  }
+
+  onEdit(temp: any){
+    console.log('onEdit temp', temp);
+
+    this.interfaceAbout = temp;
+    console.log(this.interfaceAbout);
+
+    this.aboutPage.controls.title.setValue(this.interfaceAbout.name);
+    this.aboutPage.controls.description.setValue(this.interfaceAbout.descripttion);
+
+  }
+
+  onDelete(id: string){
+    if (confirm("Are you sure to delete this record?")) {
+      this.firebaseService.deleteDb(CollectionDatabase.about, id);
     }
   }
 }
