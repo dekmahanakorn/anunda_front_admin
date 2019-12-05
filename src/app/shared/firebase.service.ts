@@ -31,4 +31,14 @@ export class FirebaseService {
     getAllData(collection: string) {
       return this.firestore.collection(collection).snapshotChanges();
     }
+
+    createDbAddDoc(data: any, collection: string, doc: string){
+      return this.firestore.collection(collection).doc("1234").set(data);
+      // db.collection("cities").doc("LA").set({
+      //   name: "Los Angeles",
+      //   state: "CA",
+      //   country: "USA"
+    // })
+    }
+
 }

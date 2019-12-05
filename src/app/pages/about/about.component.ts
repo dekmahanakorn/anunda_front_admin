@@ -27,6 +27,7 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
 
+    this.interfaceAbout = {};
     this.firebaseService.getAllData(CollectionDatabase.about).subscribe(actionArray => {
       console.log('actionArray', actionArray);
       this.interfaceAboutList = actionArray.map(item => {
@@ -44,24 +45,29 @@ export class AboutComponent implements OnInit {
   }
 
   submit(): void {
-    let data: InterfaceAbout;
-    data = {};
-    data.descripttion = this.aboutPage.controls.description.value;
-    data.name = this.aboutPage.controls.title.value;
+
+    this.interfaceAbout.name =         this.aboutPage.controls.title.value;
+    this.interfaceAbout.descripttion = this.aboutPage.controls.description.value;
 
 
     if (this.aboutPage.valid && !this.interfaceAbout.id) {
-      this.firebaseService.createDb(data, CollectionDatabase.about);
-      this.toastr.success(this.alert.success);
+      // this.firebaseService.createDb(data, CollectionDatabase.about);
+      this.firebaseService.createDbAddDoc(this.interfaceAbout, CollectionDatabase.about, this.interfaceAbout.id);
       console.log('Crate', this.aboutPage.valid,  this.interfaceAbout.id);
       this.aboutPage.controls.title.setValue(null);
       this.aboutPage.controls.description.setValue(null);
+      this.interfaceAbout.id = null;
+      this.toastr.success(this.alert.success);
 
     } else if (this.aboutPage.valid && this.interfaceAbout.id){
       console.log('Update', this.aboutPage.valid,  this.interfaceAbout);
       this.interfaceAbout.name = this.aboutPage.controls.title.value;
       this.interfaceAbout.descripttion = this.aboutPage.controls.description.value;
       this.firebaseService.updateDb(this.interfaceAbout, CollectionDatabase.about, this.interfaceAbout.id);
+      this.aboutPage.controls.title.setValue(null);
+      this.aboutPage.controls.description.setValue(null);
+      this.interfaceAbout.id = null;
+      this.toastr.success(this.alert.success);
 
     } else {
       this.toastr.error(this.alert.IncerrentTryAgain);
@@ -102,7 +108,7 @@ export class AboutComponent implements OnInit {
   }
 
   onDelete(id: string){
-    if (confirm("Are you sure to delete this record?")) {
+    if (confirm('Are you sure to delete this record?')) {
       this.firebaseService.deleteDb(CollectionDatabase.about, id);
     }
   }

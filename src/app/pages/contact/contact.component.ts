@@ -115,7 +115,7 @@ export class ContactComponent implements OnInit {
 
   submit() {
 
-    // this.interfaceContact.id = null;
+    // this.interfaceContact.id = 'qwer';
     this.interfaceContact.address1 = this.contactPage.controls.address1.value;
     this.interfaceContact.address2 = this.contactPage.controls.address2.value;
     this.interfaceContact.tel = this.contactPage.controls.tel.value;
@@ -124,13 +124,16 @@ export class ContactComponent implements OnInit {
     console.log('submit ', this.contactPage.valid);
     if (this.contactPage.valid && !this.interfaceContact.id) {
       console.log('Cistmahanakorn ', this.contactPage.controls);
-      this.firebaseService.createDb(this.interfaceContact, CollectionDatabase.contact);
-      this.toastr.success(this.alert.success);
+      // this.firebaseService.createDb(this.interfaceContact, CollectionDatabase.contact);
+      this.firebaseService.createDbAddDoc(this.interfaceContact, CollectionDatabase.contact, this.interfaceContact.id);
 
       this.contactPage.controls.address1.setValue(null);
       this.contactPage.controls.address2.setValue(null);
       this.contactPage.controls.tel.setValue(null);
       this.contactPage.controls.email.setValue(null);
+      this.interfaceContact.id = null;
+      this.toastr.success(this.alert.success);
+
 
     } else if (this.contactPage.valid && this.interfaceContact.id) {
       console.log('interfaceContact', this.interfaceContact);
@@ -139,6 +142,9 @@ export class ContactComponent implements OnInit {
       this.contactPage.controls.address2.setValue(null);
       this.contactPage.controls.tel.setValue(null);
       this.contactPage.controls.email.setValue(null);
+      this.interfaceContact.id = null;
+      this.toastr.success(this.alert.success);
+
 
     } else {
       this.toastr.error(this.alert.IncerrentTryAgain);
