@@ -34,7 +34,7 @@ export class AddProductComponent implements OnInit {
   files: File;
   selectedImage: any = null;
   closeResult: string;
-  productSolutionVideoId: string;
+  productVideoId: string;
   productId: string;
   idView: string;
 
@@ -51,6 +51,7 @@ export class AddProductComponent implements OnInit {
 
   ngOnInit() {
     this.resetForm();
+    this.resetFormModal();
     this.getCategory();
 
     this.service.getProducts().subscribe(actionArray => {
@@ -157,4 +158,89 @@ export class AddProductComponent implements OnInit {
       }),
     );
   }
+
+  open1(content1, id: string) {
+    var inner = this;
+    this.productId = id;
+    this.firestore.collection("product-video").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productVideoId = doc.id;
+          inner.idView = getYouTubeID(doc.data().url);
+          inner.data = Object.assign({}, doc.data());
+        }
+      })
+    })
+
+    this.modalService.open(content1, { size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.resetFormModal();
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  resetFormModal(form?: NgForm) {
+    if (form != null)
+      form.resetForm();
+    this.service.formDataYoutube = {
+      id: null,
+      product_id: null,
+      url: '',
+    }
+    this.isHidden = false;
+    this.data = null;
+    this.productVideoId = "";
+    this.idView = "";
+    this.selectedImage = null;
+    this.modalService.dismissAll;
+  }
+
+  savePlayer(player) {
+    this.player = player;
+    //console.log('Video url: ', player.getVideoUrl());
+  }
+
+  onSubmitYoutube(form: NgForm) {
+    if (form.value.url == "") {
+      this.toastr.error('This field is required');
+    } else {
+      if (this.productVideoId != "") {
+        let data = Object.assign({}, this.data);
+        data.url = form.value.url;
+        this.firestore.doc('product-video/' + this.productVideoId).update(data);
+        this.toastr.success('Submitted successfully', 'Update is done');
+        this.modalService.dismissAll();
+      } else {
+        let data = Object.assign({}, form.value);
+        data.product_id = this.productId;
+        this.firestore.collection('product-video').add(data);
+        this.toastr.success('Submitted successfully', 'Create is done');
+        this.modalService.dismissAll();
+      }
+    }
+  }
+
+  onPreview() {
+    if (this.idView != "") {
+      this.isHidden = true;
+      setTimeout(function () {
+        this.isHidden = false;
+      }.bind(this), 60000);
+    } else {
+      this.toastr.error('url not found');
+    }
+  }
+
+
 }
