@@ -1,16 +1,21 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
-import { Create } from './create.model';
+import { Product } from './product.model';
+import { Youtube } from './youtube.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CreateService {
-  formData: Create;
+export class ProductService {
+  formData: Product;
+  formDataYoutube: Youtube;
 
   constructor(private firestore: AngularFirestore) { }
 
-  getCreates() {
+  getProducts() {
     return this.firestore.collection('product').snapshotChanges();
+  }
+  getCategory() {
+    return this.firestore.collection('category').snapshotChanges();
   }
 }

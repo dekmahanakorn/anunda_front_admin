@@ -1,9 +1,33 @@
-.h{
-    font-size: 110%;
+@font-face {
+  font-family: "Itimfont";
+  src: url("src/assets/fonts/Itim-Regular.ttf");
+}
+
+.fontall {
+  font-family: "Itimfont";
+}
+.fontall_error {
+  font-family: "Itimfont";
+  color: red;
+}
+
+.h {
+  font-family: "Itimfont";
+  font-size: 120%;
+  font-weight: bold;
+  color: black;
+}
+.s {
+  font-family: "Itimfont";
+  font-size: 110%;
+}
+#backMedel {
+  font-family: "Itimfont";
+  background-color: black;
+}
+#fontColor_medel{
+    font-size: 120%;
     font-weight: bold;
-    color: black;
+    color: red;
 }
-.s{
-    font-size: 100%;
-    color: black;
-}
+

@@ -40,7 +40,10 @@ export class AddProductSolutionComponent implements OnInit {
   isHidden: boolean = false;
   data: any;
 
-  constructor(private modalService: NgbModal, private storage: AngularFireStorage, private db: AngularFirestore, private service: ProductSolutionService,
+  constructor(private modalService: NgbModal,
+    private storage: AngularFireStorage,
+    private db: AngularFirestore,
+    private service: ProductSolutionService,
     private toastr: ToastrService) { }
 
   ngOnInit() {
