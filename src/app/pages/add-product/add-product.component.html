@@ -75,9 +75,6 @@
                     </select>
                   </div>
                 </div>
-
-
-
                 <div class="form-row">
                   <div class="form-group col-md-6">
                     <input name="Price" #Price="ngModel" [(ngModel)]="service.formData.Price" class="form-control"
@@ -122,7 +119,8 @@
                     <td class="s">{{emp.name}}</td>
                     <td class="s">{{emp.Price}} THB. - {{emp.Size}}</td>
                     <td class="s">{{emp.Description}}</td>
-                    <td><a class="btn text-success"><i class="fa fa-play"></i></a></td>
+                    <td><a class="btn text-success" (click)="open1(content1,emp.id)" ><i class="fa fa-play"></i></a></td>
+                    
                     <img class="rounded-circle" style="height: 80px;width: 80px;" [src]="emp.image_url">
                     <td><a class="btn text-primary" (click)="onEdit(emp)"><i class="far fa-edit"></i></a></td>
                     <td><a class="btn text-danger" (click)="onDelete(emp.id)"><i class="fa fa-trash-o fa-lg"></i></a>
@@ -133,6 +131,51 @@
             </div>
           </div>
         </div>
+
+           <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
+           <ng-template #content1 let-modal>
+            <div class="modal-header">
+              <h4 class="modal-title" id="modal-basic-title">Add Video Advertise</h4>
+              <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body text-center">
+              <table class='table'>
+                <thead>
+                  <tr>
+                    <td>Url for youtube</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <form (submit)="onSubmitYoutube(form)" #form="ngForm" autocomplete="off">
+                        <input type="text" placeholder="youtube video url" name="url" #url="ngModel"
+                          [(ngModel)]="service.formDataYoutube.url" class="form-control col-md">
+                        <br><br>
+                        <div class="form-row">
+                          <div class="form-group col-md">
+                            <button type="submit" class="btn btn-outline-success col-md-8"> save </button>
+                          </div>
+                          <div class="form-group col-md">
+                            <button (click)="onPreview()" type="button" class="btn btn-outline-info col-md-8"> preview
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <div *ngIf="isHidden">
+                        <youtube-player [videoId]="idView" (ready)="savePlayer($event)" (change)="onStateChange($event)">
+                        </youtube-player>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+  
+          </ng-template>
+          <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
 
       </div>
     </div>
