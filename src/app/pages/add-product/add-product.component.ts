@@ -241,9 +241,9 @@ export class AddProductComponent implements OnInit {
   onPreview() {
     if (this.idView != "") {
       this.isHidden = true;
-      setTimeout(function () {
-        this.isHidden = false;
-      }.bind(this), 60000);
+      // setTimeout(function () {
+      //   this.isHidden = false;
+      // }.bind(this), 60000);
     } else {
       this.toastr.error('url not found');
     }
