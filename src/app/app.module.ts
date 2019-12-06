@@ -24,7 +24,7 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 /* Firebase Auth service :  Run command for create file --> "ng g s shared/Authentication --spec=false" */
 import { AuthenticationService } from './shared/authentication.service';
 
-import { CreateService } from './shared/create.service';
+import { ProductService } from './shared/product.service';
 import { UploaderComponent } from './pages/uploader/uploader.component';
 import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
 import { DropzoneDirective } from './dropzone.directive';
@@ -66,7 +66,7 @@ import { AddProductSolutionComponent } from './pages/add-product-solution/add-pr
     // AboutComponent,
 
   ],
-  providers: [AuthenticationService, CreateService],
+  providers: [AuthenticationService, ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

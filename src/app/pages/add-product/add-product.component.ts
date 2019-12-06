@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { CreateService } from 'src/app/shared/create.service';
-import { Create } from 'src/app/shared/create.model';
+import { ProductService } from 'src/app/shared/product.service';
+import { Product } from 'src/app/shared/product.model';
 import { NgForm } from '@angular/forms';
 
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -9,6 +9,9 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Category } from 'src/app/shared/category.model';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import getYouTubeID from 'get-youtube-id';
+
 
 
 @Component({
@@ -23,27 +26,39 @@ export class AddProductComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL;
 
-  list: Create[];
+  list: Product[];
+  listCate: Category[];
 
   isHovering: boolean;
   isSubmitted: boolean;
   files: File;
   selectedImage: any = null;
+  closeResult: string;
+  productSolutionVideoId: string;
+  productId: string;
+  idView: string;
 
-  constructor(private service: CreateService,
+  player: YT.Player;
+
+  isHidden: boolean = false;
+  data: any;
+
+  constructor(private modalService: NgbModal,
+    private service: ProductService,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
     private toastr: ToastrService) { }
 
   ngOnInit() {
     this.resetForm();
+    this.getCategory();
 
-    this.service.getCreates().subscribe(actionArray => {
+    this.service.getProducts().subscribe(actionArray => {
       this.list = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
           ...item.payload.doc.data()
-        } as Create;
+        } as Product;
       })
     });
   }
@@ -53,6 +68,7 @@ export class AddProductComponent implements OnInit {
       form.resetForm();
     this.service.formData = {
       id: null,
+      category_id: null,
       Name: '',
       Price: '',
       Size: '',
@@ -61,16 +77,31 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  getCategory() {
+    this.service.getCategory().subscribe(actionArray => {
+      this.listCate = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Category;
+      })
+    })
+  }
+
   onSubmit(form: NgForm) {
-    this.isSubmitted = true;
-    if (this.selectedImage != null) {
-      this.isSubmitted = false;
-      this.selectedImage = this.files[0];
-      this.startUpload(this.files, form);
+    if (form.value.category_id == null) {
+      this.toastr.error('Please select category !!!');
+    } else {
+      this.isSubmitted = true;
+      if (this.selectedImage != null) {
+        this.isSubmitted = false;
+        this.selectedImage = this.files[0];
+        this.startUpload(this.files, form);
+      }
     }
   }
 
-  onEdit(emp: Create) {
+  onEdit(emp: Product) {
     this.service.formData = Object.assign({}, emp);
   }
 
