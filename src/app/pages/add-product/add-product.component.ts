@@ -89,6 +89,10 @@ export class AddProductComponent implements OnInit {
     })
   }
 
+  clearData() {
+    this.resetForm();
+  }
+
   onSubmit(form: NgForm) {
     if (form.value.category_id == null) {
       this.toastr.error('Please select category !!!');
@@ -98,6 +102,9 @@ export class AddProductComponent implements OnInit {
         this.isSubmitted = false;
         this.selectedImage = this.files[0];
         this.startUpload(this.files, form);
+      }
+      if (this.selectedImage == null) {
+        this.toastr.error('Please select image !!!');
       }
     }
   }
