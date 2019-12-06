@@ -108,7 +108,7 @@
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
                   <th class="h">Description</th>
-                  <th class="h">Vedio</th>
+                  <th class="h">Video</th>
                   <th class="h">Image</th>
                   <th class="h">Edit</th>
                   <th></th>
@@ -143,22 +143,22 @@
             <table class='table'>
               <thead>
                 <tr>
-                  <td>Url for youtube</td>
+                  <td>Url for Youtube</td>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>
                     <form (submit)="onSubmitYoutube(form)" #form="ngForm" autocomplete="off">
-                      <input type="text" placeholder="youtube video url" name="url" #url="ngModel"
+                      <input type="text" placeholder="Youtube video url" name="url" #url="ngModel"
                         [(ngModel)]="service.formDataYoutube.url" class="form-control col-md">
                       <br><br>
                       <div class="form-row">
                         <div class="form-group col-md">
-                          <button type="submit" class="btn btn-outline-success col-md-8"> save </button>
+                          <button type="submit" class="btn btn-outline-success col-md-8"> Save </button>
                         </div>
                         <div class="form-group col-md">
-                          <button (click)="onPreview()" type="button" class="btn btn-outline-info col-md-8"> preview
+                          <button (click)="onPreview()" type="button" class="btn btn-outline-info col-md-8"> Preview
                           </button>
                         </div>
                       </div>
