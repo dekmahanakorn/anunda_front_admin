@@ -31,6 +31,7 @@ import { DropzoneDirective } from './dropzone.directive';
 import { AddProductCategoryComponent } from './pages/add-product-category/add-product-category.component';
 import { PartnerComponent } from './pages/partner/partner.component';
 import { AddProductSolutionComponent } from './pages/add-product-solution/add-product-solution.component';
+import { NgxPicaModule } from 'ngx-pica';
 // import { AboutComponent } from './pages/about/about.component';
 
 
@@ -46,7 +47,7 @@ import { AddProductSolutionComponent } from './pages/add-product-solution/add-pr
     NgbModule,
     RouterModule,
     AppRoutingModule,
-
+    NgxPicaModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,

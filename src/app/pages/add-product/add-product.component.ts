@@ -12,7 +12,7 @@ import { Category } from 'src/app/shared/category.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import getYouTubeID from 'get-youtube-id';
 
-
+import { NgxPicaService } from 'ngx-pica';
 
 @Component({
   selector: 'app-add-product',
@@ -47,7 +47,8 @@ export class AddProductComponent implements OnInit {
     private service: ProductService,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private ngxPicaService: NgxPicaService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -126,6 +127,11 @@ export class AddProductComponent implements OnInit {
 
   onDrop(file: File) {
     this.files = file[0];
+    var inner = this;
+    this.ngxPicaService.resizeImage(this.files, 800, 600)
+      .subscribe((imageResized: File) => {
+        inner.files = imageResized;
+      });
     this.selectedImage = this.files.name;
   }
 
@@ -137,8 +143,8 @@ export class AddProductComponent implements OnInit {
     // Reference to storage bucket
     const ref = this.storage.ref(path);
 
-    // The main task
-    this.task = this.storage.upload(path, file);
+    // // The main task
+     this.task = this.storage.upload(path, file);
 
     // Progress monitoring
     this.percentage = this.task.percentageChanges();
