@@ -32,6 +32,7 @@ import { AddProductCategoryComponent } from './pages/add-product-category/add-pr
 import { PartnerComponent } from './pages/partner/partner.component';
 import { AddProductSolutionComponent } from './pages/add-product-solution/add-product-solution.component';
 import { NgxPicaModule } from 'ngx-pica';
+import { ProfileComponent } from './pages/profile/profile.component';
 // import { AboutComponent } from './pages/about/about.component';
 
 
@@ -59,6 +60,7 @@ import { NgxPicaModule } from 'ngx-pica';
     AdminLayoutComponent,
     AuthLayoutComponent,
     DropzoneDirective,
+    //ProfileComponent,
     //AddProductSolutionComponent,
     //PartnerComponent,
     //AddProductCategoryComponent,
