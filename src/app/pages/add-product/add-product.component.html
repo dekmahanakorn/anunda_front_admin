@@ -61,10 +61,11 @@
 
                 <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
                 <div class="form-row">
-                  <div class="form-group col-md-6" >
-                    <input name="name" #Name="ngModel" [(ngModel)]="service.formData.name" class="form-control" 
+                  <div class="form-group col-md-6">
+                    <input name="name" #Name="ngModel" [(ngModel)]="service.formData.name" class="form-control"
                       placeholder="Name" required>
-                    <div *ngIf="Name.invalid && Name.touched" class="validation-error" class="fontall_error">This field is required.</div>
+                    <div *ngIf="Name.invalid && Name.touched" class="validation-error" class="fontall_error">This field
+                      is required.</div>
                   </div>
                   <div class="form-group col-md-6">
                     <select class="form-control" name="category_id" #category_id="ngModel"
@@ -90,7 +91,7 @@
                     class="form-control" placeholder="Description">
                 </div>
                 <div class="form-group">
-                  <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info" >Submit</button>
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Submit</button>
                   <button type="button" (click)="clearData()" [disabled]="form.invalid"
                     class="btn btn-outline-dark">Clear</button>
                 </div>
@@ -109,7 +110,8 @@
                 <thead>
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
-                  <th class="h">Description</th>
+                  <!--        <th class="h">Description</th> -->
+                  <th class="h">Spec</th>
                   <th class="h">Video</th>
                   <th class="h">Image</th>
                   <th class="h">Edit</th>
@@ -119,7 +121,10 @@
                   <tr *ngFor="let emp of list">
                     <td class="s">{{emp.name}}</td>
                     <td class="s">{{emp.Price}} THB.- / {{emp.Size}}</td>
-                    <td class="s">{{emp.Description}}</td>
+                    <!--  <td class="s">{{emp.Description}}</td> -->
+
+                    <td><a class="btn text-dark" (click)="open2(content2,emp.id)"><i class="fas fa-align-left"></i></a>
+                    </td>
                     <td><a class="btn text-success" (click)="open1(content1,emp.id)"><i class="fa fa-play"></i></a></td>
 
                     <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="emp.image_url">
@@ -135,7 +140,7 @@
         </div>
 
         <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
-        <ng-template #content1 let-modal >
+        <ng-template #content1 let-modal>
           <div class="modal-header" id="backMedel">
             <h4 class="modal-title" id="modal-basic-title" id="fontColor_medel">Add Video Advertise</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -178,6 +183,131 @@
 
         </ng-template>
         <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
+
+
+        <!--- ------------------Modal Product Spec (NgbdModalBasicComponent)---------------------->
+        <ng-template #content2 let-modal>
+          <div class="modal-header" id="backMedel">
+            <h4 class="modal-title" id="modal-basic-title" id="fontColor_medel">sssssssssssss</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <table class='table'>
+              <thead>
+                <tr>
+                  <td class="h">aaaaaaaaaaaaa</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <form (submit)="onSubmit_spec(form)" #form="ngForm" autocomplete="off">
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H1" name="head_1" [(ngModel)]="service.formDataSpec.head_1"
+                            #head_1="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 1" name="detail_1"
+                            [(ngModel)]="service.formDataSpec.detail_1" #detail_1="ngModel" class="form-control col-md">
+                        </div>
+                      </div><br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H2" name="head_2" [(ngModel)]="service.formDataSpec.head_2"
+                            #head_2="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 2" name="detail_2"
+                            [(ngModel)]="service.formDataSpec.detail_2" #detail_2="ngModel" class="form-control col-md">
+                        </div>
+                      </div><br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H3" name="head_3" [(ngModel)]="service.formDataSpec.head_3"
+                            #head_3="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 3" name="detail_3"
+                            [(ngModel)]="service.formDataSpec.detail_3" #detail_3="ngModel" class="form-control col-md">
+                        </div>
+                      </div> <br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H4" name="head_4" [(ngModel)]="service.formDataSpec.head_4"
+                            #head_4="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 4" name="detail_4"
+                            [(ngModel)]="service.formDataSpec.detail_4" #detail_4="ngModel" class="form-control col-md">
+                        </div>
+                      </div>
+
+                      <br><br>
+                      <div class="form-row">
+                        <div class="form-group col-md">
+                          <button type="submit" class="btn btn-outline-success col-md-8"> Save </button>
+                        </div>
+                        <div class="form-group col-md">
+                          <button (click)="onPreview_spec()" type="button" class="btn btn-outline-info col-md-8">
+                            Preview
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                    <div *ngIf="isHidden" id="backMedel">
+                      <table class="table table-hover">
+                        <tbody>
+                     <!--      <div *ngFor="let spec of dataSpec">
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_1}} : </td>
+                              <td class="col-sm-8">{{spec.detail_1}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_2}} : </td>
+                              <td class="col-sm-8">{{spec.detail_2}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_3}} : </td>
+                              <td class="col-sm-8">{{spec.detail_3}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_4}} : </td>
+                              <td class="col-sm-8">{{spec.detail_4}}</td>
+                            </tr>
+                          </div> -->
+                          <div *ngFor="let spec of listSpec">
+                              <tr class="hMedal">
+                                <td class=".col-sm-4">{{spec.head_1}} : </td>
+                                <td class="col-sm-8">{{spec.detail_1}}</td>
+                              </tr>
+                              <tr class="hMedal">
+                                <td class=".col-sm-4">{{spec.head_2}} : </td>
+                                <td class="col-sm-8">{{spec.detail_2}}</td>
+                              </tr>
+                              <tr class="hMedal">
+                                <td class=".col-sm-4">{{spec.head_3}} : </td>
+                                <td class="col-sm-8">{{spec.detail_3}}</td>
+                              </tr>
+                              <tr class="hMedal">
+                                <td class=".col-sm-4">{{spec.head_4}} : </td>
+                                <td class="col-sm-8">{{spec.detail_4}}</td>
+                              </tr>
+                            </div>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </ng-template>
+        <!--- ------------------Modal Product Spec (NgbdModalBasicComponent)---------------------->
 
       </div>
     </div>
