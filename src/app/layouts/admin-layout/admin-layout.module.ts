@@ -21,6 +21,7 @@ import { AddProductCategoryComponent } from 'src/app/pages/add-product-category/
 import { PartnerComponent } from 'src/app/pages/partner/partner.component';
 import { AddProductSolutionComponent } from 'src/app/pages/add-product-solution/add-product-solution.component';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 
 // import { ToastrModule } from 'ngx-toastr';
 
@@ -48,7 +49,8 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     UploadTaskComponent,
     AddProductCategoryComponent,
     PartnerComponent,
-    AddProductSolutionComponent
+    AddProductSolutionComponent,
+    ProfileComponent
   ]
 })
 
