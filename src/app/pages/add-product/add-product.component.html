@@ -19,7 +19,10 @@
                   [class.hovering]="isHovering">
 
                   <h3 class="h">Upload image</h3>
-                  <p class="fa fa-cloud-upload"></p>
+                  <div class="icon">
+                    <i class="fa fa-cloud-upload"></i>
+                  </div>
+
                   <div class="file">
                     <label class="file-label">
                       <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
@@ -111,10 +114,10 @@
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
                   <!--        <th class="h">Description</th> -->
-                  <th class="h">Spec</th>
-                  <th class="h">Video</th>
+                  <th class="h">&nbsp;&nbsp;&nbsp; Spec</th>
+                  <th class="h">&nbsp;Video</th>
                   <th class="h">Image</th>
-                  <th class="h">Edit</th>
+                  <th class="h">&nbsp;&nbsp;&nbsp; Edit</th>
                   <th></th>
                 </thead>
                 <tbody>
@@ -188,7 +191,7 @@
         <!--- ------------------Modal Product Spec (NgbdModalBasicComponent)---------------------->
         <ng-template #content2 let-modal>
           <div class="modal-header" id="backMedel">
-            <h4 class="modal-title" id="modal-basic-title" id="fontColor_medel">sssssssssssss</h4>
+            <h4 class="modal-title" id="modal-basic-title" id="fontColor_medel">Add your product specs</h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -197,7 +200,7 @@
             <table class='table'>
               <thead>
                 <tr>
-                  <td class="h">aaaaaaaaaaaaa</td>
+                  <td class="h">Product Sepc</td>
                 </tr>
               </thead>
               <tbody>
@@ -261,7 +264,7 @@
                     <div *ngIf="isHidden" id="backMedel">
                       <table class="table table-hover">
                         <tbody>
-                     <!--      <div *ngFor="let spec of dataSpec">
+                          <!--      <div *ngFor="let spec of dataSpec">
                             <tr class="hMedal">
                               <td class=".col-sm-4">{{spec.head_1}} : </td>
                               <td class="col-sm-8">{{spec.detail_1}}</td>
@@ -280,23 +283,23 @@
                             </tr>
                           </div> -->
                           <div *ngFor="let spec of listSpec">
-                              <tr class="hMedal">
-                                <td class=".col-sm-4">{{spec.head_1}} : </td>
-                                <td class="col-sm-8">{{spec.detail_1}}</td>
-                              </tr>
-                              <tr class="hMedal">
-                                <td class=".col-sm-4">{{spec.head_2}} : </td>
-                                <td class="col-sm-8">{{spec.detail_2}}</td>
-                              </tr>
-                              <tr class="hMedal">
-                                <td class=".col-sm-4">{{spec.head_3}} : </td>
-                                <td class="col-sm-8">{{spec.detail_3}}</td>
-                              </tr>
-                              <tr class="hMedal">
-                                <td class=".col-sm-4">{{spec.head_4}} : </td>
-                                <td class="col-sm-8">{{spec.detail_4}}</td>
-                              </tr>
-                            </div>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_1}} : </td>
+                              <td class="col-sm-8">{{spec.detail_1}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_2}} : </td>
+                              <td class="col-sm-8">{{spec.detail_2}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_3}} : </td>
+                              <td class="col-sm-8">{{spec.detail_3}}</td>
+                            </tr>
+                            <tr class="hMedal">
+                              <td class=".col-sm-4">{{spec.head_4}} : </td>
+                              <td class="col-sm-8">{{spec.detail_4}}</td>
+                            </tr>
+                          </div>
                         </tbody>
                       </table>
                     </div>

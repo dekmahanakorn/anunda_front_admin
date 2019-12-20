@@ -104,23 +104,25 @@
                         </thead>
                         <tbody>
                           <tr *ngFor="let interfaceContactTemp of interfaceContactList">
-                            <td (click)="onEditContact(interfaceContactTemp)" class="s">
+                            <td class="s">
                               {{interfaceContactTemp.address1}}</td>
-                            <td (click)="onEditContact(interfaceContactTemp)" class="s">
+                            <td class="s">
                               {{interfaceContactTemp.address2}}</td>
-                            <td (click)="onEditContact(interfaceContactTemp)" class="s">{{interfaceContactTemp.tel}}
+                            <td class="s">{{interfaceContactTemp.tel}}
                             </td>
-                            <td (click)="onEditContact(interfaceContactTemp)" class="s">{{interfaceContactTemp.email}}
-                            </td>
-
-                            <td>
-                              <a class="btn text-primary " (click)="onEditContact(interfaceContactTemp)"> <i class="far fa-edit"></i> </a>
+                            <td class="s">{{interfaceContactTemp.email}}
                             </td>
 
                             <td>
-                              <a class="btn text-danger" (click)="onDeleteContact(interfaceContactTemp.id)"> <i class="far fa-trash-alt"></i> </a>
+                              <a class="btn text-primary " (click)="onEditContact(interfaceContactTemp)"> <i
+                                  class="far fa-edit"></i> </a>
+                            </td>
 
-                             </td>
+                            <td>
+                              <a class="btn text-danger" (click)="onDeleteContact(interfaceContactTemp.id)"> <i
+                                  class="far fa-trash-alt"></i> </a>
+
+                            </td>
                           </tr>
                         </tbody>
                       </table>
