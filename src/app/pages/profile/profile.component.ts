@@ -3,32 +3,41 @@ import { finalize, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { Partner } from 'src/app/shared/partner.model';
-import { PartnerService } from 'src/app/shared/partner.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { NgxPicaService } from 'ngx-pica';
+import { IntroProfile } from 'src/app/shared/intro-profile.model';
+import { IntroProfileService } from 'src/app/shared/intro-profile.service';
 
 @Component({
-  selector: 'app-partner',
-  templateUrl: './partner.component.html',
-  styleUrls: ['./partner.component.scss']
+  selector: 'app-profile',
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
-export class PartnerComponent implements OnInit {
+export class ProfileComponent implements OnInit {
 
   task: AngularFireUploadTask;
   percentage: Observable<number>;
   snapshot: Observable<any>;
   downloadURL;
 
-  list: Partner[];
+  list: IntroProfile[];
 
   isHovering: boolean;
   isSubmitted: boolean;
   files: File;
   selectedImage: any = null;
+  closeResult: string;
+  profileId: string;
 
-  constructor(private storage: AngularFireStorage, private db: AngularFirestore, private service: PartnerService,
-    private toastr: ToastrService) { }
+  isHidden: boolean = false;
+  data: any;
+
+  constructor(private db: AngularFirestore,
+    private storage: AngularFireStorage,
+    private toastr: ToastrService,
+    private service: IntroProfileService,
+    private ngxPicaService: NgxPicaService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -51,7 +60,7 @@ export class PartnerComponent implements OnInit {
         return {
           id: item.payload.doc.id,
           ...item.payload.doc.data()
-        } as Partner;
+        } as IntroProfile;
       })
     });
   }
@@ -71,12 +80,17 @@ export class PartnerComponent implements OnInit {
 
   onDrop(file: File) {
     this.files = file[0];
+    var inner = this;
+    this.ngxPicaService.resizeImage(this.files, 1280, 720)
+      .subscribe((imageResized: File) => {
+        inner.files = imageResized;
+      });
     this.selectedImage = this.files.name;
   }
 
   onDelete(id: string) {
     if (confirm("Are you sure to delete this record?")) {
-      this.db.doc('partner/' + id).delete();
+      this.db.doc('profile/' + id).delete();
       this.toastr.warning('Deleted successfully', 'Delete is done');
     }
   }
@@ -84,7 +98,7 @@ export class PartnerComponent implements OnInit {
   startUpload(file: File, form: NgForm) {
 
     // The storage path
-    const path = `test/${Date.now()}_${file.name}`;
+    const path = `profile/${Date.now()}_${file.name}`;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -100,18 +114,18 @@ export class PartnerComponent implements OnInit {
       // The file's download URL
       finalize(async () => {
         this.downloadURL = await ref.getDownloadURL().toPromise();
-        
+
         form.value.image_url = this.downloadURL;
         let data = Object.assign({}, form.value);
         delete data.id;
         if (form.value.id == null) {
-          this.db.collection('partner').add(data);
+          this.db.collection('profile').add(data);
         }
         else {
-          this.db.doc('partner/' + form.value.id).update(data);
+          this.db.doc('profile/' + form.value.id).update(data);
         }
         this.resetForm(form);
-        this.toastr.success('Submitted successfully', 'Add new partner is done');
+        this.toastr.success('Submitted successfully', 'Add new profile is done');
       }),
     );
   }
