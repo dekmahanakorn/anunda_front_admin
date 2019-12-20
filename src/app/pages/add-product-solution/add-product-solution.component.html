@@ -109,7 +109,7 @@
                     <td (click)="onEdit(data)" class="s">{{data.description}}</td>
                     <td><a class="btn text-success" (click)="open1(content1,data.id)"><i class="fa fa-play"></i></a>
                     </td>
-                    <img class="rounded-circle" style="height: 80px;width: 80px;" [src]="data.image_url">
+                    <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="data.image_url">
                     <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
                     </td>
                     <br><br>
