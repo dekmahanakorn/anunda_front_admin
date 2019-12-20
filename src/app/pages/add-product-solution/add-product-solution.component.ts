@@ -123,6 +123,11 @@ export class AddProductSolutionComponent implements OnInit {
     this.isHovering = event;
   }
 
+  
+  clearData() {
+    this.resetForm();
+  }
+
   onDrop(file: File) {
     this.files = file[0];
     this.selectedImage = this.files.name;
