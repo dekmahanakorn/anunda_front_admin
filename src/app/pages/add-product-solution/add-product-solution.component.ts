@@ -10,6 +10,7 @@ import { ProductSolutionService } from 'src/app/shared/product-solution.service'
 import { Category } from 'src/app/shared/category.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import getYouTubeID from 'get-youtube-id';
+import { NgxPicaService } from 'ngx-pica';
 
 @Component({
   selector: 'app-add-product-solution',
@@ -44,7 +45,8 @@ export class AddProductSolutionComponent implements OnInit {
     private storage: AngularFireStorage,
     private db: AngularFirestore,
     private service: ProductSolutionService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private ngxPicaService: NgxPicaService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -125,6 +127,11 @@ export class AddProductSolutionComponent implements OnInit {
 
   onDrop(file: File) {
     this.files = file[0];
+    var inner = this;
+    this.ngxPicaService.resizeImage(this.files, 800, 600)
+      .subscribe((imageResized: File) => {
+        inner.files = imageResized;
+      });
     this.selectedImage = this.files.name;
   }
 
@@ -174,7 +181,7 @@ export class AddProductSolutionComponent implements OnInit {
       finalize(async () => {
         this.downloadURL = await ref.getDownloadURL().toPromise();
 
-        this.db.collection('files').add({ downloadURL: this.downloadURL, path });
+        //this.db.collection('files').add({ downloadURL: this.downloadURL, path });
 
         form.value.image_url = this.downloadURL;
         let data = Object.assign({}, form.value);
