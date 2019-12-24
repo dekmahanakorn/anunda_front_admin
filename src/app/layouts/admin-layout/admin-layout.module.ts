@@ -21,7 +21,9 @@ import { AddProductCategoryComponent } from 'src/app/pages/add-product-category/
 import { PartnerComponent } from 'src/app/pages/partner/partner.component';
 import { AddProductSolutionComponent } from 'src/app/pages/add-product-solution/add-product-solution.component';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
-
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { TemplateComponent } from 'src/app/pages/template/template.component';
+import { RegisterComponent } from 'src/app/pages/register/register.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -48,7 +50,10 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
     UploadTaskComponent,
     AddProductCategoryComponent,
     PartnerComponent,
-    AddProductSolutionComponent
+    AddProductSolutionComponent,
+    ProfileComponent,
+    TemplateComponent,
+    RegisterComponent
   ]
 })
 

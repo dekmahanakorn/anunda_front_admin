@@ -11,6 +11,9 @@ import { AddProductCategoryComponent } from 'src/app/pages/add-product-category/
 import { PartnerComponent } from 'src/app/pages/partner/partner.component';
 import { AddProductSolutionComponent } from 'src/app/pages/add-product-solution/add-product-solution.component';
 import { ContactComponent } from 'src/app/pages/contact/contact.component';
+import { ProfileComponent } from 'src/app/pages/profile/profile.component';
+import { TemplateComponent } from 'src/app/pages/template/template.component';
+import { RegisterComponent } from 'src/app/pages/register/register.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -20,8 +23,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'maps', component: MapsComponent },
     { path: 'add-Product', component: AddProductComponent },
     { path: 'About', component: AboutComponent },
-    { path: 'Contact',        component: ContactComponent },
+    { path: 'Contact', component: ContactComponent },
     { path: 'product-category', component: AddProductCategoryComponent },
     { path: 'partner', component: PartnerComponent },
-    { path: 'add-product-solution', component: AddProductSolutionComponent }
+    { path: 'add-product-solution', component: AddProductSolutionComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'template', component: TemplateComponent },
+    { path: 'register', component: RegisterComponent }
 ];

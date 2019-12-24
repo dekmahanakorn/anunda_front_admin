@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
-import { CreateService } from 'src/app/shared/create.service';
-import { Create } from 'src/app/shared/create.model';
+import { ProductService } from 'src/app/shared/product.service';
+import { Product } from 'src/app/shared/product.model';
 import { NgForm } from '@angular/forms';
 
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -9,7 +9,11 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Category } from 'src/app/shared/category.model';
+import { ProductSpec } from 'src/app/shared/product-spec.model';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import getYouTubeID from 'get-youtube-id';
 
+import { NgxPicaService } from 'ngx-pica';
 
 @Component({
   selector: 'app-add-product',
@@ -23,27 +27,47 @@ export class AddProductComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL;
 
-  list: Create[];
+  list: Product[];
+  listCate: Category[];
+  listSpec: ProductSpec[];
 
   isHovering: boolean;
   isSubmitted: boolean;
   files: File;
+  files_img: File;
   selectedImage: any = null;
+  selectedFile: any = null;
+  closeResult: string;
+  productVideoId: string;
+  productSpecId: string;
+  productId: string;
+  idView: string;
 
-  constructor(private service: CreateService,
+  player: YT.Player;
+
+  isHidden: boolean = false;
+  data: any;
+  dataSpec: any;
+
+  constructor(private modalService: NgbModal,
+    private service: ProductService,
     private firestore: AngularFirestore,
     private storage: AngularFireStorage,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService,
+    private ngxPicaService: NgxPicaService) { }
 
   ngOnInit() {
     this.resetForm();
+    this.resetFormModal();
+    this.resetFormModal_spec();
+    this.getCategory();
 
-    this.service.getCreates().subscribe(actionArray => {
+    this.service.getProducts().subscribe(actionArray => {
       this.list = actionArray.map(item => {
         return {
           id: item.payload.doc.id,
           ...item.payload.doc.data()
-        } as Create;
+        } as Product;
       })
     });
   }
@@ -53,6 +77,7 @@ export class AddProductComponent implements OnInit {
       form.resetForm();
     this.service.formData = {
       id: null,
+      category_id: null,
       Name: '',
       Price: '',
       Size: '',
@@ -61,16 +86,50 @@ export class AddProductComponent implements OnInit {
     }
   }
 
+  getCategory() {
+    this.service.getCategory().subscribe(actionArray => {
+      this.listCate = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Category;
+      })
+    })
+  }
+
+  getProduct_Spec() {
+    this.service.getProduct_Spec().subscribe(actionArray => {
+      this.listSpec = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as ProductSpec;
+      })
+    })
+  }
+
+
+  clearData() {
+    this.resetForm();
+  }
+
   onSubmit(form: NgForm) {
-    this.isSubmitted = true;
-    if (this.selectedImage != null) {
-      this.isSubmitted = false;
-      this.selectedImage = this.files[0];
-      this.startUpload(this.files, form);
+    if (form.value.category_id == null) {
+      this.toastr.error('Please select category !!!');
+    } else {
+      this.isSubmitted = true;
+      if (this.selectedImage != null) {
+        this.isSubmitted = false;
+        this.selectedImage = this.files_img[0];
+        this.startUpload(this.files_img, form);
+      }
+      if (this.selectedImage == null) {
+        this.toastr.error('Please select image !!!');
+      }
     }
   }
 
-  onEdit(emp: Create) {
+  onEdit(emp: Product) {
     this.service.formData = Object.assign({}, emp);
   }
 
@@ -86,7 +145,16 @@ export class AddProductComponent implements OnInit {
   }
 
   onDrop(file: File) {
+    this.files_img = file[0];
+    this.selectedImage = this.files_img.name;
+  }
+  onDrop_file(file: File) {
     this.files = file[0];
+    var inner = this;
+    this.ngxPicaService.resizeImage(this.files, 800, 600)
+      .subscribe((imageResized: File) => {
+        inner.files = imageResized;
+      });
     this.selectedImage = this.files.name;
   }
 
@@ -98,8 +166,8 @@ export class AddProductComponent implements OnInit {
     // Reference to storage bucket
     const ref = this.storage.ref(path);
 
-    // The main task
-    this.task = this.storage.upload(path, file);
+    // // The main task
+     this.task = this.storage.upload(path, file);
 
     // Progress monitoring
     this.percentage = this.task.percentageChanges();
@@ -126,4 +194,171 @@ export class AddProductComponent implements OnInit {
       }),
     );
   }
+
+
+  open1(content1, id: string) {
+    var inner = this;
+    this.productId = id;
+    this.firestore.collection("product-video").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productVideoId = doc.id;
+          inner.idView = getYouTubeID(doc.data().url);
+          inner.data = Object.assign({}, doc.data());
+        }
+      })
+    })
+
+    this.modalService.open(content1, { size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.resetFormModal();
+    });
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'by pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'by clicking on a backdrop';
+    } else {
+      return `with: ${reason}`;
+    }
+  }
+
+  resetFormModal(form?: NgForm) {
+    if (form != null)
+      form.resetForm();
+    this.service.formDataYoutube = {
+      id: null,
+      product_id: null,
+      url: '',
+    }
+    this.isHidden = false;
+    this.data = null;
+    this.productVideoId = "";
+    this.idView = "";
+    this.selectedImage = null;
+    this.modalService.dismissAll;
+  }
+
+  savePlayer(player) {
+    this.player = player;
+    //console.log('Video url: ', player.getVideoUrl());
+  }
+
+  onSubmitYoutube(form: NgForm) {
+    if (form.value.url == "") {
+      this.toastr.error('This field is required');
+    } else {
+      if (this.productVideoId != "") {
+        let data = Object.assign({}, this.data);
+        data.url = form.value.url;
+        this.firestore.doc('product-video/' + this.productVideoId).update(data);
+        this.toastr.success('Submitted successfully', 'Update is done');
+        this.modalService.dismissAll();
+      } else {
+        let data = Object.assign({}, form.value);
+        data.product_id = this.productId;
+        this.firestore.collection('product-video').add(data);
+        this.toastr.success('Submitted successfully', 'Create is done');
+        this.modalService.dismissAll();
+      }
+    }
+  }
+
+  onPreview() {
+    if (this.idView != "") {
+      this.isHidden = true;
+      // setTimeout(function () {
+      //   this.isHidden = false;
+      // }.bind(this), 60000);
+    } else {
+      this.toastr.error('url not found');
+    }
+  }
+
+
+  /* -------------------------------- Model Spec Open -------------------------------------------------- */
+
+  open2(content2, id: string) {
+    this.getProduct_Spec();
+    var inner = this;
+    this.productId = id;
+    this.firestore.collection("product-spec").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productSpecId = doc.id;
+          inner.idView = doc.data().head_1;
+          let dataSpec = Object.assign({}, doc.data());
+          console.log(dataSpec);
+        }
+      })
+    })
+
+    this.modalService.open(content2, { size: 'lg' }).result.then((result) => {
+      this.closeResult = `Closed with: ${result}`;
+    }, (reason) => {
+      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      this.resetFormModal_spec();
+    });
+  }
+
+  resetFormModal_spec(form?: NgForm) {
+    if (form != null)
+      form.resetForm();
+    this.service.formDataSpec = {
+      id: null,
+      product_id: null,
+      head_1: '',
+      head_2: '',
+      head_3: '',
+      head_4: '',
+      detail_1: '',
+      detail_2: '',
+      detail_3: '',
+      detail_4: '',
+    }
+    this.isHidden = false;
+    this.data = null;
+    this.productSpecId = "";
+    this.idView = "";
+    this.selectedImage = null;
+    this.modalService.dismissAll;
+  }
+
+  onSubmit_spec(form: NgForm) {
+    if (form.value.head_1 == "") {
+      this.toastr.error('This field is required');
+    } else {
+      if (this.productSpecId != "") {
+        let data = Object.assign({}, this.data);
+        /*   data.url = form.value.url; */
+        this.firestore.doc('product-spec/' + this.productSpecId).update(data);
+        this.toastr.success('Submitted successfully', 'Update is done');
+        this.modalService.dismissAll();
+      } else {
+        let data = Object.assign({}, form.value);
+        data.product_id = this.productId;
+        this.firestore.collection('product-spec').add(data);
+        this.toastr.success('Submitted successfully', 'Create is done');
+        this.modalService.dismissAll();
+      }
+    }
+  }
+
+  onPreview_spec() {
+    if (this.idView != "") {
+      this.isHidden = true;
+      // setTimeout(function () {
+      //   this.isHidden = false;
+      // }.bind(this), 60000);
+    } else {
+      this.toastr.error('not found');
+    }
+  }
+
+  /* ------------------------------------ Model Spec End ---------------------------------------------- */
+
 }

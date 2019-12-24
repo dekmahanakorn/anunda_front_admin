@@ -24,17 +24,9 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 /* Firebase Auth service :  Run command for create file --> "ng g s shared/Authentication --spec=false" */
 import { AuthenticationService } from './shared/authentication.service';
 
-import { CreateService } from './shared/create.service';
-import { UploaderComponent } from './pages/uploader/uploader.component';
-import { UploadTaskComponent } from './pages/upload-task/upload-task.component';
+import { ProductService } from './shared/product.service';
 import { DropzoneDirective } from './dropzone.directive';
-import { AddProductCategoryComponent } from './pages/add-product-category/add-product-category.component';
-import { PartnerComponent } from './pages/partner/partner.component';
-import { AddProductSolutionComponent } from './pages/add-product-solution/add-product-solution.component';
-// import { AboutComponent } from './pages/about/about.component';
-
-
-
+import { NgxPicaModule } from 'ngx-pica';
 
 @NgModule({
   imports: [
@@ -46,7 +38,7 @@ import { AddProductSolutionComponent } from './pages/add-product-solution/add-pr
     NgbModule,
     RouterModule,
     AppRoutingModule,
-
+    NgxPicaModule,
     AngularFireAuthModule,
     AngularFirestoreModule,
     AngularFireStorageModule,
@@ -58,15 +50,8 @@ import { AddProductSolutionComponent } from './pages/add-product-solution/add-pr
     AdminLayoutComponent,
     AuthLayoutComponent,
     DropzoneDirective,
-    //AddProductSolutionComponent,
-    //PartnerComponent,
-    //AddProductCategoryComponent,
-    // UploaderComponent,
-    // UploadTaskComponent,
-    // AboutComponent,
-
   ],
-  providers: [AuthenticationService, CreateService],
+  providers: [AuthenticationService, ProductService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

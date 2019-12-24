@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication.service';
-import { CreateService } from './create.service';
+import { ProductService } from './product.service';
 import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 export class FirebaseService {
 
   constructor(public authenticationService: AuthenticationService,
-    private service: CreateService,
+    private service: ProductService,
     private firestore: AngularFirestore) { }
 
     createDb(data: any, collection: string){

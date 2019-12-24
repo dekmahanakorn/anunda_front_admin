@@ -9,7 +9,7 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header bg-transparent">
-              <h3 class="mb-0">Creates</h3>
+              <h3 class="mb-0" class="h">Creates</h3>
             </div>
             <div class="card-body">
               <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
@@ -17,8 +17,10 @@
                 <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
                   [class.hovering]="isHovering">
 
-                  <h3>Upload image</h3>
-                  <p class="fa fa-cloud-upload"></p>
+                  <h3 class="h">Upload image</h3>
+                  <div class="icon">
+                    <i class="fa fa-cloud-upload"></i>
+                  </div>
                   <div class="file">
                     <label class="file-label">
                       <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
@@ -28,11 +30,11 @@
                         <span class="file-icon">
                           <i class="fa fa-upload"></i>
                         </span>
-                        <span class="file-label">
+                        <span class="file-label" class="h">
                           or choose a file…
                         </span>
                       </span>
-                      <div class="validation-error" *ngIf="isSubmitted">
+                      <div class="validation-error" *ngIf="isSubmitted" class="fontall_error">
                         This field is required.
                       </div>
                     </label>
@@ -84,6 +86,8 @@
                 </div>
                 <div class="form-group">
                   <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Create</button>
+                  <button type="button" (click)="clearData()" [disabled]="form.invalid"
+                    class="btn btn-outline-dark">Clear</button>
                 </div>
               </form>
             </div>
@@ -98,18 +102,19 @@
                 <thead>
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
-                  <th class="h">Description</th>
+                  <th class="h">&nbsp; Video</th>
                   <th class="h">Image</th>
+                  <th class="h">&nbsp;&nbsp;&nbsp; Edit</th>
                   <th></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let data of list">
-                    <td (click)="onEdit(data)" class="s">{{data.name}}</td>
-                    <td (click)="onEdit(data)" class="s">{{data.price}} THB. - {{data.size}}</td>
-                    <td (click)="onEdit(data)" class="s">{{data.description}}</td>
+                    <td class="s">{{data.name}}</td>
+                    <td class="s">{{data.price}} THB. - {{data.size}}</td>
                     <td><a class="btn text-success" (click)="open1(content1,data.id)"><i class="fa fa-play"></i></a>
                     </td>
-                    <img class="rounded-circle" style="height: 80px;width: 80px;" [src]="data.image_url">
+                    <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="data.image_url">
+                    <td><a class="btn text-primary" (click)="onEdit(data)"><i class="far fa-edit"></i></a></td>
                     <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
                     </td>
                     <br><br>

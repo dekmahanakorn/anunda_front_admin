@@ -1,16 +1,16 @@
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
-import { Create } from './create.model';
+import { IntroProfile } from './intro-profile.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CreateService {
-  formData: Create;
+export class IntroProfileService {
+  formData: IntroProfile;
 
   constructor(private firestore: AngularFirestore) { }
 
   getCreates() {
-    return this.firestore.collection('product').snapshotChanges();
+    return this.firestore.collection('profile').snapshotChanges();
   }
 }

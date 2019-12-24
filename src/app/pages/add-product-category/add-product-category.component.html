@@ -21,6 +21,10 @@
                   <div *ngIf="Name.invalid && Name.touched" class="validation-error">This field is required.</div>
                 </div>
                 <div class="form-group">
+                  <input name="Detail" #Detail="ngModel" [(ngModel)]="service.formData.Detail" class="form-control"
+                    placeholder="Detail">
+                </div>
+                <div class="form-group">
                   <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Create</button>
                 </div>
               </form>
@@ -37,11 +41,13 @@
               <table class="table table-hover">
                 <thead>
                   <th class="h">Category Name</th>
+          <!--         <th class="h">Detail</th> -->
                   <th></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let cate of list">
                     <td class="s">{{cate.Name}}</td>
+             <!--        <td class="s">{{cate.Detail}}</td> -->
                   </tr>
                 </tbody>
               </table>
