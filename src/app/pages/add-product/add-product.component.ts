@@ -167,7 +167,7 @@ export class AddProductComponent implements OnInit {
     const ref = this.storage.ref(path);
 
     // // The main task
-     this.task = this.storage.upload(path, file);
+    this.task = this.storage.upload(path, file);
 
     // Progress monitoring
     this.percentage = this.task.percentageChanges();
@@ -291,8 +291,8 @@ export class AddProductComponent implements OnInit {
         if (doc.data().product_id == id) {
           inner.productSpecId = doc.id;
           inner.idView = doc.data().head_1;
-          let dataSpec = Object.assign({}, doc.data());
-          console.log(dataSpec);
+          inner.dataSpec = Object.assign({}, doc.data());
+          /*       console.log(inner.dataSpec); */
         }
       })
     })
