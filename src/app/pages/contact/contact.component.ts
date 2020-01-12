@@ -5,6 +5,7 @@ import { ErrorMsg, AlertMsg } from 'src/app/interface/error-msg.enum';
 import { InterfaceContact } from 'src/app/interface/interfaceContact';
 import { ToastrService } from 'ngx-toastr';
 import { CollectionDatabase } from 'src/app/interface/collection-database';
+import { AuthenticationService } from 'src/app/shared/authentication.service';
 
 
 @Component({
@@ -37,7 +38,7 @@ export class ContactComponent implements OnInit {
     this.contactPage = this.formBuilder.group({
       address1: new FormControl(null, [Validators.required]),
       address2: new FormControl(null, [Validators.required]),
-      tel: new FormControl(null, [Validators.required, Validators.pattern(/^-?(0|[1-9]\d*)?$/)]),
+      tel: new FormControl(null, [Validators.required, Validators.pattern(/(0|[1-9])?$/)]),
       email: new FormControl(null, [Validators.required, Validators.email]),
     });
 
@@ -98,6 +99,7 @@ export class ContactComponent implements OnInit {
 
     if (this.contactPage.invalid) {
       console.log('this.contactPage.controls.email', this.contactPage.controls.email.errors);
+      console.log('this.contactPage.controls.email', this.contactPage);
 
       if (this.contactPage.controls.email.errors.required) {
         this.checkEmail.pattern = false;
