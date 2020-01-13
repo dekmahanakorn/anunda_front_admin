@@ -16,6 +16,7 @@ export class AuthenticationService {
   userData: Observable<firebase.User>;
   user: User;
 
+
   constructor(public angularFireAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router, private toastr: ToastrService) {
     this.userData = angularFireAuth.authState;
 
@@ -60,11 +61,11 @@ export class AuthenticationService {
 
     this.angularFireAuth.auth.signInWithEmailAndPassword(email, password)
       .then(res => {
-        this.user = this.angularFireAuth.auth.currentUser;
+      /*   this.user = this.angularFireAuth.auth.currentUser;
         console.log('Successfully signed in!');
         console.log(this.user.uid);
-        console.log(this.user.email);
-
+        console.log(this.user.email); */
+        console.log('Successfully signed in!');
         this.router.navigate(['/dashboard']);
       }).catch(err => {
         console.log('Something is wrong:', err.message);
@@ -80,16 +81,15 @@ export class AuthenticationService {
       console.log('signout Success');
     });
   }
-  
 
-  CheckAuthan() {
+
+/*   CheckAuthan() {
     if (this.user) {
       this.router.navigate(['/Dashboard']);
     } else {
       this.router.navigate(['/login']);
     }
-  }
-
+  }  */
 
 
 
