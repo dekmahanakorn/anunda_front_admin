@@ -264,7 +264,24 @@
                     <div *ngIf="isHidden" id="backMedel">
                       <table class="table table-hover">
                         <tbody>
-                          <!--      <div *ngFor="let spec of dataSpec">
+                          <tr class="hMedal">
+                            <td class=".col-sm-4">{{dataSpec.head_1}}</td>
+                            <td class="col-sm-8">{{dataSpec.detail_1}}</td>
+                          </tr>
+                          <tr class="hMedal">
+                            <td class=".col-sm-4">{{dataSpec.head_2}}</td>
+                            <td class="col-sm-8">{{dataSpec.detail_2}}</td>
+                          </tr>
+                          <tr class="hMedal">
+                            <td class=".col-sm-4">{{dataSpec.head_3}}</td>
+                            <td class="col-sm-8">{{dataSpec.detail_3}}</td>
+                          </tr>
+                          <tr class="hMedal">
+                            <td class=".col-sm-4">{{dataSpec.head_4}}</td>
+                            <td class="col-sm-8">{{dataSpec.detail_4}}</td>
+                          </tr>
+
+                          <!--  <div *ngFor="let spec of listSpec">
                             <tr class="hMedal">
                               <td class=".col-sm-4">{{spec.head_1}} : </td>
                               <td class="col-sm-8">{{spec.detail_1}}</td>
@@ -282,24 +299,6 @@
                               <td class="col-sm-8">{{spec.detail_4}}</td>
                             </tr>
                           </div> -->
-                          <div *ngFor="let spec of listSpec">
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_1}} : </td>
-                              <td class="col-sm-8">{{spec.detail_1}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_2}} : </td>
-                              <td class="col-sm-8">{{spec.detail_2}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_3}} : </td>
-                              <td class="col-sm-8">{{spec.detail_3}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_4}} : </td>
-                              <td class="col-sm-8">{{spec.detail_4}}</td>
-                            </tr>
-                          </div>
                         </tbody>
                       </table>
                     </div>

@@ -15,14 +15,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   password: string;
 
   constructor(public authenticationService: AuthenticationService, private router: Router) {
-    this.signed();
+  /*   this.signed(); */
    }
 
-  signUp() {
+  /* signUp() {
     this.authenticationService.SignUp(this.email, this.password);
     this.email = '';
     this.password = '';
-  }
+  } */
 
   signIn() {
     this.authenticationService.SignIn(this.email, this.password);

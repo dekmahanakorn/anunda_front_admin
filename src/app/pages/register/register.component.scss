@@ -1,0 +1,46 @@
+@font-face {
+  font-family: "Itimfont";
+  src: url("src/assets/fonts/Itim-Regular.ttf");
+}
+
+.fontall {
+  font-family: "Itimfont";
+}
+.fontall_error {
+  font-family: "Itimfont";
+  font-weight: bold;
+  color: red;
+}
+
+.h {
+  font-family: "Itimfont";
+  /* font-size: 120%; */
+  font-weight: bold;
+}
+.s {
+  font-family: "Itimfont";
+  /*   font-size: 110%; */
+}
+#backMedel {
+  font-family: "Itimfont";
+  background-color: black;
+}
+#fontColor_medel {
+  /*     font-size: 120%; */
+  font-weight: bold;
+  color: red;
+}
+.hMedal {
+  font-family: "Itimfont";
+  /*   font-size: 110%; */
+  font-weight: bold;
+  color: black;
+  text-align: left;
+}
+
+.head {
+  font-family: "Itimfont";
+  font-size: 100%;
+  font-weight: bold;
+  color: navy;
+}
