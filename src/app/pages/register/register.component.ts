@@ -14,12 +14,16 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class RegisterComponent implements OnInit {
 
-  /* email: string;
-  password: string; */
-  listRegister: Register[];
+/*   listRegister: Register[]; */
+  listRegister_some_sa: Array<Register> = [];
+  listRegister_some_a: Array<Register> = [];
+  listRegister_some_u: Array<Register> = [];
 
   registerId: string;
   data: any;
+  someData_sa: any
+  someData_a: any
+  someData_u: any
 
   constructor(public authenticationService: AuthenticationService,
     private service: RegisterService,
@@ -28,9 +32,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.resetForm();
-    this.getRegister();
-    /*  this.email = '';
-     this.password = ''; */
+  /*   this.getRegister(); */
+    this.getSomeData();
+
   }
 
   /*  signUp(form: NgForm) {
@@ -49,11 +53,11 @@ export class RegisterComponent implements OnInit {
       password: '',
       status: '',
       type: '',
-      uid:''
+      uid: ''
     }
   }
 
-  getRegister() {
+/*   getRegister() {
     this.service.getRegister().subscribe(actionArray => {
       this.listRegister = actionArray.map(item => {
         return {
@@ -62,6 +66,32 @@ export class RegisterComponent implements OnInit {
         } as Register;
       })
     });
+  } */
+
+  getSomeData() {
+    var inner = this;
+    this.firestore.collection("register").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+
+        if (doc.data().status == 'sa') {
+          inner.someData_sa = Object.assign({}, doc.data());
+          inner.listRegister_some_sa.push(inner.someData_sa);
+
+        }
+        if (doc.data().status == 'a') {
+          inner.someData_a = Object.assign({}, doc.data());
+          inner.listRegister_some_a.push(inner.someData_a);
+
+        }
+        if (doc.data().status == 'u') {
+          inner.someData_u = Object.assign({}, doc.data());
+          inner.listRegister_some_u.push(inner.someData_u);
+
+        }
+
+
+      })
+    })
   }
 
   /* onDelete(id: string) {
