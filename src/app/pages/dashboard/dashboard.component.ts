@@ -8,6 +8,7 @@ import {
   chartExample1,
   chartExample2
 } from '../../variables/charts';
+import { AuthenticationService } from 'src/app/shared/authentication.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,7 +23,9 @@ export class DashboardComponent implements OnInit {
   public clicked = true;
   public clicked1 = false;
 
-  constructor() { }
+  constructor(public authenticationService: AuthenticationService) {
+
+  }
 
   ngOnInit() {
 

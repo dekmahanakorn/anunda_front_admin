@@ -6,7 +6,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { Observable } from 'rxjs';
 import { User } from 'firebase';
 
-import { Router } from "@angular/router";
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,11 @@ export class AuthenticationService {
   userData: Observable<firebase.User>;
   user: User;
 
+  constructor(public angularFireAuth: AngularFireAuth,
+    private firestore: AngularFirestore,
+    private router: Router,
+    private toastr: ToastrService) {
 
-  constructor(public angularFireAuth: AngularFireAuth, private firestore: AngularFirestore, private router: Router, private toastr: ToastrService) {
     this.userData = angularFireAuth.authState;
 
   }
@@ -45,7 +48,7 @@ export class AuthenticationService {
   }
 
   /* Sign in */
-  async SignIn(email: string, password: string) {
+   SignIn(email: string, password: string) {
 
     this.angularFireAuth.authState.subscribe(user => {
       if (user) {
@@ -73,8 +76,8 @@ export class AuthenticationService {
   }
 
   /* Sign out */
-  async SignOut() {
-    await this.angularFireAuth.auth.signOut().then(() => {
+   SignOut() {
+     this.angularFireAuth.auth.signOut().then(() => {
       localStorage.setItem('user', null);
       this.router.navigate(['/login']);
       this.user = null;
@@ -82,16 +85,22 @@ export class AuthenticationService {
     });
   }
 
+  CheckAuthen() {
+    this.angularFireAuth.auth.onAuthStateChanged( (user) => {
+      console.log('signed in user', user);
 
-/*   CheckAuthan() {
-    if (this.user) {
-      this.router.navigate(['/Dashboard']);
-    } else {
-      this.router.navigate(['/login']);
-    }
-  }  */
-
-
+      if (user) {
+        // User is signed in.
+        console.log('CheckAuthan IF');
+        this.router.navigate(['/dashboard']);
+      } else {
+        // No user is signed in.
+        // window.location.assign('login')
+        this.router.navigate(['/login']);
+        console.log('CheckAuthan ELSE');
+      }
+    });
+  }
 
 }
 

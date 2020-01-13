@@ -6,7 +6,6 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 
-
 declare interface RouteInfo {
   path: string;
   title: string;
@@ -67,8 +66,8 @@ export class SidebarComponent implements OnInit {
     public angularFireAuth: AngularFireAuth,
     private firestore: AngularFirestore, ) {
 
-    this.userData = angularFireAuth.authState;
-
+      authenticationService.CheckAuthen();
+      this.userData = angularFireAuth.authState;
   }
 
   ngOnInit() {

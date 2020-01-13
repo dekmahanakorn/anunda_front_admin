@@ -6,7 +6,11 @@ import { AuthenticationService } from './shared/authentication.service';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent {
 
-  title = 'argon-dashboard-angular';
+  constructor( authen: AuthenticationService){
+    // authen.CheckAuthan();
+  }
+  title = '';
 }
