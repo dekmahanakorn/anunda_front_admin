@@ -1,3 +1,38 @@
-<p>
-  template works!
-</p>
+<div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
+  <div class="container-fluid">
+    <div class="header-body">
+      <br><br><br><br><br>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <!-- Table -->
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <h3 class="mb-0" class="h">Creates poster</h3>
+            </div>
+            <div class="card-body">
+
+              <!-- Poster content -->
+              <div id="content" #content>
+                <div>
+                  <input type="button" value="download pdf" class="btn btn-outline-info" (click)="captureScreen()" />
+                </div>
+              </div>
+              <div>
+                <table id="contentToConvert">
+                  <tr>
+                    <th>Column1</th>
+                  </tr>
+                  <tr>
+                    <img class="img_logo" src="assets/img/brand/logo.jpg" />
+                  </tr>
+                </table>
+              </div>
+              <!-- Poster content end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
