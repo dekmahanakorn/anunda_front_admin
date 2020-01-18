@@ -7,6 +7,7 @@ import { Partner } from 'src/app/shared/partner.model';
 import { PartnerService } from 'src/app/shared/partner.service';
 import { ToastrService } from 'ngx-toastr';
 import { NgForm } from '@angular/forms';
+import { NgxPicaService } from 'ngx-pica';
 
 @Component({
   selector: 'app-partner',
@@ -28,7 +29,7 @@ export class PartnerComponent implements OnInit {
   selectedImage: any = null;
 
   constructor(private storage: AngularFireStorage, private db: AngularFirestore, private service: PartnerService,
-    private toastr: ToastrService) { }
+    private toastr: ToastrService, private ngxPicaService: NgxPicaService) { }
 
   ngOnInit() {
     this.resetForm();
@@ -71,6 +72,11 @@ export class PartnerComponent implements OnInit {
 
   onDrop(file: File) {
     this.files = file[0];
+    var inner = this;
+    this.ngxPicaService.resizeImage(this.files, 800, 350)
+      .subscribe((imageResized: File) => {
+        inner.files = imageResized;
+      });
     this.selectedImage = this.files.name;
   }
 
@@ -100,7 +106,7 @@ export class PartnerComponent implements OnInit {
       // The file's download URL
       finalize(async () => {
         this.downloadURL = await ref.getDownloadURL().toPromise();
-        
+
         form.value.image_url = this.downloadURL;
         let data = Object.assign({}, form.value);
         delete data.id;
