@@ -73,7 +73,7 @@ export class PartnerComponent implements OnInit {
   onDrop(file: File) {
     this.files = file[0];
     var inner = this;
-    this.ngxPicaService.resizeImage(this.files, 800, 350)
+    this.ngxPicaService.resizeImage(this.files, 500, 180)
       .subscribe((imageResized: File) => {
         inner.files = imageResized;
       });
