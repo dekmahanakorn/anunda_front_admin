@@ -1,91 +1,147 @@
 <div class="header bg-gradient-danger pb-8 pt-5 pt-md-8">
   <div class="container-fluid">
     <div class="header-body">
-      <!-- Card stats -->
-      <div class="row">
-        <div class="col-xl-10 col-lg-10">
-          <div class="card card-stats mb-4 mb-xl-0">
+      <br><br><br><br><br>
+      <!-- Page content -->
+      <div class="container-fluid mt--7">
+        <!-- Table -->
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-header bg-transparent">
+              <h3 class="mb-0" class="h">Creates</h3>
+            </div>
             <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <!-- Begin form -->
-                  <form [formGroup]="aboutPage">
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <span class="red">*</span>
-                          <div class="input-group mb-2">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
-                            </div>
-                            <input
-                            (focus)="validatorAboutTitle(); this.checkTitle = false"
-                             (blur)="validatorAboutTitle();" class="form-control" placeholder="Title" type="text"
-                              formControlName="title">
-                          </div>
-                          <div class="red" *ngIf="this.checkTitle">{{error.required}}</div>
-                        </div>
+
+              <!-- Begin form -->
+              <form [formGroup]="aboutPage">
+                <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
+                  [class.hovering]="isHovering">
+
+                  <h3 class="h">Upload image</h3>
+                  <div class="icon">
+                    <i class="fa fa-cloud-upload"></i>
+                  </div>
+
+                  <div class="file">
+                    <label class="file-label">
+                      <input type="hidden" name="image" formControlName="image" class="fontall">
+                      <input class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
+
+                      <span class="file-cta">
+                        <span class="file-icon">
+                          <i class="fa fa-upload"></i>
+                        </span>
+                        <span class="file-label" class="h">
+                          or choose a file…
+                        </span>
+                      </span>
+                      <div class="validation-error" *ngIf="isSubmitted" class="fontall_error">
+                        This field is required.
                       </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-md-12">
-                        <div class="form-group">
-                          <span class="red">*</span>
-                          <div class="input-group mb-2">
-                            <div class="input-group">
-                              <div class="input-group-prepend">
-                                <span class="input-group-text"><i class="ni ni-align-left-2"></i></span>
-                              </div>
-                              <textarea class="form-control" placeholder="Description" rows="5" cols="50"
-                              (focus)="validatorAboutDescription(); this.checkDescription = false"
-                             (blur)="validatorAboutDescription();" class="form-control"
-                              formControlName="description"></textarea>
-                            </div>
-                            <div class="red" *ngIf="this.checkDescription">{{error.required}}</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="row">
-                      <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
-                      <button type="submit" (click)="submit();" class="btn btn-primary btn-circle ">
-                        <i class="fas fa-plus-circle"></i>
-                      </button>
-                    </div>
-
-                    <!-- List -->
-                    <div class="card-body">
-                        <table class="table table-hover">
-                          <thead>
-                            <th class="">Title</th>
-                            <th class="">Description</th>
-                            <th></th>
-                          </thead>
-                          <tbody>
-                            <tr *ngFor="let temp of interfaceAboutList">
-                              <td (click)="onEdit(temp)" class="s">
-                                {{temp.name}}</td>
-                              <td (click)="onEdit(temp)" class="s">
-                                {{temp.descripttion}}</td>
-                              <td>
-                                <a class="btn text-danger" (click)="onEdit(temp)"> <i class="far fa-edit"></i> </a>
-                              </td>
-
-                              <td>
-                                <a class="btn text-danger" (click)="onDelete(temp.id)"> <i class="far fa-trash-alt"></i> </a>
-
-                               </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                  </form>
-                  <!-- End Form -->
+                    </label>
+                  </div>
                 </div>
-              </div>
 
+                <div *ngIf="percentage | async as pct" class="fontall">
+
+                  <progress class="progress is-info" [value]="pct" max="100">
+                  </progress>
+
+                  {{ pct | number }}%
+
+                </div>
+
+                <div *ngIf="(snapshot | async) as snap" class="fontall">
+                  size {{ snap.bytesTransferred }} of {{ snap.totalBytes }}
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text"><i class="ni ni-bullet-list-67"></i></span>
+                        </div>
+                        <input type="hidden" class="form-control" formControlName="id">
+                        <input (focus)="validatorAboutTitle(); this.checkTitle = false" (blur)="validatorAboutTitle();"
+                          class="form-control" placeholder="Title" type="text" formControlName="title">
+                      </div>
+                      <div class="red" *ngIf="this.checkTitle">{{error.required}}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="input-group mb-2">
+                        <div class="input-group">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text"><i class="ni ni-align-left-2"></i></span>
+                          </div>
+                          <textarea class="form-control" placeholder="Description" rows="5" cols="50"
+                            (focus)="validatorAboutDescription(); this.checkDescription = false"
+                            (blur)="validatorAboutDescription();" class="form-control"
+                            formControlName="description"></textarea>
+                        </div>
+                        <div class="red" *ngIf="this.checkDescription">{{error.required}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" placeholder="sub description 1" class="form-control"
+                    formControlName="sub_des1">
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" placeholder="sub description 2" class="form-control"
+                    formControlName="sub_des2">
+                </div>
+
+                <div class="form-group">
+                  <input class="form-control" placeholder="sub description 3" class="form-control"
+                    formControlName="sub_des3">
+                </div>
+
+                <div class="row">
+                  <div class="col-5 col-sm-5 col-md-5 col-lg-5 col-xl-5"></div>
+                  <button type="submit" (click)="submit();" class="btn btn-outline-info">Submit</button>
+                </div>
+
+                <!-- List -->
+                <div class="card-body">
+                  <table class="table table-hover">
+                    <thead>
+                      <th class="">Image</th>
+                      <th class="">Title</th>
+                      <th class="">Description</th>
+                      <th></th>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let temp of interfaceAboutList">
+                        <td (click)="onEdit(temp)">
+                          <img class="img-fluid" [src]="temp.image">
+                        </td>
+                        <td (click)="onEdit(temp)" class="s">
+                          {{temp.name}}</td>
+                        <td (click)="onEdit(temp)" class="s">
+                          {{temp.descripttion}}</td>
+                        <td>
+                          <a class="btn text-danger" (click)="onEdit(temp)"> <i class="far fa-edit"></i> </a>
+                        </td>
+
+                        <td>
+                          <a class="btn text-danger" (click)="onDelete(temp.id)"> <i class="far fa-trash-alt"></i> </a>
+
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </form>
+              <!-- End Form -->
             </div>
           </div>
         </div>

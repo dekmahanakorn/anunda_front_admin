@@ -90,7 +90,7 @@ export class PartnerComponent implements OnInit {
   startUpload(file: File, form: NgForm) {
 
     // The storage path
-    const path = `test/${Date.now()}_${file.name}`;
+    const path = `partner/` + this.selectedImage;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
