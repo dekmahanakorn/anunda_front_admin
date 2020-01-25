@@ -8,6 +8,7 @@ import { User } from 'firebase';
 
 import { Router } from '@angular/router';
 import { Register } from './register.model';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -117,7 +118,9 @@ export class AuthenticationService {
         form.uid = res.user.uid;
         this.firestore.collection('register').add(form);
 
-        this.toastr.success('Successfully signed up!', 'Create is done');
+        this.toastr.success('Successfully signed up!', 'Create is done',{
+          timeOut: 3000
+        } );
       })
       .catch(error => {
         this.toastr.error('Something is wrong:', error.message);

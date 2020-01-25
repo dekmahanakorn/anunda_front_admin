@@ -90,7 +90,7 @@ export class RegisterComponent implements OnInit {
 
   signUp(form: Register) {
     if(this.validateData()) {
-      this.authenticationService.SignUpV2(form);
+      this.authenticationService.SignUpV2(this.fromRegister);
 
     }
   }
@@ -122,7 +122,7 @@ export class RegisterComponent implements OnInit {
       this.msgError.push('Password does not match');
     }
 
-    if(!validate) {
+    if(validate) {
       this.fromRegister = {
         name: this.register.controls.name.value,
         status: this.register.controls.status.value,
