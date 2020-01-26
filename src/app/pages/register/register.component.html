@@ -13,13 +13,16 @@
             </div>
             <div class="card-body">
 
-              <form #form="ngForm" (submit)="signUp(form)">
+              <form #form="ngForm" [formGroup]="register">
 
                 <div class="form-group input-group col-md-6">
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-user" style="color: #7B68EE;"></i> </span>
                   </div>
-                  <input [(ngModel)]="service.formData.name" name="name" #name="ngModel" class="form-control"
+                  <!-- <input [(ngModel)]="service.formData.name" name="name" #name="ngModel" class="form-control"
+                    placeholder="Name" required> -->
+
+                    <input formControlName="name" name="name" class="form-control"
                     placeholder="Name" required>
                 </div>
 
@@ -27,9 +30,16 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fas fa-address-book" style="color: #7B68EE;"></i> </span>
                   </div>
-                  <select class="form-control custom-select" name="status" [(ngModel)]="service.formData.status">
-                    <option value="u">User</option>
-                    <option value="a">Admin</option>
+                  <!-- <select class="form-control custom-select" name="status" [(ngModel)]="service.formData.status">
+                    <option value="">User Option</option>
+                    <option class="status" value="u">User</option>
+                    <option class="status" value="a">Admin</option>
+                  </select> -->
+
+                  <select class="form-control custom-select" formControlName="status" name="status" >
+                    <option value="">User Option</option>
+                    <option class="status" value="u">User</option>
+                    <option class="status" value="a">Admin</option>
                   </select>
                 </div>
 
@@ -37,7 +47,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-envelope" style="color: #7B68EE;"></i> </span>
                   </div>
-                  <input [(ngModel)]="service.formData.email" #email="ngModel" type="email" name="email"
+                  <!-- <input [(ngModel)]="service.formData.email" #email="ngModel" type="email" name="email"
+                    class="form-control" placeholder="Email" required> -->
+                    <input formControlName="email" type="email" name="email"
                     class="form-control" placeholder="Email" required>
                 </div>
 
@@ -45,7 +57,9 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock fa-lg" style="color: #7B68EE;"></i> </span>
                   </div>
-                  <input [(ngModel)]="service.formData.password" type="password" name="password" #password="ngModel"
+                  <!-- <input [(ngModel)]="service.formData.password" type="password" name="password" #password="ngModel"
+                    class="form-control" placeholder="Password" required> -->
+                    <input formControlName="password" type="password" name="password"
                     class="form-control" placeholder="Password" required>
                 </div>
 
@@ -53,12 +67,18 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"> <i class="fa fa-lock fa-lg" style="color: #7B68EE;"></i> </span>
                   </div>
-                  <input type="password" name="ConfPassword" class="form-control" placeholder="Confirm Password"
+                  <!-- <input type="password" name="ConfPassword" class="form-control" placeholder="Confirm Password"
+                    required> -->
+                    <input formControlName="confPassword" type="password" name="ConfPassword" class="form-control" placeholder="Confirm Password"
                     required>
                 </div>
 
+                <div *ngFor="let item of msgError" class="form-group col-md-6 red">*
+                  {{item}}
+                </div>
+
                 <div class="form-group col-md-6">
-                  <button type="submit" [disabled]="form.invalid" class="btn btn-primary btn-block"> Create Account
+                  <button type="button" (click)="signUp()" class="btn btn-primary btn-block"> Create Account
                   </button>
                 </div>
               </form>

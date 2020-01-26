@@ -7,6 +7,8 @@ import { Observable } from 'rxjs';
 import { User } from 'firebase';
 
 import { Router } from '@angular/router';
+import { Register } from './register.model';
+import { timeout } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -100,6 +102,29 @@ export class AuthenticationService {
         console.log('CheckAuthan ELSE');
       }
     });
+  }
+
+  SignUpV2(form: Register) {
+    this.angularFireAuth
+      .auth
+      .createUserWithEmailAndPassword(form.email, form.password)
+      .then(res => {
+
+        if (form.status == 'a') {
+          form.type = 'admin'
+        } else {
+          form.type = 'user'
+        }
+        form.uid = res.user.uid;
+        this.firestore.collection('register').add(form);
+
+        this.toastr.success('Successfully signed up!', 'Create is done',{
+          timeOut: 3000
+        } );
+      })
+      .catch(error => {
+        this.toastr.error('Something is wrong:', error.message);
+      });
   }
 
 }
