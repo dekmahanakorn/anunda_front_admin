@@ -93,8 +93,25 @@
           </div>
         </div> -->
 
+
         <br>
-        <div class="col">
+        <div class="col-md-4">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary active btn btn-outline-dark" (click)="clickShow_data('sa')">
+              <input type="radio" name="options" id="option1" autocomplete="off"> Super
+              admin
+            </label>
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('a')">
+              <input type="radio" name="options" id="option2" autocomplete="off"> Admin
+            </label>
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('u')">
+              <input type="radio" name="options" id="option3" autocomplete="off"> User
+            </label>
+          </div>
+        </div>
+
+        <br>
+        <div class="col-md-12" *ngIf="data_sa">
           <div class="card shadow">
             <div class="card-body">
               <h5 class="head">Super admin</h5>
@@ -121,17 +138,16 @@
           </div>
         </div>
 
-        <br>
-        <div class="col">
+        <div class="col-md-12" *ngIf="data_a">
           <div class="card shadow">
             <div class="card-body">
               <h5 class="head">Admin</h5>
               <table class="table table-hover" style="text-align: center;">
-                <thead class="thead-light ">
-                  <th class="h" style="color: black;">Name</th>
-                  <th class="h" style="color: black;">Email</th>
-                  <th class="h" style="color: black;">Type</th>
-                  <th class="h" style="color: black;">Delete</th>
+                <thead class="thead-dark ">
+                  <th class="h" style="color: white;">Name</th>
+                  <th class="h" style="color: white;">Email</th>
+                  <th class="h" style="color: white;">Type</th>
+                  <th class="h" style="color: white;">Delete</th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let dataRegister of listRegister_some_a">
@@ -149,17 +165,16 @@
           </div>
         </div>
 
-        <br>
-        <div class="col">
+        <div class="col-md-12" *ngIf="data_u">
           <div class="card shadow">
             <div class="card-body">
               <h5 class="head">User</h5>
               <table class="table table-hover" style="text-align: center;">
-                <thead class="thead-light ">
-                  <th class="h" style="color: black;">Name</th>
-                  <th class="h" style="color: black;">Email</th>
-                  <th class="h" style="color: black;">Type</th>
-                  <th class="h" style="color: black;">Delete</th>
+                <thead class="thead-dark ">
+                  <th class="h" style="color: white;">Name</th>
+                  <th class="h" style="color: white;">Email</th>
+                  <th class="h" style="color: white;">Type</th>
+                  <th class="h" style="color: white;">Delete</th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let dataRegister of listRegister_some_u">
