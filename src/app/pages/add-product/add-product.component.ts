@@ -27,9 +27,7 @@ export class AddProductComponent implements OnInit {
   snapshot: Observable<any>;
   downloadURL;
 
-  list: Product[];
   listCate: Category[];
-  listSpec: ProductSpec[];
 
   isHovering: boolean;
   isSubmitted: boolean;
@@ -49,6 +47,17 @@ export class AddProductComponent implements OnInit {
   data: any;
   dataSpec: any;
 
+  checkShow: boolean = false;
+  dataCate_id: string;
+  firstInResponse: any = [];
+  tableData: any[] = [];
+  lastInResponse: any = [];
+  prev_strt_at: any = [];
+  pagination_clicked_count = 0;
+  disable_next: boolean = false;
+  disable_prev: boolean = false;
+  data_wait: any;
+
   constructor(private modalService: NgbModal,
     private service: ProductService,
     private firestore: AngularFirestore,
@@ -62,14 +71,6 @@ export class AddProductComponent implements OnInit {
     this.resetFormModal_spec();
     this.getCategory();
 
-    this.service.getProducts().subscribe(actionArray => {
-      this.list = actionArray.map(item => {
-        return {
-          id: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Product;
-      })
-    });
   }
 
   resetForm(form?: NgForm) {
@@ -82,7 +83,9 @@ export class AddProductComponent implements OnInit {
       Price: '',
       Size: '',
       image_url: '',
+      path_img: '',
       Description: '',
+      timestamp: '',
     }
   }
 
@@ -97,21 +100,13 @@ export class AddProductComponent implements OnInit {
     })
   }
 
-  getProduct_Spec() {
-    this.service.getProduct_Spec().subscribe(actionArray => {
-      this.listSpec = actionArray.map(item => {
-        return {
-          id: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as ProductSpec;
-      })
-    })
-  }
-
-
   clearData() {
     this.resetForm();
   }
+
+
+  /* --------------------------------------------------------------------------------- CRUD --------------- */
+  //#region Insert Form , Insert IMG , Edit , Delete 
 
   onSubmit(form: NgForm) {
     if (form.value.category_id == null) {
@@ -120,11 +115,8 @@ export class AddProductComponent implements OnInit {
       this.isSubmitted = true;
       if (this.selectedImage != null) {
         this.isSubmitted = false;
-        this.selectedImage = this.files_img[0];
-        this.startUpload(this.files_img, form);
-      }
-      if (this.selectedImage == null) {
-        this.toastr.error('Please select image !!!');
+        this.selectedImage = this.files[0];
+        this.startUpload(this.files, form);
       }
     }
   }
@@ -133,10 +125,34 @@ export class AddProductComponent implements OnInit {
     this.service.formData = Object.assign({}, emp);
   }
 
-  onDelete(id: string) {
+  onDelete(id: string, pathIMG: string) {
+    var inner = this;
+    this.firestore.collection("product-video").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productVideoId = doc.id;
+        }
+      })
+    })
+    this.firestore.collection("product-spec").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().product_id == id) {
+          inner.productSpecId = doc.id;
+        }
+      })
+    })
     if (confirm("Are you sure to delete this record?")) {
-      this.firestore.doc('product/' + id).delete();
-      this.toastr.warning('Deleted successfully', 'Delete is done');
+      setTimeout(function () {
+        this.storage.ref(pathIMG).delete();
+        if (this.productVideoId) {
+          this.firestore.doc('product-video/' + this.productVideoId).delete();
+        }
+        if (this.productSpecId) {
+          this.firestore.doc('product-spec/' + this.productSpecId).delete();
+        }
+        this.firestore.doc('product/' + id).delete();
+        this.toastr.warning('Deleted successfully', 'Delete is done');
+      }.bind(this), 1000);
     }
   }
 
@@ -145,10 +161,6 @@ export class AddProductComponent implements OnInit {
   }
 
   onDrop(file: File) {
-    this.files_img = file[0];
-    this.selectedImage = this.files_img.name;
-  }
-  onDrop_file(file: File) {
     this.files = file[0];
     var inner = this;
     this.ngxPicaService.resizeImage(this.files, 800, 600)
@@ -161,7 +173,7 @@ export class AddProductComponent implements OnInit {
   startUpload(file: File, form: NgForm) {
 
     // The storage path
-    const path = `product/${Date.now()}_${file.name}`;
+    const path = `product/${Date.now()}_${form.value.name}`;
 
     // Reference to storage bucket
     const ref = this.storage.ref(path);
@@ -181,6 +193,8 @@ export class AddProductComponent implements OnInit {
         // this.firestore.collection('files').add({ downloadURL: this.downloadURL, path });
 
         form.value.image_url = this.downloadURL;
+        form.value.path_img = path;
+        form.value.timestamp = new Date().getTime()
         let data = Object.assign({}, form.value);
         delete data.id;
         if (form.value.id == null) {
@@ -194,7 +208,11 @@ export class AddProductComponent implements OnInit {
       }),
     );
   }
+  //#endregion Insert Form , Insert IMG , Edit , Delete 
 
+
+  /* --------------------------------------------------------------------------- Model Video Open --------- */
+  //#region Model Video
 
   open1(content1, id: string) {
     var inner = this;
@@ -253,7 +271,7 @@ export class AddProductComponent implements OnInit {
       this.toastr.error('This field is required');
     } else {
       if (this.productVideoId != "") {
-        let data = Object.assign({}, this.data);
+        let data = Object.assign({}, form.value);
         data.url = form.value.url;
         this.firestore.doc('product-video/' + this.productVideoId).update(data);
         this.toastr.success('Submitted successfully', 'Update is done');
@@ -278,12 +296,14 @@ export class AddProductComponent implements OnInit {
       this.toastr.error('url not found');
     }
   }
+  //#endregion Model Video end
 
 
-  /* -------------------------------- Model Spec Open -------------------------------------------------- */
+
+  /* --------------------------------------------------------------------------- Model Spec Open ---------- */
+  //#region Model Spec
 
   open2(content2, id: string) {
-    this.getProduct_Spec();
     var inner = this;
     this.productId = id;
     this.firestore.collection("product-spec").get().subscribe(function (query) {
@@ -329,11 +349,11 @@ export class AddProductComponent implements OnInit {
   }
 
   onSubmit_spec(form: NgForm) {
-    if (form.value.head_1 == "") {
+    if (form.value.head_1 == "" || form.value.detail_1 == "") {
       this.toastr.error('This field is required');
     } else {
       if (this.productSpecId != "") {
-        let data = Object.assign({}, this.data);
+        let data = Object.assign({}, form.value);
         /*   data.url = form.value.url; */
         this.firestore.doc('product-spec/' + this.productSpecId).update(data);
         this.toastr.success('Submitted successfully', 'Update is done');
@@ -358,7 +378,152 @@ export class AddProductComponent implements OnInit {
       this.toastr.error('not found');
     }
   }
+  //#endregion Model Spec End
 
-  /* ------------------------------------ Model Spec End ---------------------------------------------- */
+
+
+  /* ---------------------------------------------------------------------------  Read Product  ----------- */
+  //#region Read Product
+
+  clickShow_data(data: string) {
+    var inner = this;
+    this.firestore.collection("category").get().subscribe(function (query) {
+      query.forEach(function (doc) {
+        if (doc.data().Name == data) {
+          inner.dataCate_id = doc.id;
+          inner.loadItems();
+          inner.checkShow = true;
+        }
+      })
+    })
+  }
+
+  loadItems() {
+    this.firestore.collection('product', ref => ref
+      .where("category_id", "==", this.dataCate_id)
+      .limit(6)
+      .orderBy('timestamp', 'desc')
+    ).snapshotChanges()
+      .subscribe(response => {
+        if (!response.length) {
+          console.log("No Data Available");
+          return false;
+        }
+        this.firstInResponse = response[0].payload.doc;
+        this.lastInResponse = response[response.length - 1].payload.doc;
+
+        this.tableData = [];
+        for (let item of response) {
+          this.data_wait = item.payload.doc.data()
+          this.data_wait.id = item.payload.doc.id;
+          this.tableData.push(this.data_wait);
+        }
+
+        console.log('tableData : ', this.tableData);
+
+        //Initialize values
+        this.prev_strt_at = [];
+        this.pagination_clicked_count = 0;
+        this.disable_next = false;
+        this.disable_prev = false;
+
+        //Push first item to use for Previous action
+        this.push_prev_startAt(this.firstInResponse);
+      }, error => {
+        console.log(error);
+      });
+  }
+
+  prevPage() {
+    this.disable_prev = true;
+    this.firestore.collection('product', ref => ref
+      .where("category_id", "==", this.dataCate_id)
+      .orderBy('timestamp', 'desc')
+      .startAt(this.get_prev_startAt())
+      .endBefore(this.firstInResponse)
+      .limit(6)
+    ).get()
+      .subscribe(response => {
+        this.firstInResponse = response.docs[0];
+        this.lastInResponse = response.docs[response.docs.length - 1];
+
+        this.tableData = [];
+        for (let item of response.docs) {
+          this.data_wait = item.data();
+          this.data_wait.id = item.id;
+          this.tableData.push(this.data_wait);
+        }
+
+        //Maintaing page no.
+        this.pagination_clicked_count--;
+
+        //Pop not required value in array
+        this.pop_prev_startAt(this.firstInResponse);
+
+        //Enable buttons again
+        this.disable_prev = false;
+        this.disable_next = false;
+      }, error => {
+        this.disable_prev = false;
+      });
+  }
+
+  nextPage() {
+    this.disable_next = true;
+    this.firestore.collection('product', ref => ref
+      .where("category_id", "==", this.dataCate_id)
+      .orderBy('timestamp', 'desc')
+      .limit(6)
+      .startAfter(this.lastInResponse)
+    ).get()
+      .subscribe(response => {
+
+        if (!response.docs.length) {
+          this.disable_next = true;
+          return;
+        }
+
+        this.firstInResponse = response.docs[0];
+
+        this.lastInResponse = response.docs[response.docs.length - 1];
+        this.tableData = [];
+        for (let item of response.docs) {
+
+          this.data_wait = item.data();
+          this.data_wait.id = item.id;
+          this.tableData.push(this.data_wait);
+        }
+
+        this.pagination_clicked_count++;
+
+        this.push_prev_startAt(this.firstInResponse);
+
+        this.disable_next = false;
+      }, error => {
+        this.disable_next = false;
+      });
+  }
+
+  push_prev_startAt(prev_first_doc) {
+    this.prev_strt_at.push(prev_first_doc);
+  }
+
+  pop_prev_startAt(prev_first_doc) {
+    this.prev_strt_at.forEach(element => {
+      if (prev_first_doc.data().id == element.data().id) {
+        element = null;
+      }
+    });
+  }
+
+  get_prev_startAt() {
+    if (this.prev_strt_at.length > (this.pagination_clicked_count + 1))
+      this.prev_strt_at.splice(this.prev_strt_at.length - 2, this.prev_strt_at.length - 1);
+    return this.prev_strt_at[this.pagination_clicked_count - 1];
+  }
+  //#endregion End Read Product
+
+
+
 
 }
