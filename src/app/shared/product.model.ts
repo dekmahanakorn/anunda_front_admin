@@ -5,5 +5,7 @@ export class Product {
     Price: string;
     Size: string;
     image_url: string;
+    path_img: string;
     Description: string;
+    timestamp: string;
 }
