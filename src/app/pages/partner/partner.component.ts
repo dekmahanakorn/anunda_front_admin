@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { finalize, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
@@ -25,6 +25,7 @@ export class PartnerComponent implements OnInit {
 
   isHovering: boolean;
   isSubmitted: boolean;
+  @ViewChild('image') image: ElementRef;
   files: File;
   selectedImage: any = null;
 
@@ -39,6 +40,7 @@ export class PartnerComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
+      this.image.nativeElement.value = null;
     this.service.formData = {
       id: null,
       image_url: '',
