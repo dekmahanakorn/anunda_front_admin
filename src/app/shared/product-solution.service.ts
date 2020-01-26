@@ -2,6 +2,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Injectable } from '@angular/core';
 import { ProductSolution } from './product-solution.model';
 import { Youtube } from './youtube.model';
+import { ProductSpec } from './product-spec.model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Youtube } from './youtube.model';
 export class ProductSolutionService {
   formData: ProductSolution;
   formDataYoutube: Youtube;
+  formDataSpec: ProductSpec;
 
   constructor(private firestore: AngularFirestore) { }
 
@@ -16,7 +18,7 @@ export class ProductSolutionService {
     return this.firestore.collection('product-solution').snapshotChanges();
   }
 
-  getCategory(){
+  getCategory() {
     return this.firestore.collection('category').snapshotChanges();
   }
 }
