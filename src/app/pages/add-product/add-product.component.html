@@ -104,8 +104,25 @@
         </div>
 
         <br>
-
         <div class="col">
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('RF & Microwave product')">
+              <input type="radio" name="options" id="option1" autocomplete="off">RF & Microwave product
+            </label>
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('RF Passive product')">
+              <input type="radio" name="options" id="option2" autocomplete="off">RF Passive product
+            </label>
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('Kiosk & Vending machine')">
+              <input type="radio" name="options" id="option3" autocomplete="off">Kiosk & Vending machine
+            </label>
+            <label class="btn btn-secondary btn btn-outline-dark" (click)="clickShow_data('IoT')">
+              <input type="radio" name="options" id="option3" autocomplete="off">Iot
+            </label>
+          </div>
+        </div>
+        <br>
+
+        <div class="col" *ngIf="checkShow">
           <div class="card shadow">
 
             <div class="card-body">
@@ -121,7 +138,7 @@
                   <th></th>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let emp of list">
+                  <tr *ngFor="let emp of tableData">
                     <td class="s">{{emp.name}}</td>
                     <td class="s">{{emp.Price}} THB.- / {{emp.Size}}</td>
                     <!--  <td class="s">{{emp.Description}}</td> -->
@@ -132,7 +149,8 @@
 
                     <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="emp.image_url">
                     <td><a class="btn text-primary" (click)="onEdit(emp)"><i class="far fa-edit"></i></a></td>
-                    <td><a class="btn text-danger" (click)="onDelete(emp.id)"><i class="fa fa-trash-o fa-lg"></i></a>
+                    <td><a class="btn text-danger" (click)="onDelete(emp.id,emp.path_img)"><i
+                          class="fa fa-trash-o fa-lg"></i></a>
                     </td>
                     <br><br>
                   </tr>
@@ -140,6 +158,17 @@
               </table>
             </div>
           </div>
+        </div>
+
+        <br>
+        <div class="col" style="text-align: right;" *ngIf="checkShow">
+          <button class="btn btn-secondary btn-sm" (click)="prevPage()"
+            [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous</button>
+
+          <b class="btn" style="color: black;">Page no: {{pagination_clicked_count+1}}</b>
+
+          <button class="btn btn-secondary btn-sm" (click)="nextPage()" [disabled]="disable_next">Next</button>
+
         </div>
 
         <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
@@ -264,41 +293,22 @@
                     <div *ngIf="isHidden" id="backMedel">
                       <table class="table table-hover">
                         <tbody>
-                          <tr class="hMedal">
-                            <td class=".col-sm-4">{{dataSpec.head_1}}</td>
-                            <td class="col-sm-8">{{dataSpec.detail_1}}</td>
+                          <tr class="hMedal" *ngIf="dataSpec.head_1">
+                            <td><i class="hMeda2">H1 : </i>{{dataSpec.head_1}}</td>
+                            <td>{{dataSpec.detail_1}}</td>
                           </tr>
-                          <tr class="hMedal">
-                            <td class=".col-sm-4">{{dataSpec.head_2}}</td>
-                            <td class="col-sm-8">{{dataSpec.detail_2}}</td>
+                          <tr class="hMedal" *ngIf="dataSpec.head_2">
+                            <td><i class="hMeda2">H2 : </i>{{dataSpec.head_2}}</td>
+                            <td>{{dataSpec.detail_2}}</td>
                           </tr>
-                          <tr class="hMedal">
-                            <td class=".col-sm-4">{{dataSpec.head_3}}</td>
-                            <td class="col-sm-8">{{dataSpec.detail_3}}</td>
+                          <tr class="hMedal" *ngIf="dataSpec.head_3">
+                            <td><i class="hMeda2">H3 : </i>{{dataSpec.head_3}}</td>
+                            <td>{{dataSpec.detail_3}}</td>
                           </tr>
-                          <tr class="hMedal">
-                            <td class=".col-sm-4">{{dataSpec.head_4}}</td>
-                            <td class="col-sm-8">{{dataSpec.detail_4}}</td>
+                          <tr class="hMedal" *ngIf="dataSpec.head_4">
+                            <td><i class="hMeda2">H4 : </i>{{dataSpec.head_4}}</td>
+                            <td>{{dataSpec.detail_4}}</td>
                           </tr>
-
-                          <!--  <div *ngFor="let spec of listSpec">
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_1}} : </td>
-                              <td class="col-sm-8">{{spec.detail_1}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_2}} : </td>
-                              <td class="col-sm-8">{{spec.detail_2}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_3}} : </td>
-                              <td class="col-sm-8">{{spec.detail_3}}</td>
-                            </tr>
-                            <tr class="hMedal">
-                              <td class=".col-sm-4">{{spec.head_4}} : </td>
-                              <td class="col-sm-8">{{spec.detail_4}}</td>
-                            </tr>
-                          </div> -->
                         </tbody>
                       </table>
                     </div>
