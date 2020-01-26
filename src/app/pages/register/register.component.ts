@@ -14,7 +14,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class RegisterComponent implements OnInit {
 
-/*   listRegister: Register[]; */
+  /*   listRegister: Register[]; */
   listRegister_some_sa: Array<Register> = [];
   listRegister_some_a: Array<Register> = [];
   listRegister_some_u: Array<Register> = [];
@@ -24,6 +24,9 @@ export class RegisterComponent implements OnInit {
   someData_sa: any
   someData_a: any
   someData_u: any
+  data_sa: boolean
+  data_a: boolean
+  data_u: boolean
 
   constructor(public authenticationService: AuthenticationService,
     private service: RegisterService,
@@ -32,16 +35,9 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.resetForm();
-  /*   this.getRegister(); */
     this.getSomeData();
-
+    this.dataFirst();
   }
-
-  /*  signUp(form: NgForm) {
-     this.authenticationService.SignUp(this.email, this.password);
-     this.email = '';
-     this.password = '';
-   } */
 
   resetForm(form?: NgForm) {
     if (form != null)
@@ -57,16 +53,28 @@ export class RegisterComponent implements OnInit {
     }
   }
 
-/*   getRegister() {
-    this.service.getRegister().subscribe(actionArray => {
-      this.listRegister = actionArray.map(item => {
-        return {
-          id: item.payload.doc.id,
-          ...item.payload.doc.data()
-        } as Register;
-      })
-    });
-  } */
+
+  dataFirst() {
+    this.data_sa = true
+    this.data_a = false
+    this.data_u = false
+  }
+
+  clickShow_data(data: string) {
+    if (data == 'sa') {
+      this.dataFirst();
+    }
+    if (data == 'a') {
+      this.data_sa = false
+      this.data_a = true
+      this.data_u = false
+    }
+    if (data == 'u') {
+      this.data_sa = false
+      this.data_a = false
+      this.data_u = true
+    }
+  }
 
   getSomeData() {
     var inner = this;
