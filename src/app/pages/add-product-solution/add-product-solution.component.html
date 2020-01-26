@@ -102,20 +102,25 @@
                 <thead>
                   <th class="h">Name</th>
                   <th class="h">Price / Size</th>
+                  <th class="h">Spec</th>
                   <th class="h">&nbsp; Video</th>
                   <th class="h">Image</th>
                   <th class="h">&nbsp;&nbsp;&nbsp; Edit</th>
                   <th></th>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let data of list">
+                  <tr *ngFor="let data of tableData">
                     <td class="s">{{data.name}}</td>
                     <td class="s">{{data.price}} THB. - {{data.size}}</td>
+
+                    <td><a class="btn text-dark" (click)="open2(content2,data.id)"><i class="fas fa-align-left"></i></a>
+                    </td>
                     <td><a class="btn text-success" (click)="open1(content1,data.id)"><i class="fa fa-play"></i></a>
                     </td>
                     <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="data.image_url">
                     <td><a class="btn text-primary" (click)="onEdit(data)"><i class="far fa-edit"></i></a></td>
-                    <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
+                    <td><a class="btn text-danger" (click)="onDelete(data.id,data.path_img)"><i
+                          class="fa fa-trash-o fa-lg"></i></a>
                     </td>
                     <br><br>
                   </tr>
@@ -124,6 +129,18 @@
             </div>
           </div>
         </div>
+
+        <br>
+        <div class="col" style="text-align: right;">
+          <button class="btn btn-secondary btn-sm" (click)="prevPage()"
+            [disabled]="disable_prev || !(pagination_clicked_count>0)">Previous</button>
+
+          <b class="btn" style="color: black;">Page no: {{pagination_clicked_count+1}}</b>
+
+          <button class="btn btn-secondary btn-sm" (click)="nextPage()" [disabled]="disable_next">Next</button>
+        </div>
+
+
         <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
         <ng-template #content1 let-modal>
           <div class="modal-header">
@@ -168,6 +185,112 @@
 
         </ng-template>
         <!--- ------------------Modal with date picker (NgbdModalBasicComponent)---------------------->
+
+
+        <!--- ------------------Modal Product Spec (NgbdModalBasicComponent)---------------------->
+        <ng-template #content2 let-modal>
+          <div class="modal-header" id="backMedel">
+            <h4 class="modal-title" id="modal-basic-title" id="fontColor_medel">Add your product specs</h4>
+            <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body text-center">
+            <table class='table'>
+              <thead>
+                <tr>
+                  <td class="h">Product Sepc</td>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <form (submit)="onSubmit_spec(form)" #form="ngForm" autocomplete="off">
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H1" name="head_1" [(ngModel)]="service.formDataSpec.head_1"
+                            #head_1="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 1" name="detail_1"
+                            [(ngModel)]="service.formDataSpec.detail_1" #detail_1="ngModel" class="form-control col-md">
+                        </div>
+                      </div><br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H2" name="head_2" [(ngModel)]="service.formDataSpec.head_2"
+                            #head_2="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 2" name="detail_2"
+                            [(ngModel)]="service.formDataSpec.detail_2" #detail_2="ngModel" class="form-control col-md">
+                        </div>
+                      </div><br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H3" name="head_3" [(ngModel)]="service.formDataSpec.head_3"
+                            #head_3="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 3" name="detail_3"
+                            [(ngModel)]="service.formDataSpec.detail_3" #detail_3="ngModel" class="form-control col-md">
+                        </div>
+                      </div> <br>
+                      <div class="form-row">
+                        <div class=".col-sm-4">
+                          <input type="text" placeholder="H4" name="head_4" [(ngModel)]="service.formDataSpec.head_4"
+                            #head_4="ngModel" class="form-control col-md">
+                        </div>
+                        <div class="col-sm-8">
+                          <input type="text" placeholder="Detail 4" name="detail_4"
+                            [(ngModel)]="service.formDataSpec.detail_4" #detail_4="ngModel" class="form-control col-md">
+                        </div>
+                      </div>
+
+                      <br><br>
+                      <div class="form-row">
+                        <div class="form-group col-md">
+                          <button type="submit" class="btn btn-outline-success col-md-8"> Save </button>
+                        </div>
+                        <div class="form-group col-md">
+                          <button (click)="onPreview_spec()" type="button" class="btn btn-outline-info col-md-8">
+                            Preview
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+
+                    <div *ngIf="isHidden" id="backMedel">
+                      <table class="table table-hover">
+                        <tbody>
+                          <tr class="hMedal" *ngIf="dataSpec.head_1">
+                            <td><i class="hMeda2">H1 : </i>{{dataSpec.head_1}}</td>
+                            <td>{{dataSpec.detail_1}}</td>
+                          </tr>
+                          <tr class="hMedal" *ngIf="dataSpec.head_2">
+                            <td><i class="hMeda2">H2 : </i>{{dataSpec.head_2}}</td>
+                            <td>{{dataSpec.detail_2}}</td>
+                          </tr>
+                          <tr class="hMedal" *ngIf="dataSpec.head_3">
+                            <td><i class="hMeda2">H3 : </i>{{dataSpec.head_3}}</td>
+                            <td>{{dataSpec.detail_3}}</td>
+                          </tr>
+                          <tr class="hMedal" *ngIf="dataSpec.head_4">
+                            <td><i class="hMeda2">H4 : </i>{{dataSpec.head_4}}</td>
+                            <td>{{dataSpec.detail_4}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </ng-template>
+        <!--- ------------------Modal Product Spec (NgbdModalBasicComponent)---------------------->
+
       </div>
     </div>
   </div>
