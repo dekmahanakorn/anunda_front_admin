@@ -27,7 +27,7 @@
                     <label class="file-label">
                       <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
                       <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id" class="fontall">
-                      <input class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
+                      <input #image class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
 
                       <span class="file-cta">
                         <span class="file-icon">

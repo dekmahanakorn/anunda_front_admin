@@ -25,7 +25,7 @@
                   <div class="file">
                     <label class="file-label">
                       <input type="hidden" name="image" formControlName="image" class="fontall">
-                      <input class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
+                      <input #image class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
 
                       <span class="file-cta">
                         <span class="file-icon">

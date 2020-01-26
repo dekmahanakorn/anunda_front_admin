@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { ProductService } from 'src/app/shared/product.service';
 import { Product } from 'src/app/shared/product.model';
 import { NgForm } from '@angular/forms';
@@ -31,6 +31,8 @@ export class AddProductComponent implements OnInit {
 
   isHovering: boolean;
   isSubmitted: boolean;
+
+  @ViewChild('image') image: ElementRef;
   files: File;
   files_img: File;
   selectedImage: any = null;
@@ -76,6 +78,7 @@ export class AddProductComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
+      this.image.nativeElement.value = null;
     this.service.formData = {
       id: null,
       category_id: null,

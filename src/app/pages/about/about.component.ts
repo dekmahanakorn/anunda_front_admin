@@ -1,5 +1,5 @@
 import { FormBuilder, FormControl, FormGroup, Validators, NgForm } from '@angular/forms';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FirebaseService } from 'src/app/shared/firebase.service';
 import { InterfaceAbout } from 'src/app/interface/interfaceAbout';
 import { ErrorMsg, AlertMsg } from 'src/app/interface/error-msg.enum';
@@ -25,6 +25,8 @@ export class AboutComponent implements OnInit {
   public checkDescription: boolean;
   isSubmitted: boolean;
   isHovering: boolean;
+  
+  @ViewChild('image') image: ElementRef;
   files: File;
   files_img: File;
   selectedImage: any = null;
@@ -163,6 +165,7 @@ export class AboutComponent implements OnInit {
           this.aboutPage.controls.sub_des1.setValue(null);
           this.aboutPage.controls.sub_des2.setValue(null);
           this.aboutPage.controls.sub_des3.setValue(null);
+          this.image.nativeElement.value = null;
           this.toastr.success('Submitted successfully', 'Add new about is done');
         }),
       );
@@ -194,6 +197,7 @@ export class AboutComponent implements OnInit {
             this.interfaceAbout.sub_des2 = this.aboutPage.controls.sub_des2.value;
             this.interfaceAbout.sub_des3 = this.aboutPage.controls.sub_des3.value;
             this.firebaseService.updateDb(this.interfaceAbout, CollectionDatabase.about, this.interfaceAbout.id);
+            this.image.nativeElement.value = null;
             this.toastr.success('Submitted successfully', 'Update about is done');
           }),
         );
