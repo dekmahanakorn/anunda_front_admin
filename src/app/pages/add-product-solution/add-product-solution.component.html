@@ -118,7 +118,8 @@
                     <td><a class="btn text-success" (click)="open1(content1,data.id)"><i class="fa fa-play"></i></a>
                     </td>
                     <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="data.image_url">
-                    <td><a class="btn text-primary" (click)="onEdit(data)"><i class="far fa-edit"></i></a></td>
+                    <td><a class="btn text-primary" (click)="onEdit(data, data.path_img)"><i
+                          class="far fa-edit"></i></a></td>
                     <td><a class="btn text-danger" (click)="onDelete(data.id,data.path_img)"><i
                           class="fa fa-trash-o fa-lg"></i></a>
                     </td>
