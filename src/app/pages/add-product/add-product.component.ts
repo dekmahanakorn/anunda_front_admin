@@ -9,18 +9,17 @@ import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { Category } from 'src/app/shared/category.model';
-import { ProductSpec } from 'src/app/shared/product-spec.model';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import getYouTubeID from 'get-youtube-id';
 
 import { NgxPicaService } from 'ngx-pica';
 
 @Component({
-  selector: 'app-add-product',
+  selector: 'app-add-product',/*  */
   templateUrl: './add-product.component.html',
   styleUrls: ['./add-product.component.scss']
 })
-export class AddProductComponent implements OnInit {
+export class AddProductComponent implements OnInit {/*  */
 
   task: AngularFireUploadTask;
   percentage: Observable<number>;
@@ -59,6 +58,7 @@ export class AddProductComponent implements OnInit {
   disable_next: boolean = false;
   disable_prev: boolean = false;
   data_wait: any;
+  editDelete_img: string;
 
   constructor(private modalService: NgbModal,
     private service: ProductService,
@@ -78,7 +78,7 @@ export class AddProductComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
-      this.image.nativeElement.value = null;
+    this.image.nativeElement.value = null;
     this.service.formData = {
       id: null,
       category_id: null,
@@ -124,8 +124,9 @@ export class AddProductComponent implements OnInit {
     }
   }
 
-  onEdit(emp: Product) {
+  onEdit(emp: Product, pathIMG: string) {
     this.service.formData = Object.assign({}, emp);
+    this.editDelete_img = pathIMG;
   }
 
   onDelete(id: string, pathIMG: string) {
@@ -174,7 +175,6 @@ export class AddProductComponent implements OnInit {
   }
 
   startUpload(file: File, form: NgForm) {
-
     // The storage path
     const path = `product/${Date.now()}_${form.value.name}`;
 
@@ -204,6 +204,7 @@ export class AddProductComponent implements OnInit {
           this.firestore.collection('product').add(data);
         }
         else {
+          this.storage.ref(this.editDelete_img).delete();
           this.firestore.doc('product/' + form.value.id).update(data);
         }
         this.resetForm(form);
@@ -395,7 +396,6 @@ export class AddProductComponent implements OnInit {
         if (doc.data().Name == data) {
           inner.dataCate_id = doc.id;
           inner.loadItems();
-          inner.checkShow = true;
         }
       })
     })
@@ -409,9 +409,12 @@ export class AddProductComponent implements OnInit {
     ).snapshotChanges()
       .subscribe(response => {
         if (!response.length) {
-          console.log("No Data Available");
+          this.toastr.error('No Data Available');
+          this.tableData = [];
+          this.checkShow = false;
           return false;
         }
+        this.checkShow = true;
         this.firstInResponse = response[0].payload.doc;
         this.lastInResponse = response[response.length - 1].payload.doc;
 
