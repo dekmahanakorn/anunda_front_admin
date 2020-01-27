@@ -27,7 +27,8 @@
                     <label class="file-label">
                       <!-- <form #form="ngForm" (submit)="onSubmitUploadImage(form)"> -->
                       <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id" class="fontall">
-                      <input #image class="file-input" type="file" (change)="onDrop($event.target.files)" class="fontall">
+                      <input #image class="file-input" type="file" (change)="onDrop($event.target.files)"
+                        class="fontall">
 
                       <span class="file-cta">
                         <span class="file-icon">
@@ -148,7 +149,8 @@
                     <td><a class="btn text-success" (click)="open1(content1,emp.id)"><i class="fa fa-play"></i></a></td>
 
                     <img class="img-thumbnail" style="height: 80px;width: 80px;" [src]="emp.image_url">
-                    <td><a class="btn text-primary" (click)="onEdit(emp)"><i class="far fa-edit"></i></a></td>
+                    <td><a class="btn text-primary" (click)="onEdit(emp,emp.path_img)"><i class="far fa-edit"></i></a>
+                    </td>
                     <td><a class="btn text-danger" (click)="onDelete(emp.id,emp.path_img)"><i
                           class="fa fa-trash-o fa-lg"></i></a>
                     </td>
