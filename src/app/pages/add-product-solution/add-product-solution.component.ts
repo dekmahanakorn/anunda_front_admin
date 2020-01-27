@@ -52,6 +52,7 @@ export class AddProductSolutionComponent implements OnInit {
   disable_next: boolean = false;
   disable_prev: boolean = false;
   data_wait: any;
+  editDelete_img: string;
 
 
   constructor(private modalService: NgbModal,
@@ -72,7 +73,7 @@ export class AddProductSolutionComponent implements OnInit {
   resetForm(form?: NgForm) {
     if (form != null)
       form.resetForm();
-      this.image.nativeElement.value = null;
+    this.image.nativeElement.value = null;
     this.service.formData = {
       id: null,
       category_id: null,
@@ -146,8 +147,9 @@ export class AddProductSolutionComponent implements OnInit {
     this.selectedImage = this.files.name;
   }
 
-  onEdit(data: ProductSolution) {
+  onEdit(data: ProductSolution, pathIMG: string) {
     this.service.formData = Object.assign({}, data);
+    this.editDelete_img = pathIMG;
   }
 
   onDelete(id: string, pathIMG: string) {
@@ -211,6 +213,7 @@ export class AddProductSolutionComponent implements OnInit {
           this.db.collection('product-solution').add(data);
         }
         else {
+          this.storage.ref(this.editDelete_img).delete();
           this.db.doc('product-solution/' + form.value.id).update(data);
         }
         this.resetForm(form);
