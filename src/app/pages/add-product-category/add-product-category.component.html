@@ -9,24 +9,27 @@
         <div class="col">
           <div class="card shadow">
             <div class="card-header bg-transparent">
-              <h3 class="mb-0">Creates</h3>
+              <h3 class="mb-0">Category</h3>
             </div>
             <div class="card-body">
               <form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
-
                 <input type="hidden" name="id" #id="ngModel" [(ngModel)]="service.formData.id">
+
                 <div class="form-group">
-                  <input name="Name" #Name="ngModel" [(ngModel)]="service.formData.Name" class="form-control"
-                    placeholder="Name" required>
-                  <div *ngIf="Name.invalid && Name.touched" class="validation-error">This field is required.</div>
+                  <input [disabled]="true" name="Name" #Name="ngModel" [(ngModel)]="service.formData.Name" class="form-control"
+                    placeholder="Name">
                 </div>
+
                 <div class="form-group">
                   <input name="Detail" #Detail="ngModel" [(ngModel)]="service.formData.Detail" class="form-control"
-                    placeholder="Detail">
+                    placeholder="Detail" required>
+                    <div *ngIf="Detail.invalid && Detail.touched" class="validation-error">This field is required.</div>
                 </div>
+
                 <div class="form-group">
-                  <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Create</button>
+                  <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Edit</button>
                 </div>
+
               </form>
             </div>
           </div>
@@ -40,14 +43,17 @@
             <div class="card-body">
               <table class="table table-hover">
                 <thead>
-                  <th class="h">Category Name</th>
-          <!--         <th class="h">Detail</th> -->
+                  <th class="h" style="width: 20%;">Category Name</th>
+                  <th class="h">Detail</th>
+                  <th class="h">Edit</th>
                   <th></th>
                 </thead>
                 <tbody>
                   <tr *ngFor="let cate of list">
-                    <td class="s">{{cate.Name}}</td>
-             <!--        <td class="s">{{cate.Detail}}</td> -->
+                    <td class="s" style="width: 20%;">{{cate.Name}}</td>
+                    <td class="s">{{cate.Detail}}</td>
+                    <td><a class="btn text-primary" (click)="onEdit(cate)"><i class="far fa-edit"></i></a>
+
                   </tr>
                 </tbody>
               </table>

@@ -29,7 +29,7 @@ export class AddProductCategoryComponent implements OnInit {
     this.service.formData = {
       id: null,
       Name: '',
-      Detail:'',
+      Detail: '',
     }
   }
 
@@ -44,9 +44,9 @@ export class AddProductCategoryComponent implements OnInit {
     });
   }
 
-  /* onEdit(cate: Category) {
+  onEdit(cate: Category) {
     this.service.formData = Object.assign({}, cate);
-  } */
+  }
 
   onSubmit(form: NgForm) {
     let data = Object.assign({}, form.value);
