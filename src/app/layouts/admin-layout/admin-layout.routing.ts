@@ -14,6 +14,7 @@ import { ContactComponent } from 'src/app/pages/contact/contact.component';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { TemplateComponent } from 'src/app/pages/template/template.component';
 import { RegisterComponent } from 'src/app/pages/register/register.component';
+import { NewsComponent } from 'src/app/pages/news/news.component';
 
 export const AdminLayoutRoutes: Routes = [
     { path: 'dashboard', component: DashboardComponent },
@@ -24,10 +25,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'add-Product', component: AddProductComponent },
     { path: 'About', component: AboutComponent },
     { path: 'Contact', component: ContactComponent },
-    { path: 'product-category', component: AddProductCategoryComponent },
+   // { path: 'product-category', component: AddProductCategoryComponent },
     { path: 'partner', component: PartnerComponent },
     { path: 'add-product-solution', component: AddProductSolutionComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'template', component: TemplateComponent },
-    { path: 'register', component: RegisterComponent }
+    { path: 'register', component: RegisterComponent },
+    { path: 'service', component: NewsComponent}
 ];

@@ -24,6 +24,7 @@ import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { ProfileComponent } from 'src/app/pages/profile/profile.component';
 import { TemplateComponent } from 'src/app/pages/template/template.component';
 import { RegisterComponent } from 'src/app/pages/register/register.component';
+import { NewsComponent } from 'src/app/pages/news/news.component';
 // import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { RegisterComponent } from 'src/app/pages/register/register.component';
     AddProductSolutionComponent,
     ProfileComponent,
     TemplateComponent,
-    RegisterComponent
+    RegisterComponent,
+    NewsComponent
   ]
 })
 

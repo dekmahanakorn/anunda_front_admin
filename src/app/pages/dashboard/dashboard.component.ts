@@ -9,6 +9,9 @@ import {
   chartExample2
 } from '../../variables/charts';
 import { AuthenticationService } from 'src/app/shared/authentication.service';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { DatabaseService } from 'src/app/shared/dashboard.service';
+import { Dashboard } from 'src/app/shared/dashboard.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -23,7 +26,9 @@ export class DashboardComponent implements OnInit {
   public clicked = true;
   public clicked1 = false;
 
-  constructor(public authenticationService: AuthenticationService) {
+  list: Dashboard[];
+
+  constructor(public authenticationService: AuthenticationService,private service: DatabaseService,private firestore: AngularFirestore,) {
 
   }
 
@@ -54,11 +59,24 @@ export class DashboardComponent implements OnInit {
       options: chartExample1.options,
       data: chartExample1.data
     });
+
+    this.getMessage();
   }
 
   public updateOptions() {
     this.salesChart.data.datasets[0].data = this.data;
     this.salesChart.update();
+  }
+
+  getMessage() {
+    this.service.getData().subscribe(actionArray => {
+      this.list = actionArray.map(item => {
+        return {
+          id: item.payload.doc.id,
+          ...item.payload.doc.data()
+        } as Dashboard;
+      })
+    });
   }
 
 }
