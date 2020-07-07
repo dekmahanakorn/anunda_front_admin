@@ -13,9 +13,4 @@ export class NewsService {
   getNews() {
     return this.firestore.collection('news').snapshotChanges();
   }
-
-  updateNews(data: any, collection: string, id: string){
-    this.firestore.doc(`${collection}/${id}`).update(data);
-
-  }
 }

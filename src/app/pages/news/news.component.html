@@ -33,7 +33,7 @@
             </div>
 
             <div class="card-body">
-              <form #form="ngForm" autocomplete="off" (submit)="onSubmitNewsImage(form1)">
+              <form #form1="ngForm" autocomplete="off" (submit)="onSubmitNewsImage(form1)">
                 <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
                   [class.hovering]="isHovering">
 
@@ -57,11 +57,11 @@
                           or choose a file…
                         </span>
                       </span>
-                      
+
                       <div class="validation-error" *ngIf="isSubmitted" class="fontall_error">
                         This field is required.
                       </div>
-             
+
                     </label>
                   </div>
                 </div>
@@ -80,16 +80,40 @@
                 </div>
 
                 <div class="form-group">
-                  <button type="submit" [disabled]="form.invalid" class="btn btn-outline-info">Submit</button>
+                  <button type="submit" [disabled]="form1.invalid" class="btn btn-outline-info">Submit</button>
                 </div>
               </form>
             </div>
           </div>
         </div>
+
+        <br>
+
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-body">
+              <table class="table table-hover">
+                <thead>
+                  <th class="h">Title</th>
+                  <th class="h">Description</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of listNews">
+                    <td class="s">{{data.title}}</td>
+                    <td class="s">{{data.description}}</td>
+                    <td><a class="btn text-primary" (click)="onEdit(data)"><i class="far fa-edit"></i></a></td>
+                    <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
+                    </td>
+                    <br><br>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
       </div>
-
-
-
     </div>
   </div>
 </div>

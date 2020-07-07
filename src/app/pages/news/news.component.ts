@@ -53,7 +53,7 @@ export class NewsComponent implements OnInit {
   ngOnInit() {
     this.resetForm();
     this.resetFormImage();
-    // this.getNews();
+    this.getNews();
     // this.getNewsImage();
   }
 
@@ -67,9 +67,9 @@ export class NewsComponent implements OnInit {
     }
   }
 
-  resetFormImage(form?: NgForm) {
-    if (form != null)
-      form.resetForm();
+  resetFormImage(form1?: NgForm) {
+    if (form1 != null)
+      form1.resetForm();
     this.serviceImage.formData = {
       id: null,
       image_url: '',
@@ -80,6 +80,7 @@ export class NewsComponent implements OnInit {
   getNews() {
     this.service.getNews().subscribe(actionArray => {
       this.listNews = actionArray.map(item => {
+        console.log("id: " + item.payload.doc.id);
         return {
           id: item.payload.doc.id,
           ...item.payload.doc.data()
@@ -100,21 +101,44 @@ export class NewsComponent implements OnInit {
   }
 
   onSubmitNews(form: NgForm) {
-    console.log("id: " + form.value.id);
+    console.log("title: " + form.value.title);
     if (form.value.title == null && form.value.description == null) {
       this.toastr.error('Please try again !!!');
     } else {
-      if (form.value.id == null) {
-        let data = Object.assign({}, form.value);
+
+      let data = Object.assign({}, form.value);
+      delete data.id;
+      if (this.listNews.length == 0) {
         this.db.collection('news').add(data);
         this.resetForm(form);
         this.toastr.success('Submitted successfully', 'Add News-Service is done');
-      } else  {
-        let data = Object.assign({}, form.value);
-        this.db.doc('news/' + form.value.id).update(data);
-        this.resetForm(form);
-        this.toastr.success('Submitted successfully', 'Update News-Service is done');
+      } else {
+        if (form.value.id != null) {
+          this.db.doc('news/' + form.value.id).update(data);
+          this.resetForm(form);
+          this.toastr.success('Submitted successfully', 'Update News-Service is done');
+        } else {
+          this.toastr.error('Cannot insert');
+          this.resetForm(form);
+        }
       }
     }
   }
+
+  clearData(){
+    this.resetForm();
+  }
+
+  onEdit(data: News) {
+    console.log("data id: " + data.id);
+    this.service.formData = Object.assign({}, data);
+  }
+
+  onDelete(id: string) {
+    if (confirm("Are you sure to delete this record?")) {
+      this.db.doc('news/' + id).delete();
+      this.toastr.warning('Deleted successfully', 'Delete is done');
+    }
+  }
+
 }
