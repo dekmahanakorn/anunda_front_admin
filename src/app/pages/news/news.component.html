@@ -33,7 +33,7 @@
             </div>
 
             <div class="card-body">
-              <form #form1="ngForm" autocomplete="off" (submit)="onSubmitNewsImage(form1)">
+              <form #form1="ngForm" autocomplete="off" (submit)="onSubmitUploadImage(form1)">
                 <div class="dropzone" dropzone (hovered)="toggleHover($event)" (dropped)="onDrop($event)"
                   [class.hovering]="isHovering">
 
@@ -106,6 +106,30 @@
                     <td><a class="btn text-danger" (click)="onDelete(data.id)"><i class="fa fa-trash-o fa-lg"></i></a>
                     </td>
                     <br><br>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="col">
+          <div class="card shadow">
+            <div class="card-body">
+              <table>
+                <thead>
+                  <th class="h">Service images</th>
+                  <th></th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let data of listNewsImage">
+                    <img class="img-fluid" [src]="data.image_url">
+                    <br><br>
+                    <td><a class="btn text-danger" (click)="onDeleteImg(data.id,data.path_img)">
+                      <i class="fa fa-trash-o fa-lg"></i></a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
