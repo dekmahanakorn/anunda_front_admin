@@ -129,7 +129,7 @@ export class AboutComponent implements OnInit {
   onDrop(file: File) {
     this.files = file[0];
     var inner = this;
-    this.ngxPicaService.resizeImage(this.files, 500, 300)
+    this.ngxPicaService.resizeImage(this.files, 600, 600)
       .subscribe((imageResized: File) => {
         inner.files = imageResized;
       });
