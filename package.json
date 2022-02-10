@@ -41,7 +41,7 @@
     "ngx-pica": "^1.1.4",
     "ngx-toastr": "^9.1.2",
     "ngx-youtube-player": "^7.1.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "nouislider": "13.1.1",
     "rxjs": "6.4.0",
     "rxjs-compat": "^6.5.4",
